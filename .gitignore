@@ -4,3 +4,5 @@ node_modules/
 
 # Optional npm cache directory
 .npm
+.eslintcache
+yarn-error.log

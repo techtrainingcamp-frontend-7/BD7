@@ -1,0 +1,13 @@
+{
+  "recommendations": [
+    "eamodio.gitlens",
+    "yzhang.markdown-all-in-one",
+    "davidanson.vscode-markdownlint",
+    "pkief.material-icon-theme",
+    "streetsidesoftware.code-spell-checker",
+    "dbaeumer.vscode-eslint",
+    "wix.vscode-import-cost",
+    "editorconfig.editorconfig",
+    "esbenp.prettier-vscode"
+  ]
+}

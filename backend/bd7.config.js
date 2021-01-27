@@ -1,4 +1,4 @@
-console.log(process.env);
+console.log(process.env)
 const config = {
   port: '8003',
   host:
@@ -43,5 +43,5 @@ const config = {
       timezone: '+08:00'
     }
   }
-};
-module.exports = config;
+}
+module.exports = config

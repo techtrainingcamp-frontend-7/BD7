@@ -1,6 +1,54 @@
-# 目录概括
+# ByteDance techtrainingcamp-frontend-7
 
-一共有三份node_modules
-其中根目录的node_modules用于存放前后端公用开发模块
-> 比如`chalk`
-**请务必在根目录下执行一遍npm i**
+## 技术栈
+
+前后端放在一个仓库里面，使用 [lerna](https://github.com/lerna/lerna) 统一管理。你需要全局安装 lerna：
+
+```bash
+yarn global add lerna
+```
+
+```bash
+# 自动安装根目录、前后端所有依赖
+lerna bootstrap
+```
+
+### 前端
+
+```bash
+cd frontend
+yarn start
+```
+
+存放于文件夹 [frontend](frontend)。
+
+- React
+- React Router
+- Redux
+- TS
+- Storybook
+- Less
+
+### 后端
+
+存放于文件夹 [backend](backend)。
+
+- Vercel
+- MySQL 云数据库
+- [轻服务](https://qingfuwu.cn/dashboard)
+- Express
+- Sequelize
+
+## 项目基础配置
+
+### 推荐插件
+
+在 [`.vscode/extensions.json`](.vscode/extensions.json) 中列出了推荐安装的插件，打开 VSCode 的时候会提示是否安装，最好全部安装一下。
+
+### workspace 设置
+
+在 [`.vscode/settings.json`](.vscode/settings.json) 中配置了项目的共享配置，这些配置在所有的协作者本地都是一样的，保证大家的环境一致性。
+
+### 代码规范
+
+统一使用 ESLint 进行代码规范和格式化，采用 [standardjs](https://standardjs.com/) 标准，如需增加规则，可修改配置文件 [.eslintrc.js](.eslintrc.js)。

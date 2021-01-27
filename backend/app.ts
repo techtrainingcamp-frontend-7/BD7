@@ -1,12 +1,9 @@
-import express from 'express';
-import expressJwt from 'express-jwt';
+import express from 'express'
+import expressJwt from 'express-jwt'
 
+const app = express()
 
+app.use(express.json())
+app.use(express.urlencoded({ extended: false }))
 
-const app = express();
-
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-
-
-module.exports = app;
+module.exports = app

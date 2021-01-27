@@ -1,6 +1,6 @@
-const chalk = require('chalk');
+const chalk = require('chalk')
 console.log(
-  chalk.red(`Error: commit格式错误\n\n`),
+  chalk.red('Error: commit格式错误\n\n'),
   chalk.green(`正确示例：
   eg1: git commit -m 'fix: 修正xxx'
   eg2: git commit -m 'feat: 1 实现xxx功能 2 ....'
@@ -17,4 +17,4 @@ console.log(
   revert: 回滚
   temp: 临时保存
   `)
-);
+)
