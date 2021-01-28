@@ -1,11 +1,9 @@
-console.log(process.env)
 const config = {
   port: '8003',
   host:
     // "https://api.hokori.online" ||
     'http://localhost/',
   // 完整URL为： nginx配置下的转发路径 `${location}`
-  // baseURL: "/geekblog" || ""
   baseURL: '/bd7',
   dataBaseConfig: {
     // 数据库名

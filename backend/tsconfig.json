@@ -44,21 +44,19 @@
     // "moduleResolution": "node",            /* Specify module resolution strategy: 'node' (Node.js) or 'classic' (TypeScript pre-1.6). */
     "baseUrl": "." /* Base directory to resolve non-absolute module names. */,
     "paths": {
-      // "@vo": ["vo"],
-      // "@action": ["action"],
-      // "@service": ["service"],
-      // "@utils": ["utils"],
-      // "@routes": ["routes"],
-      // "@database": ["database"],
-      // "@mailer": ["mailer"],
+      "@vo": ["vo"],
+      "@action": ["action"],
+      "@service": ["service"],
+      "@utils": ["utils"],
+      "@routes": ["routes"],
+      "@database": ["database"],
 
-      // "@vo/*": ["vo/*"],
-      // "@action/*": ["action/*"],
-      // "@service/*": ["service/*"],
-      // "@utils/*": ["utils/*"],
-      // "@routes/*": ["routes/*"],
-      // "@database/*": ["database/*"],
-      // "@mailer/*": ["mailer/*"],
+      "@vo/*": ["vo/*"],
+      "@action/*": ["action/*"],
+      "@service/*": ["service/*"],
+      "@utils/*": ["utils/*"],
+      "@routes/*": ["routes/*"],
+      "@database/*": ["database/*"],
 
       "@config": ["bd7.config.js"]
     } /* A series of entries which re-map imports to lookup locations relative to the 'baseUrl'. */,

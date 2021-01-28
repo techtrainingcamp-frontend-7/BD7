@@ -3,7 +3,7 @@
 /**
  * Config import
  */
-import { serverConfig } from '@config'
+import { port } from '@config'
 import { init as DatabaseInit } from '@database'
 
 /**
@@ -16,7 +16,7 @@ const HTTP = require('http')
 /**
  * Get port from environment and store in Express.
  */
-const PORT = normalizePort(process.env.PORT || serverConfig.port)
+const PORT = normalizePort(process.env.PORT || port)
 APP.set('port', PORT)
 
 /**
