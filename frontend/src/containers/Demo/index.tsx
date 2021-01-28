@@ -48,7 +48,7 @@ const Demo: FC<HomeProps> = ({ state, dispatch, history }) => {
       {state.players.length ? (
         <ol>
           {state.players.map((player) => (
-            <div key={player.id} className="demo-player">
+            <div className="demo-player" key={player.id}>
               {player.id}, {player.first_name}
             </div>
           ))}
