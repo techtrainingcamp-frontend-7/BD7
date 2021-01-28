@@ -64,11 +64,11 @@ const toArray = (obj: Object): any[] => {
 const checkIntegrity = (obj: Object, params?: string[]): boolean => {
   return params
     ? params.every((v) => {
-      return isDef(obj[v])
-    })
+        return isDef(obj[v])
+      })
     : toArray(obj).every((v) => {
-      return isDef(v)
-    })
+        return isDef(v)
+      })
 }
 
 /**
@@ -83,13 +83,13 @@ class Restful {
   code: number
   message: string
   data?: any
-  constructor (code: number, message: string, data: any = null) {
+  constructor(code: number, message: string, data: any = null) {
     this.code = code
     this.message = message
     this.data = data
   }
 
-  static initWithError (e: any) {
+  static initWithError(e: any) {
     return new Restful(e.errno, e.message)
   }
 }
@@ -102,7 +102,7 @@ export {
   mixin,
   toArray,
   checkIntegrity,
-  Restful
+  Restful,
 }
 
 export default {
@@ -113,5 +113,5 @@ export default {
   mixin,
   toArray,
   checkIntegrity,
-  Restful
+  Restful,
 }

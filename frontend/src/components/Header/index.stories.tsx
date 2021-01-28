@@ -6,14 +6,14 @@ import { Header, HeaderProps } from '.'
 
 export default {
   title: 'Example/Header',
-  component: Header
+  component: Header,
 } as Meta
 
 const Template: Story<HeaderProps> = (args) => <Header {...args} />
 
 export const LoggedIn = Template.bind({})
 LoggedIn.args = {
-  user: {}
+  user: {},
 }
 
 export const LoggedOut = Template.bind({})

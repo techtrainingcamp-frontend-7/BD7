@@ -36,12 +36,12 @@ const config = {
         max: 20,
         min: 1,
         idle: 30000,
-        acquire: 60000
+        acquire: 60000,
       },
 
       // 时区
-      timezone: '+08:00'
-    }
-  }
+      timezone: '+08:00',
+    },
+  },
 }
 module.exports = config

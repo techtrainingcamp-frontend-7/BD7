@@ -6,7 +6,7 @@ const isDev = process.env.NODE_ENV === 'development'
 
 const DB = new Sequelize(database, user, password, {
   ...options,
-  logging: isDev ? console.log : false // 是否输出数据库日志
+  logging: isDev ? console.log : false, // 是否输出数据库日志
 })
 
 const init = () => {

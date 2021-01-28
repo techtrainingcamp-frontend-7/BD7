@@ -1,5 +1,5 @@
 module.exports = {
   parserOptions: {
-    tsconfigRootDir: __dirname
-  }
+    tsconfigRootDir: __dirname,
+  },
 }
