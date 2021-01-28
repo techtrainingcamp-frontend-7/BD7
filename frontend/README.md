@@ -13,3 +13,7 @@ yarn storybook
 ```bash
 yarn start
 ```
+
+## 路由配置
+
+所有路由配置都存放在 [src/routes.ts](src/routes.ts) 中。
