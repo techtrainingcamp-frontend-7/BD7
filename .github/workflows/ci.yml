@@ -2,7 +2,7 @@ name: Build
 on: [push, pull_request]
 jobs:
   build:
-    runs-on: linux-latest
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
@@ -11,11 +11,11 @@ jobs:
 
       - name: Building Frontend
         run: |
-          yarn global add lerna
-          yarn
+          npm i -g lerna
+          npm i
           lerna bootstrap
           cd frontend
-          yarn build
+          npm run build
 
       - name: Publish Frontend to Github Pages
         uses: peaceiris/actions-gh-pages@v3

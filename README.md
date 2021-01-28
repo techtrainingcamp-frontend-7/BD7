@@ -5,12 +5,12 @@
 前后端放在一个仓库里面，使用 [lerna](https://github.com/lerna/lerna) 统一管理。你需要全局安装 lerna：
 
 ```bash
-yarn global add lerna
+npm i -g lerna
 ```
 
 ```bash
 # 安装根目录依赖
-yarn
+npm i
 # 自动前后端所有依赖
 lerna bootstrap
 ```
@@ -19,10 +19,10 @@ lerna bootstrap
 
 ```bash
 cd frontend
-yarn start
+npm run start
 ```
 
-存放于文件夹 [frontend](frontend)。
+存放于文件夹 [frontend](frontend)，自动部署网址位于 。
 
 - React
 - React Router
