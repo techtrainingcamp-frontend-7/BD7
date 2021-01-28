@@ -35,6 +35,7 @@ jobs:
           source-repo: git@github.com:techtrainingcamp-frontend-7/BD7.git
           # 注意替换为你的 Gitee 目标仓库地址
           destination-repo: git@gitee.com:feishou/bd7.git
+        if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/master' }}
 
       - name: Build Gitee Pages
         uses: yanglbme/gitee-pages-action@main
@@ -47,3 +48,4 @@ jobs:
           gitee-repo: feishou/bd7
           # 要部署的分支，默认是 master，若是其他分支，则需要指定（指定的分支必须存在）
           branch: gh-pages
+        if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/master' }}
