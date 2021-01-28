@@ -9,7 +9,9 @@ yarn global add lerna
 ```
 
 ```bash
-# 自动安装根目录、前后端所有依赖
+# 安装根目录依赖
+yarn
+# 自动前后端所有依赖
 lerna bootstrap
 ```
 

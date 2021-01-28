@@ -12,6 +12,7 @@ jobs:
       - name: Building
         run: |
           yarn global add lerna
+          yarn
           lerna bootstrap
           cd frontend
           yarn build
