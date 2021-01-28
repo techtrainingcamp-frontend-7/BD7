@@ -52,3 +52,5 @@ yarn start
 ### 代码规范
 
 统一使用 ESLint 进行代码规范和格式化，采用 [standardjs](https://standardjs.com/) 标准，如需增加规则，可修改配置文件 [.eslintrc.js](.eslintrc.js)。
+
+采用 `lint-staged` 进行 commit 时的代码格式化，如果不合规范将无法 commit。当然在特殊情况下你可以用 `git commit -n` 来绕过这些检查，但是不建议。
