@@ -1,10 +1,10 @@
-import { Home } from './containers/Home'
+import Demo from './containers/Demo'
 
 /* 集中存放所有路由配置 */
 export const routes: RouteConfig[] = [
   {
-    path: '/',
-    component: Home,
+    path: '/demo',
+    component: Demo,
   },
 ]
 

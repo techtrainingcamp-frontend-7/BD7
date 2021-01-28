@@ -4,10 +4,10 @@ module.exports = {
   extends: [
     'standard-with-typescript',
     'prettier/@typescript-eslint', // Uses eslint-config-prettier to disable ESLint rules from @typescript-eslint/eslint-plugin that would conflict with prettier
-    'plugin:prettier/recommended' //
+    'plugin:prettier/recommended', //
   ],
   parserOptions: {
-    project: './tsconfig.json'
+    project: './tsconfig.json',
   },
   rules: {
     '@typescript-eslint/strict-boolean-expressions': 0,
@@ -19,11 +19,12 @@ module.exports = {
         format: ['PascalCase'],
         custom: {
           regex: '^I[A-Z]',
-          match: false
-        }
-      }
+          match: false,
+        },
+      },
     ],
-    '@typescript-eslint/prefer-nullish-coalescing': 0
+    '@typescript-eslint/prefer-nullish-coalescing': 0,
+    '@typescript-eslint/explicit-function-return-type': 0,
   },
   overrides: [
     // storybook 特定规则
@@ -32,16 +33,16 @@ module.exports = {
       rules: {
         'import/no-anonymous-default-export': 0,
         'no-console': 0,
-        '@typescript-eslint/consistent-type-assertions': 0
-      }
+        '@typescript-eslint/consistent-type-assertions': 0,
+      },
     },
     // 根目录配置文件特定规则
     {
       files: ['./*.js', './*.ts'],
       rules: {
         'import/no-anonymous-default-export': 0,
-        'filenames/match-exported': 0
-      }
-    }
-  ]
-};
+        'filenames/match-exported': 0,
+      },
+    },
+  ],
+}
