@@ -11,6 +11,7 @@ module.exports = {
     project: './tsconfig.json',
   },
   rules: {
+    'no-console': 'warn',
     'react/jsx-sort-props': 'error',
     'react/prop-types': 0,
     '@typescript-eslint/strict-boolean-expressions': 0,

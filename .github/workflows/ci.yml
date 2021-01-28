@@ -1,0 +1,25 @@
+name: Build
+on: [push, pull_request]
+jobs:
+  build:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+
+      - name: Building
+        run: |
+          yarn global add lerna
+          lerna bootstrap
+          cd frontend
+          yarn build
+
+      - name: Publish to Github Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: frontend/build
+        # https://kevsoft.net/2020/06/10/running-github-action-steps-and-jobs-only-on-push-to-master.html
+        if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/master' }}

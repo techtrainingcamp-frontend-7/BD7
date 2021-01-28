@@ -17,7 +17,6 @@ export const demo = createModel<RootModel>()({
     // 直接修改 state 的 demo
     SET_COUNT: (state: HomeState, newCount: number) => {
       state.count = newCount
-      console.log(state.count)
       return state
     },
     SET_PLAYERS: (state: HomeState, players: PlayerModel[]) => {
