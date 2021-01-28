@@ -22,7 +22,7 @@ cd frontend
 npm run start
 ```
 
-存放于文件夹 [frontend](frontend)，自动部署网址位于 。
+存放于文件夹 [frontend](frontend)，自动部署网址位于 https://feishou.gitee.io/bd7/#/demo 。
 
 - React
 - React Router
