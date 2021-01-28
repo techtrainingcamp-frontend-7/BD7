@@ -1,10 +1,10 @@
 import React from 'react'
-import { BrowserRouter, Route, Switch } from 'react-router-dom'
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import { RouteConfig, routes } from './routes'
 
 const App = (): JSX.Element => {
   return (
-    <BrowserRouter>
+    <Router basename={process.env.PUBLIC_URL}>
       <div className="App">
         <Switch>
           {routes.map((route, i) => (
@@ -12,7 +12,7 @@ const App = (): JSX.Element => {
           ))}
         </Switch>
       </div>
-    </BrowserRouter>
+    </Router>
   )
 }
 

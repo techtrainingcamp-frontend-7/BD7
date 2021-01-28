@@ -9,7 +9,7 @@ jobs:
         with:
           node-version: '14'
 
-      - name: Building
+      - name: Building Frontend
         run: |
           yarn global add lerna
           yarn
