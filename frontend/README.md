@@ -39,5 +39,5 @@ npm run start
 
 Demo 页面：
 
-- 路由：http://localhost:3000/demo
+- 路由：http://localhost:3000/#/demo
 - 代码：[src/containers/Demo](src/containers/Demo)
