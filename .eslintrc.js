@@ -1,7 +1,11 @@
 module.exports = {
   // 高版本的 standard-with-typescript 貌似有 Bug，无法声明 naming-convention
   // 因此将版本号固定在了 package.json 中
-  extends: ['standard-with-typescript'],
+  extends: [
+    'standard-with-typescript',
+    'prettier/@typescript-eslint', // Uses eslint-config-prettier to disable ESLint rules from @typescript-eslint/eslint-plugin that would conflict with prettier
+    'plugin:prettier/recommended' //
+  ],
   parserOptions: {
     project: './tsconfig.json'
   },
@@ -24,9 +28,7 @@ module.exports = {
   overrides: [
     // storybook 特定规则
     {
-      files: [
-        '**/**.stories.tsx'
-      ],
+      files: ['**/**.stories.tsx'],
       rules: {
         'import/no-anonymous-default-export': 0,
         'no-console': 0,
@@ -35,14 +37,11 @@ module.exports = {
     },
     // 根目录配置文件特定规则
     {
-      files: [
-        './*.js',
-        './*.ts'
-      ],
+      files: ['./*.js', './*.ts'],
       rules: {
         'import/no-anonymous-default-export': 0,
         'filenames/match-exported': 0
       }
     }
   ]
-}
+};
