@@ -16,6 +16,9 @@ jobs:
           lerna bootstrap
           cd frontend
           npm run build
+        env:
+          # 因为最终部署地址为：https://feishou.gitee.io/bd7/ ，需要加一个 PUBLIC_URL
+          PUBLIC_URL: /bd7
 
       - name: Publish Frontend to Github Pages
         uses: peaceiris/actions-gh-pages@v3

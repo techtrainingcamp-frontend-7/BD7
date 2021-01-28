@@ -4,7 +4,10 @@ import { RouteConfig, routes } from './routes'
 
 const App = (): JSX.Element => {
   return (
-    <Router basename={process.env.PUBLIC_URL}>
+    <Router
+      // https://reactrouter.com/web/api/HashRouter/basename-string
+      basename={process.env.PUBLIC_URL}
+    >
       <div className="App">
         <Switch>
           {routes.map((route, i) => (
