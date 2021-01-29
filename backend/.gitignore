@@ -9,4 +9,8 @@ node_modules/
 
 bin/**/*.js
 database/**/*.js
+action/**/*.js
+service/**/*.js
+routes/**/*.js
+middleware/**/*.js
 app.js
