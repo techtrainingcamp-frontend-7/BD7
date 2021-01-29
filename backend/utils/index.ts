@@ -1,3 +1,7 @@
+import CRYPTO from 'crypto';
+
+import { cryptoConfig } from '@config';
+
 /**
  * 常量
  */
@@ -72,6 +76,78 @@ const checkIntegrity = (obj: Object, params?: string[]): boolean => {
 }
 
 /**
+ * md5加密函数
+ * @param { string } v 加密字段
+ */
+const md5Crypto = (v: string | null): string | null => {
+  if (v === null) {
+    return v;
+  }
+
+  const { onceCryptLength, cryptCount, digest } = cryptoConfig;
+  const md5 = CRYPTO.createHash('md5');
+  const vLength = v.length;
+  // 每次分段加密的字符串最大长度
+  if (isDef(onceCryptLength) && onceCryptLength > 0) {
+    while (v) {
+      const tempV = v.slice(0, onceCryptLength);
+      v = v.slice(onceCryptLength);
+      md5.update(`${tempV} - `);
+    }
+    return md5.digest(digest);
+  }
+  // 一次加密至多分段几次加密
+  if (isDef(cryptCount) && cryptCount > 0) {
+    if (vLength <= cryptCount) {
+      return md5.update(v).digest(digest);
+    } else {
+      const onceCryptLength = ~~(vLength / cryptCount);
+      while (v) {
+        const tempV = v.slice(0, onceCryptLength);
+        v = v.slice(onceCryptLength);
+        md5.update(`${tempV} - `);
+      }
+      return md5.digest(digest);
+    }
+  }
+  throw new ReferenceError(
+    'geekblog.config.js缺少字段serverConfig: [ onceCryptLength: Number > 0, cryptCount: Number > 0 ]'
+  );
+};
+
+/**
+ * cipher加密函数
+ * @param { string } v 加密字段
+ * @param { string } password 生成密钥的密码
+ */
+const cipherCrypto = (v: string | null, password: string) => {
+  if (!v) {
+    return null;
+  }
+  const key = CRYPTO.scryptSync(password, '盐值', 24);
+  const iv = Buffer.alloc(16, 0); // 初始化向量
+  const cipher = CRYPTO.createCipheriv('aes-192-cbc', key, iv);
+  cipher.update(v);
+  return cipher.final('hex');
+};
+
+/**
+ * cipher解密函数
+ * @param { string } v 解密字段
+ * @param { string } password 生成密钥的密码
+ */
+const decipherCrypto = (v: string | null, password: string) => {
+  if (!v) {
+    return null;
+  }
+  const key = CRYPTO.scryptSync(password, '盐值', 24);
+  const iv = Buffer.alloc(16, 0); // 初始化向量
+  const decipher = CRYPTO.createDecipheriv('aes-192-cbc', key, iv);
+  decipher.update(v, 'hex');
+  return decipher.final('utf-8');
+};
+
+/**
  * Restful API类声明
  */
 interface Restful {
@@ -102,6 +178,9 @@ export {
   mixin,
   toArray,
   checkIntegrity,
+  md5Crypto,
+  cipherCrypto,
+  decipherCrypto,
   Restful,
 }
 
@@ -113,5 +192,8 @@ export default {
   mixin,
   toArray,
   checkIntegrity,
+  md5Crypto,
+  cipherCrypto,
+  decipherCrypto,
   Restful,
 }

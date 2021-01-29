@@ -5,6 +5,18 @@ const config = {
     'http://localhost/',
   // 完整URL为： nginx配置下的转发路径 `${location}`
   baseURL: '/bd7',
+  cryptoConfig: {
+    // 每次分段加密的字符串最大长度（优先度高于cryptCount字段）
+    onceCryptLength: 5,
+    // 一次加密至多分段几次加密
+    cryptCount: 5,
+    // 返回值格式
+    // 如果提供了 encoding，则返回字符串，否则返回 Buffer
+    // 可选值：['hex', 'Base64', ...]
+    digest: 'hex',
+    // 用于cipher对称加密生成密钥的密码
+    password: 'bd7'
+  },
   dataBaseConfig: {
     // 数据库名
     database: 'bd7',
