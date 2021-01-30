@@ -14,3 +14,5 @@ service/**/*.js
 routes/**/*.js
 middleware/**/*.js
 app.js
+utils/**/*.js
+vo/**/*.js

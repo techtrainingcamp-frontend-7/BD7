@@ -5,6 +5,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
       - uses: actions/setup-node@v2
         with:
           node-version: '14'
@@ -52,3 +54,14 @@ jobs:
           # 要部署的分支，默认是 master，若是其他分支，则需要指定（指定的分支必须存在）
           branch: gh-pages
         if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/master' }}
+
+      - name: Publish Backend to Vercel
+        uses: wearerequired/git-mirror-action@master
+        env:
+          # 注意在 Settings->Secrets 配置 GITEE_RSA_PRIVATE_KEY
+          SSH_PRIVATE_KEY: ${{ secrets.GITEE_RSA_PRIVATE_KEY }}
+        with:
+          # 源仓库地址
+          source-repo: git@github.com:techtrainingcamp-frontend-7/BD7.git
+          # 目标仓库地址
+          destination-repo: git@github.com:upupming/BD7.git

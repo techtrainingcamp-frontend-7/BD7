@@ -4,6 +4,7 @@
   "description": "BD7",
   "author": "techtrainingcamp-frontend-7",
   "private": false,
+  "main": "app.js",
   "scripts": {
     "serve": "cross-env NODE_ENV=production node ./bin/www.js",
     "dev": "cross-env NODE_ENV=development node ./bin/www.js",
