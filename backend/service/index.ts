@@ -1,9 +1,7 @@
-import UserService from './UserService';
+import UserService from './UserService'
 
-export {
-  UserService
-};
+export { UserService }
 
 export default {
-  User: UserService
-};
+  User: UserService,
+}

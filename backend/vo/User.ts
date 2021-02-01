@@ -1,26 +1,26 @@
-import { DataTypes, Model } from 'sequelize';
-import DB from '@database';
+import { DataTypes, Model } from 'sequelize'
+import DB from '@database'
 
 interface UserAttributes {
-  id: number | null;
-  username: string;
-  password: string | null;
-  avatar_url: string | null;
-  followings_count: number;
-  followers_count: number;
-  createdAt: Date;
-  updatedAt: Date;
+  id: number | null
+  username: string
+  password: string | null
+  avatar_url: string | null
+  followings_count: number
+  followers_count: number
+  createdAt: Date
+  updatedAt: Date
 }
 
 class User extends Model implements UserAttributes {
-  public id!: number | null;
-  public username!: string;
-  public password!: string | null;
-  public avatar_url!: string | null;
-  public followings_count!: number;
-  public followers_count!: number;
-  public readonly createdAt!: Date;
-  public readonly updatedAt!: Date;
+  public id!: number | null
+  public username!: string
+  public password!: string | null
+  public avatar_url!: string | null
+  public followings_count!: number
+  public followers_count!: number
+  public readonly createdAt!: Date
+  public readonly updatedAt!: Date
 }
 
 User.init(
@@ -29,7 +29,7 @@ User.init(
       type: DataTypes.INTEGER.UNSIGNED,
       primaryKey: true,
       autoIncrement: true,
-      comment: '自增字段（主键）'
+      comment: '自增字段（主键）',
     },
     username: {
       type: DataTypes.STRING(20),
@@ -37,52 +37,52 @@ User.init(
       allowNull: false,
       validate: {
         notNull: {
-          msg: '用户名不能为空'
+          msg: '用户名不能为空',
         },
         notEmpty: {
-          msg: '用户名不能为空'
+          msg: '用户名不能为空',
         },
         len: {
           args: [2, 20],
-          msg: '用户名长度应为2至20字符'
-        }
+          msg: '用户名长度应为2至20字符',
+        },
       },
-      comment: '用户名'
+      comment: '用户名',
     },
     password: {
       type: DataTypes.TEXT(),
       allowNull: false,
       validate: {
         notNull: {
-          msg: '密码不能为空'
+          msg: '密码不能为空',
         },
         notEmpty: {
-          msg: '密码不能为空'
-        }
+          msg: '密码不能为空',
+        },
       },
-      comment: '密码'
+      comment: '密码',
     },
     avatar_url: {
       type: DataTypes.STRING(100),
-      comment: '头像图片路径'
+      comment: '头像图片路径',
     },
     followings_count: {
       type: DataTypes.INTEGER.UNSIGNED,
       defaultValue: 0,
       allowNull: false,
-      comment: '关注数'
+      comment: '关注数',
     },
     followers_count: {
       type: DataTypes.INTEGER.UNSIGNED,
       defaultValue: 0,
       allowNull: false,
-      comment: '粉丝数'
-    }
+      comment: '粉丝数',
+    },
   },
   {
     sequelize: DB,
-    tableName: 'user'
-  }
-);
+    tableName: 'user',
+  },
+)
 
-export default User;
+export default User

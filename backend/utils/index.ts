@@ -1,12 +1,14 @@
-import CRYPTO from 'crypto';
+import CRYPTO from 'crypto'
 
-import { cryptoConfig } from '@config';
+import { cryptoConfig, baseURL } from '@config'
 
 /**
  * 常量
  */
 const QUERY_METHODS = ['GET', 'DELETE']
 const BODY_METHODS = ['POST', 'PUT']
+const WHITE_LIST = ['/user/login']
+const isDev = process.env.NODE_ENV === 'development'
 
 /**
  * 判断变量是否已定义
@@ -35,7 +37,7 @@ const mixin = (attrs: Object[]): any => {
   for (let i = attrs.length - 1; i > 0; i--) {
     if (
       typeof attrs[i] !== 'object' ||
-      attrs[i].toString() !== '[object Object]'
+      String(attrs[i]) !== '[object Object]'
     ) {
       throw new TypeError('参数类型错误: [ attrs: Array<Object> ]')
     }
@@ -81,39 +83,39 @@ const checkIntegrity = (obj: Object, params?: string[]): boolean => {
  */
 const md5Crypto = (v: string | null): string | null => {
   if (v === null) {
-    return v;
+    return v
   }
 
-  const { onceCryptLength, cryptCount, digest } = cryptoConfig;
-  const md5 = CRYPTO.createHash('md5');
-  const vLength = v.length;
+  const { onceCryptLength, cryptCount, digest } = cryptoConfig
+  const md5 = CRYPTO.createHash('md5')
+  const vLength = v.length
   // 每次分段加密的字符串最大长度
   if (isDef(onceCryptLength) && onceCryptLength > 0) {
     while (v) {
-      const tempV = v.slice(0, onceCryptLength);
-      v = v.slice(onceCryptLength);
-      md5.update(`${tempV} - `);
+      const tempV = v.slice(0, onceCryptLength)
+      v = v.slice(onceCryptLength)
+      md5.update(`${tempV} - `)
     }
-    return md5.digest(digest);
+    return md5.digest(digest)
   }
   // 一次加密至多分段几次加密
   if (isDef(cryptCount) && cryptCount > 0) {
     if (vLength <= cryptCount) {
-      return md5.update(v).digest(digest);
+      return md5.update(v).digest(digest)
     } else {
-      const onceCryptLength = ~~(vLength / cryptCount);
+      const onceCryptLength = ~~(vLength / cryptCount)
       while (v) {
-        const tempV = v.slice(0, onceCryptLength);
-        v = v.slice(onceCryptLength);
-        md5.update(`${tempV} - `);
+        const tempV = v.slice(0, onceCryptLength)
+        v = v.slice(onceCryptLength)
+        md5.update(`${tempV} - `)
       }
-      return md5.digest(digest);
+      return md5.digest(digest)
     }
   }
   throw new ReferenceError(
-    'geekblog.config.js缺少字段serverConfig: [ onceCryptLength: Number > 0, cryptCount: Number > 0 ]'
-  );
-};
+    'bd7.config.js缺少字段cryptoConfig: [ onceCryptLength: Number > 0, cryptCount: Number > 0 ]',
+  )
+}
 
 /**
  * cipher加密函数
@@ -122,14 +124,14 @@ const md5Crypto = (v: string | null): string | null => {
  */
 const cipherCrypto = (v: string | null, password: string) => {
   if (!v) {
-    return null;
+    return null
   }
-  const key = CRYPTO.scryptSync(password, '盐值', 24);
-  const iv = Buffer.alloc(16, 0); // 初始化向量
-  const cipher = CRYPTO.createCipheriv('aes-192-cbc', key, iv);
-  cipher.update(v);
-  return cipher.final('hex');
-};
+  const key = CRYPTO.scryptSync(password, '盐值', 24)
+  const iv = Buffer.alloc(16, 0) // 初始化向量
+  const cipher = CRYPTO.createCipheriv('aes-192-cbc', key, iv)
+  cipher.update(v)
+  return cipher.final('hex')
+}
 
 /**
  * cipher解密函数
@@ -138,14 +140,14 @@ const cipherCrypto = (v: string | null, password: string) => {
  */
 const decipherCrypto = (v: string | null, password: string) => {
   if (!v) {
-    return null;
+    return null
   }
-  const key = CRYPTO.scryptSync(password, '盐值', 24);
-  const iv = Buffer.alloc(16, 0); // 初始化向量
-  const decipher = CRYPTO.createDecipheriv('aes-192-cbc', key, iv);
-  decipher.update(v, 'hex');
-  return decipher.final('utf-8');
-};
+  const key = CRYPTO.scryptSync(password, '盐值', 24)
+  const iv = Buffer.alloc(16, 0) // 初始化向量
+  const decipher = CRYPTO.createDecipheriv('aes-192-cbc', key, iv)
+  decipher.update(v, 'hex')
+  return decipher.final('utf-8')
+}
 
 /**
  * Restful API类声明
@@ -173,6 +175,7 @@ class Restful {
 export {
   QUERY_METHODS,
   BODY_METHODS,
+  isDev,
   isDef,
   isUndef,
   mixin,
@@ -187,6 +190,7 @@ export {
 export default {
   QUERY_METHODS,
   BODY_METHODS,
+  isDev,
   isDef,
   isUndef,
   mixin,

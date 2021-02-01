@@ -1,10 +1,10 @@
-import EXPRESS from 'express';
+import EXPRESS from 'express'
 
-import { UserService as Service } from '@service';
-import { User } from '@vo';
-import { Restful, checkIntegrity } from '@utils';
+import { UserService as Service } from '@service'
+import { User } from '@vo'
+import { Restful, checkIntegrity } from '@utils'
 
-const ROUTER = EXPRESS.Router();
+const ROUTER = EXPRESS.Router()
 
 /**
  * 注册
@@ -12,21 +12,19 @@ const ROUTER = EXPRESS.Router();
  * @param { User } user
  */
 ROUTER.post('/register', async (req, res, next) => {
-  const user = User.build(req.body);
-  if (
-    !checkIntegrity(user, ['username', 'password'])
-  ) {
-    res.status(200).json(new Restful(1, '参数错误'));
-    return next();
+  const user = User.build(req.body)
+  if (!checkIntegrity(user, ['username', 'password'])) {
+    res.status(200).json(new Restful(1, '参数错误'))
+    return next()
   }
   try {
-    res.status(200).json(await Service.Register(user));
+    res.status(200).json(await Service.Register(user))
   } catch (e) {
     // 进行邮件提醒
-    res.status(500).end();
+    res.status(500).end()
   }
-  next();
-});
+  next()
+})
 
 // /**
 //  * 登陆
@@ -125,4 +123,4 @@ ROUTER.post('/register', async (req, res, next) => {
 //   next();
 // });
 
-export default ROUTER;
+export default ROUTER

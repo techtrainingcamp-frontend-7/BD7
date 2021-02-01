@@ -1,6 +1,6 @@
-import { UserAction as Action } from '@action';
-import { User } from '@vo';
-import { Restful, md5Crypto, isUndef, isDef } from '@utils';
+import { UserAction as Action } from '@action'
+import { User } from '@vo'
+import { Restful, md5Crypto, isUndef, isDef } from '@utils'
 
 /**
  * 添加账号
@@ -8,46 +8,46 @@ import { Restful, md5Crypto, isUndef, isDef } from '@utils';
  */
 const Register = async (user: User): Promise<Restful> => {
   try {
-    const existedUser = await Action.Retrieve('username', user.username);
+    const existedUser = await Action.Retrieve('username', user.username)
     if (isDef(existedUser)) {
-      return new Restful(1, '用户名已存在');
+      return new Restful(1, '用户名已存在')
     }
     // 加密密码
-    user.password = md5Crypto(<string>user.password);
+    user.password = md5Crypto(user.password)
 
     // 去除前端可能给的多余ID（自增字段）
-    user.id = null;
+    user.id = null
 
-    user = await Action.Create(user);
-    user.password = null;
-    return new Restful(0, '注册成功', user.toJSON());
+    user = await Action.Create(user)
+    user.password = null
+    return new Restful(0, '注册成功', user.toJSON())
   } catch (e) {
-    return new Restful(99, `注册失败, ${e.message}`);
+    return new Restful(99, `注册失败, ${String(e.message)}`)
   }
-};
+}
 
 /**
  * 登录
  * @param { User } user
  */
 const Login = async (user: User): Promise<Restful> => {
-  const { username, password } = user;
+  const { username, password } = user
   try {
-    const existedUser = await Action.Retrieve('username', username);
+    const existedUser = await Action.Retrieve('username', username)
     if (isUndef(existedUser)) {
-      return new Restful(1, '用户名不存在');
+      return new Restful(1, '用户名不存在')
     }
     // 匹配密码
-    if (md5Crypto(<string>password) === user.password) {
+    if (md5Crypto(password) === user.password) {
       // 脱敏
-      user.password = null;
-      return new Restful(0, '登陆成功', user.toJSON());
+      user.password = null
+      return new Restful(0, '登陆成功', user.toJSON())
     }
-    return new Restful(2, '账号或密码错误');
+    return new Restful(2, '账号或密码错误')
   } catch (e) {
-    return new Restful(99, `登陆失败, ${e.message}`);
+    return new Restful(99, `登陆失败, ${String(e.message)}`)
   }
-};
+}
 
 /**
  * 通过username查询单个用户
@@ -55,27 +55,27 @@ const Login = async (user: User): Promise<Restful> => {
  */
 const Retrieve = async (username: string): Promise<Restful> => {
   try {
-    const user = await Action.Retrieve__Safely('username', username);
+    const user = await Action.Retrieve__Safely('username', username)
     if (isUndef(user)) {
-      return new Restful(1, '账号不存在');
+      return new Restful(1, '账号不存在')
     }
-    return new Restful(0, '查询成功', (<User>user).toJSON());
+    return new Restful(0, '查询成功', (user as User).toJSON())
   } catch (e) {
-    return new Restful(99, `查询失败, ${e.message}`);
+    return new Restful(99, `查询失败, ${String(e.message)}`)
   }
-};
+}
 
 /**
  * 遍历用户
  */
 const Retrieve__All = async (): Promise<Restful> => {
   try {
-    const users = await Action.Retrieve__All__Safely();
-    return new Restful(0, '查询成功', users);
+    const users = await Action.Retrieve__All__Safely()
+    return new Restful(0, '查询成功', users)
   } catch (e) {
-    return new Restful(99, `查询失败, ${e.message}`);
+    return new Restful(99, `查询失败, ${String(e.message)}`)
   }
-};
+}
 
 /**
  * 编辑用户
@@ -83,19 +83,19 @@ const Retrieve__All = async (): Promise<Restful> => {
  */
 const Edit = async (user: User): Promise<Restful> => {
   try {
-    const existedUser = await Action.Retrieve('id', <number>user.id);
+    const existedUser = await Action.Retrieve('id', user.id as number)
     if (isUndef(existedUser)) {
-      return new Restful(1, '账号不存在');
+      return new Restful(1, '账号不存在')
     }
-    const newUser = await Action.Update(<User>existedUser, user);
+    const newUser = await Action.Update(existedUser as User, user)
 
     // 脱敏
-    newUser.password = null;
-    return new Restful(0, '编辑成功', newUser.toJSON());
+    newUser.password = null
+    return new Restful(0, '编辑成功', newUser.toJSON())
   } catch (e) {
-    return new Restful(99, `编辑失败, ${e.message}`);
+    return new Restful(99, `查询失败, ${String(e.message)}`)
   }
-};
+}
 
 /**
  * 注销
@@ -104,23 +104,23 @@ const Edit = async (user: User): Promise<Restful> => {
  */
 const Delete = async (username: string, password: string) => {
   try {
-    const deleteUser = await Action.Retrieve('username', username);
+    const deleteUser = await Action.Retrieve('username', username)
     if (isUndef(deleteUser)) {
-      return new Restful(3, '被操作账号不存在');
+      return new Restful(3, '被操作账号不存在')
     }
-    const { id } = <User>deleteUser;
-    if (md5Crypto(password) === (<User>deleteUser).password) {
+    const { id } = deleteUser as User
+    if (md5Crypto(password) === (deleteUser as User).password) {
       // 匹配密码
-      const deleteRow = await Action.Delete(<number>id);
+      const deleteRow = await Action.Delete(id as number)
       return deleteRow > 0
         ? new Restful(0, '注销成功')
-        : new Restful(2, '注销失败');
+        : new Restful(2, '注销失败')
     }
-    return new Restful(1, '密码错误');
+    return new Restful(1, '密码错误')
   } catch (e) {
-    return new Restful(99, '注销失败');
+    return new Restful(99, '注销失败')
   }
-};
+}
 
 export default {
   Register,
@@ -128,5 +128,5 @@ export default {
   Retrieve,
   Retrieve__All,
   Edit,
-  Delete
-};
+  Delete,
+}

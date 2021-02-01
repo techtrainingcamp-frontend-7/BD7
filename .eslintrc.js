@@ -29,6 +29,9 @@ module.exports = {
     ],
     '@typescript-eslint/prefer-nullish-coalescing': 0,
     '@typescript-eslint/explicit-function-return-type': 0,
+    '@typescript-eslint/no-misused-promises': 0,
+    'no-async-promise-executor': 0,
+    '@typescript-eslint/promise-function-async': 0,
   },
   overrides: [
     // storybook 特定规则

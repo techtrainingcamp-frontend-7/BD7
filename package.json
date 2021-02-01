@@ -8,6 +8,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "eslint --fix --ext .js,.jsx,.ts,.tsx .",
     "reset": "lerna clean --yes && rm -rf node_modules",
+    "install": "node .deploy_scripts/post_merge.js",
     "postinstall": "lerna bootstrap"
   },
   "repository": {
