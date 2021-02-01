@@ -1,5 +1,5 @@
-const config = {
-  port: '8003',
+const devConfig = {
+  port: 8003,
   host:
     // "https://api.hokori.online" ||
     'http://localhost/',
@@ -15,7 +15,7 @@ const config = {
     // 可选值：['hex', 'Base64', ...]
     digest: 'hex',
     // 用于cipher对称加密生成密钥的密码
-    password: 'bd7'
+    password: 'bd7',
   },
   dataBaseConfig: {
     // 数据库名
@@ -31,6 +31,9 @@ const config = {
     options: {
       // 数据库类别
       dialect: 'mysql',
+      // 修复 vercel 找不到 mysql2 的问题：
+      // https://github.com/vercel/ncc/issues/345#issuecomment-487404520
+      dialectModule: require('mysql2'),
 
       // 主机，如IP 或 'localhost'
       host: '101.201.239.229',
@@ -54,4 +57,9 @@ const config = {
     },
   },
 }
-module.exports = config
+
+const prodConfig = {
+  ...devConfig,
+  // TODO: 生产模式需要使用不同的数据库表
+}
+module.exports = process.env.NODE_ENV === 'production' ? prodConfig : devConfig

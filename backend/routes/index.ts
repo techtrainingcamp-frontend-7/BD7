@@ -1,7 +1,7 @@
 import UserRouter from './UserRouter'
-export {
-  UserRouter
-}
+import TestRouter from './TestRouter'
+export { UserRouter, TestRouter }
 export default {
-  UserRouter
+  UserRouter,
+  TestRouter,
 }

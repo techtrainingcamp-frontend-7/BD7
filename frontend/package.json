@@ -9,6 +9,7 @@
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook"
   },
+  "proxy": "http://localhost:8003",
   "dependencies": {
     "@rematch/core": "^2.0.0-next.10",
     "@rematch/immer": "^2.0.0-next.10",
