@@ -15,6 +15,8 @@ npm i
 lerna bootstrap
 ```
 
+目前已经将 `lerna bootstrap` 加入了 `postinstall` 脚本中，会在 `npm i` 的时候自动运行。同时在 pull 的时候会自动运行 `npm i`。因此只需要第一次 clone 仓库的时候手动在根目录 `npm i`，一下，后续都是自动安装依赖的了。
+
 ### 前端
 
 ```bash
