@@ -1,0 +1,41 @@
+{
+  "version": 2,
+  "public": false,
+  "github": {
+    "enabled": false
+  },
+  "builds": [
+    {
+      "src": "./backend/app.js",
+      "use": "@vercel/node",
+      "config": {
+        "bundle": false
+      }
+    },
+    {
+      "src": "./frontend/build/**/*",
+      "use": "@vercel/static"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/api.*",
+      "dest": "/backend/app.js"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/frontend/build/$1"
+    },
+    {
+      "handle": "filesystem"
+    },
+    {
+      "src": "/(.*)",
+      "status": 404,
+      "dest": "/frontend/build/index.html"
+    }
+  ],
+  "regions": [
+    "hkg1"
+  ]
+}

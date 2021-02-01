@@ -1,12 +1,11 @@
 import express from 'express'
-import expressJwt from 'express-jwt'
-import { UserRouter } from '@routes'
-import { User } from '@vo'
+import { UserRouter, TestRouter } from '@routes'
 
 const app = express()
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
-app.use('/user', UserRouter);
+app.use('/api/', TestRouter)
+app.use('/api/user', UserRouter)
 
 module.exports = app
