@@ -46,7 +46,8 @@
   "husky": {
     "hooks": {
       "pre-commit": "lint-staged",
-      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS || (node .deploy_scripts/pre_commit.js && exit 8)"
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS || (node .scripts/pre_commit.js && exit 8)",
+      "post-merge": "sh .scripts/update_dependencies.sh"
     }
   },
   "lint-staged": {
