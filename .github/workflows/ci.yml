@@ -1,5 +1,14 @@
 name: Build
-on: [push, pull_request]
+# 避免 PR 触发两个 build
+# https://github.community/t/how-to-trigger-an-action-on-push-or-pull-request-but-not-both/16662/2
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
 jobs:
   build:
     runs-on: ubuntu-latest

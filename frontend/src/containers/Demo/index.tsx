@@ -45,6 +45,14 @@ const Demo: FC<HomeProps> = ({ state, dispatch, history }) => {
       >
         Fetch Players
       </button>
+      <button
+        className="demo-button"
+        onClick={async () => {
+          await dispatch.getTestAPI()
+        }}
+      >
+        Fetch Test API
+      </button>
       {state.players.length ? (
         <ol>
           {state.players.map((player) => (
@@ -53,6 +61,9 @@ const Demo: FC<HomeProps> = ({ state, dispatch, history }) => {
             </div>
           ))}
         </ol>
+      ) : null}
+      {state.testAPTResult ? (
+        <pre>{JSON.stringify(state.testAPTResult, null, 2)}</pre>
       ) : null}
     </div>
   )

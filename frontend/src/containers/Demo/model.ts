@@ -1,14 +1,17 @@
 import { createModel } from '@rematch/core'
 import { RootModel } from '@/models'
+import axios, { AxiosResponse } from 'axios'
 
 export interface HomeState {
   count: number
   players: PlayerModel[]
+  testAPTResult: any
 }
 
 export const defaultHomeState: HomeState = {
   count: 0,
   players: [],
+  testAPTResult: null,
 }
 
 export const demo = createModel<RootModel>()({
@@ -23,6 +26,13 @@ export const demo = createModel<RootModel>()({
       state.players = players
       return state
     },
+    SET_testAPTResult: (
+      state: HomeState,
+      testAPTResult: AxiosResponse<any>,
+    ) => {
+      state.testAPTResult = testAPTResult
+      return state
+    },
   },
   effects: (dispatch) => {
     const { demo } = dispatch
@@ -34,6 +44,10 @@ export const demo = createModel<RootModel>()({
         )
         const { data }: { data: any[] } = await response.json()
         demo.SET_PLAYERS(data)
+      },
+      async getTestAPI(): Promise<any> {
+        const res = await axios.get('/api/')
+        demo.SET_testAPTResult(res)
       },
     }
   },
