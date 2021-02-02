@@ -1,7 +1,7 @@
 import { Router } from 'express'
 import { UserService as Service } from '@service'
-import { User } from '@vo'
-import { Restful, checkIntegrity } from '@utils'
+import { User } from 'vo'
+import { Restful, checkIntegrity } from 'utils'
 import asyncWrapper from 'async-wrapper-express-ts'
 
 const userRouter = Router()

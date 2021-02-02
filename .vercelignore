@@ -1,2 +1,3 @@
-README.md
-backend/**/*.ts
+!vercel.json
+frontend/src
+backend/src

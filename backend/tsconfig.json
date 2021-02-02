@@ -14,8 +14,8 @@
     // "declarationMap": true,                /* Generates a sourcemap for each corresponding '.d.ts' file. */
     // "sourceMap": true,                     /* Generates corresponding '.map' file. */
     // "outFile": "./",                       /* Concatenate and emit output to single file. */
-    // "outDir": "./dist",                    /* Redirect output structure to the directory. */
-    "rootDir": "./" /* Specify the root directory of input files. Use to control the output directory structure with --outDir. */,
+    "outDir": "./build" /* Redirect output structure to the directory. */,
+    "rootDir": "./src" /* Specify the root directory of input files. Use to control the output directory structure with --outDir. */,
     // "composite": true,                     /* Enable project compilation */
     // "tsBuildInfoFile": "./",               /* Specify file to store incremental compilation information */
     // "removeComments": true,                /* Do not emit comments to output. */
@@ -42,7 +42,7 @@
 
     /* Module Resolution Options */
     // "moduleResolution": "node",            /* Specify module resolution strategy: 'node' (Node.js) or 'classic' (TypeScript pre-1.6). */
-    "baseUrl": "." /* Base directory to resolve non-absolute module names. */,
+    "baseUrl": "./src" /* Base directory to resolve non-absolute module names. */,
     "paths": {
       "@vo": ["vo"],
       "@action": ["action"],
@@ -58,7 +58,7 @@
       "@routes/*": ["routes/*"],
       "@database/*": ["database/*"],
 
-      "@config": ["bd7.config.js"]
+      "@config": ["bd7.config.ts"]
     } /* A series of entries which re-map imports to lookup locations relative to the 'baseUrl'. */,
     "plugins": [
       {
@@ -79,7 +79,7 @@
     /* Source Map Options */
     // "sourceRoot": "",                      /* Specify the location where debugger should locate TypeScript files instead of source locations. */
     // "mapRoot": "",                         /* Specify the location where debugger should locate map files instead of generated locations. */
-    // "inlineSourceMap": true,               /* Emit a single file with source maps instead of having a separate file. */
+    "inlineSourceMap": true /* Emit a single file with source maps instead of having a separate file. */,
     // "inlineSources": true,                 /* Emit the source alongside the sourcemaps within a single file; requires '--inlineSourceMap' or '--sourceMap' to be set. */
 
     /* Experimental Options */

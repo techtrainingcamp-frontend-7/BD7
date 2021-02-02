@@ -6,7 +6,7 @@
   },
   "builds": [
     {
-      "src": "./backend/app.js",
+      "src": "./backend/build/app.js",
       "use": "@vercel/node",
       "config": {
         "bundle": false
@@ -20,7 +20,7 @@
   "routes": [
     {
       "src": "/api.*",
-      "dest": "/backend/app.js"
+      "dest": "/backend/build/app.js"
     },
     {
       "src": "/(.*)",

@@ -1,6 +1,7 @@
-import { dataBaseConfig } from '@config'
+import config from 'bd7.config'
 import { Sequelize } from 'sequelize'
-import { isDev } from '@utils'
+import { isDev } from 'utils'
+const { dataBaseConfig } = config
 
 const { database, user, password, options } = dataBaseConfig
 

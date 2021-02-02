@@ -46,7 +46,7 @@ export const demo = createModel<RootModel>()({
         demo.SET_PLAYERS(data)
       },
       async getTestAPI(): Promise<any> {
-        const res = await axios.get('/api/')
+        const res = await axios.get('/api/test')
         demo.SET_testAPTResult(res)
       },
     }

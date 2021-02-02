@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/promise-function-async */
-import { User } from '@vo'
+import { User } from 'vo'
 
 /**
  * 添加用户
@@ -30,10 +30,7 @@ const Retrieve = (
  * @param { string } param
  * @param { string } value
  */
-const Retrieve__Safely = (
-  key: string,
-  value: string | number,
-): Promise<User | null> => {
+const Retrieve__Safely = (key: string, value: string | number) => {
   return User.findOne({
     attributes: {
       exclude: ['password'],
@@ -47,7 +44,7 @@ const Retrieve__Safely = (
 /**
  * 遍历用户（不含密码）
  */
-const Retrieve__All__Safely = (): Promise<Array<User | null>> => {
+const Retrieve__All__Safely = () => {
   return User.findAll({
     attributes: {
       exclude: ['password'],

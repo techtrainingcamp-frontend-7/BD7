@@ -1,6 +1,7 @@
 import CRYPTO from 'crypto'
 
-import { cryptoConfig } from '@config'
+import config from 'bd7.config'
+const { cryptoConfig } = config
 
 /**
  * 常量
@@ -19,9 +20,10 @@ const isDef = (v: any): boolean => {
 
 /**
  * 判断变量是否未定义
+ * 增加了 type guards: https://www.typescriptlang.org/docs/handbook/advanced-types.html#typeof-type-guards
  * @param { object } v
  */
-const isUndef = (v: any): boolean => {
+const isUndef = (v: any): v is null | undefined => {
   return v === undefined || v === null
 }
 

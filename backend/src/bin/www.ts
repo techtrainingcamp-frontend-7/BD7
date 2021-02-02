@@ -1,10 +1,11 @@
 import http from 'http'
 import debug from 'debug'
 
-import { port } from '@config'
-import { init } from '@database'
+import config from 'bd7.config'
+import { init } from 'database'
 
-import { app } from '../app'
+import app from 'app'
+const { port } = config
 const DEBUG = debug('server:server')
 /**
  * Get port from environment and store in Express.

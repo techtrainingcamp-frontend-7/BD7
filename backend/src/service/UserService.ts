@@ -1,6 +1,6 @@
-import { UserAction as Action } from '@action'
-import { User } from '@vo'
-import { Restful, md5Crypto, isUndef, isDef } from '@utils'
+import { UserAction as Action } from 'action'
+import { User } from 'vo'
+import { Restful, md5Crypto, isUndef, isDef } from 'utils'
 
 /**
  * 添加账号
@@ -59,7 +59,7 @@ const Retrieve = async (username: string): Promise<Restful> => {
     if (isUndef(user)) {
       return new Restful(1, '账号不存在')
     }
-    return new Restful(0, '查询成功', (user as User).toJSON())
+    return new Restful(0, '查询成功', user.toJSON())
   } catch (e) {
     return new Restful(99, `查询失败, ${String(e.message)}`)
   }
@@ -87,7 +87,7 @@ const Edit = async (user: User): Promise<Restful> => {
     if (isUndef(existedUser)) {
       return new Restful(1, '账号不存在')
     }
-    const newUser = await Action.Update(existedUser as User, user)
+    const newUser = await Action.Update(existedUser, user)
 
     // 脱敏
     newUser.password = null
@@ -108,8 +108,8 @@ const Delete = async (username: string, password: string) => {
     if (isUndef(deleteUser)) {
       return new Restful(3, '被操作账号不存在')
     }
-    const { id } = deleteUser as User
-    if (md5Crypto(password) === (deleteUser as User).password) {
+    const { id } = deleteUser
+    if (md5Crypto(password) === deleteUser.password) {
       // 匹配密码
       const deleteRow = await Action.Delete(id as number)
       return deleteRow > 0
