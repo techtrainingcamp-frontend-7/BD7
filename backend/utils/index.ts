@@ -1,13 +1,12 @@
 import CRYPTO from 'crypto'
 
-import { cryptoConfig, baseURL } from '@config'
+import { cryptoConfig } from '@config'
 
 /**
  * 常量
  */
 const QUERY_METHODS = ['GET', 'DELETE']
 const BODY_METHODS = ['POST', 'PUT']
-const WHITE_LIST = ['/user/login']
 const isDev = process.env.NODE_ENV === 'development'
 
 /**

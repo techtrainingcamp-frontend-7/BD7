@@ -29,9 +29,6 @@ module.exports = {
     ],
     '@typescript-eslint/prefer-nullish-coalescing': 0,
     '@typescript-eslint/explicit-function-return-type': 0,
-    '@typescript-eslint/no-misused-promises': 0,
-    'no-async-promise-executor': 0,
-    '@typescript-eslint/promise-function-async': 0,
   },
   overrides: [
     // storybook 特定规则
@@ -52,4 +49,12 @@ module.exports = {
       },
     },
   ],
+  settings: {
+    react: {
+      version: '17.0.1', // React version. "detect" automatically picks the version you have installed.
+      // You can also use `16.0`, `16.3`, etc, if you want to override the detected value.
+      // default to latest and warns if missing
+      // It will default to "detect" in the future
+    },
+  },
 }

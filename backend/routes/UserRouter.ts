@@ -1,30 +1,34 @@
-import EXPRESS from 'express'
-
+import { Router } from 'express'
 import { UserService as Service } from '@service'
 import { User } from '@vo'
 import { Restful, checkIntegrity } from '@utils'
+import asyncWrapper from 'async-wrapper-express-ts'
 
-const ROUTER = EXPRESS.Router()
+const userRouter = Router()
 
 /**
  * 注册
  * @path /register
  * @param { User } user
  */
-ROUTER.post('/register', async (req, res, next) => {
-  const user = User.build(req.body)
-  if (!checkIntegrity(user, ['username', 'password'])) {
-    res.status(200).json(new Restful(1, '参数错误'))
-    return next()
-  }
-  try {
-    res.status(200).json(await Service.Register(user))
-  } catch (e) {
-    // 进行邮件提醒
-    res.status(500).end()
-  }
-  next()
-})
+userRouter.post(
+  '/register',
+  // https://github.com/xiondlph/async-wrapper-express-ts
+  asyncWrapper(async (req, res, next) => {
+    const user = User.build(req.body)
+    if (!checkIntegrity(user, ['username', 'password'])) {
+      res.status(200).json(new Restful(1, '参数错误'))
+      return next()
+    }
+    try {
+      res.status(200).json(await Service.Register(user))
+    } catch (e) {
+      // 进行邮件提醒
+      res.status(500).end()
+    }
+    next()
+  }),
+)
 
 // /**
 //  * 登陆
@@ -123,4 +127,4 @@ ROUTER.post('/register', async (req, res, next) => {
 //   next();
 // });
 
-export default ROUTER
+export default userRouter

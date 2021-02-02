@@ -9,12 +9,9 @@ const DB = new Sequelize(database, user, password, {
   logging: isDev ? console.log : false, // 是否输出数据库日志
 })
 
-const init = (): Promise<void> => {
-  return new Promise(async (resolve) => {
-    await DB.sync({ alter: isDev })
-    console.log('All models were synchronized successfully.')
-    resolve()
-  })
+const init = async () => {
+  await DB.sync({ alter: isDev })
+  console.log('All models were synchronized successfully.')
 }
 export { init }
 export default DB
