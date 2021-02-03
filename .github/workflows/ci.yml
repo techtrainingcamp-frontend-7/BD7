@@ -26,6 +26,9 @@ jobs:
           npm i
           lerna bootstrap
           lerna run build
+          cd frontend
+          npm run build-storybook
+          cd ..
 
       - uses: amondnet/vercel-action@v20
         with:

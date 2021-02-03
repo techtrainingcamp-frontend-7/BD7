@@ -14,6 +14,7 @@ module.exports = {
     'no-console': 'warn',
     'react/jsx-sort-props': 'error',
     'react/prop-types': 0,
+    'react/jsx-boolean-value': 'error',
     '@typescript-eslint/strict-boolean-expressions': 0,
     // https://github.com/typescript-eslint/typescript-eslint/blob/ef88a696a157f617d38ce6d49207a4a4a089a19b/packages/eslint-plugin/docs/rules/naming-convention.md#enforce-that-interface-names-do-not-begin-with-an-i
     '@typescript-eslint/naming-convention': [

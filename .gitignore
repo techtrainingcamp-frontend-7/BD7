@@ -7,5 +7,5 @@ node_modules/
 .eslintcache
 yarn-error.log
 build
-
+storybook-static
 .vercel
