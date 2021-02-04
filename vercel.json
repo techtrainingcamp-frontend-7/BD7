@@ -15,12 +15,20 @@
     {
       "src": "./frontend/build/**/*",
       "use": "@vercel/static"
+    },
+    {
+      "src": "./frontend/storybook-static/**/*",
+      "use": "@vercel/static"
     }
   ],
   "routes": [
     {
       "src": "/api.*",
       "dest": "/backend/build/app.js"
+    },
+    {
+      "src": "/stories/(.*)",
+      "dest": "/frontend/storybook-static/$1"
     },
     {
       "src": "/(.*)",

@@ -1,0 +1,129 @@
+// 进度条高度
+@bar-height: 6px;
+// 圆点高度
+@seek-height: 8px;
+
+.bd-player {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  &-main {
+    width: 100%;
+    height: 100%;
+  }
+  &-video {
+    width: 100%;
+    height: 100%;
+    background-color: #111;
+  }
+  &-icons {
+    img {
+      height: 80px;
+      width: 80px;
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      margin: auto;
+      transition: opacity 0.3s linear;
+    }
+  }
+  // 播放按钮水平、竖直居中
+  &-loading-icon {
+    animation: spin 2s linear infinite;
+    @keyframes spin {
+      0% {
+        transform: rotate(0deg);
+      }
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+  }
+  &-controls {
+    position: absolute;
+    right: 0;
+    left: 0;
+    bottom: 0;
+  }
+  &-progress {
+    position: relative;
+    &-bar {
+      width: 100%;
+      height: @bar-height;
+      position: absolute;
+      bottom: 0;
+      border: none;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      appearance: none;
+      pointer-events: none;
+
+      // 进度条背景色
+      &::-webkit-progress-bar {
+        background-color: #333;
+        border-radius: @bar-height;
+      }
+      // 进度条进度色
+      &::-webkit-progress-value {
+        background: #fff;
+        border-radius: @bar-height;
+      }
+      // 兼容 firefox（进度色）
+      &::-moz-progress-bar {
+        background: #fff;
+      }
+    }
+    &-seek {
+      width: 100%;
+      height: @seek-height;
+      position: absolute;
+      bottom: 0;
+      margin: 0;
+      // https://www.cnblogs.com/xiaoqiang001/p/14354616.html
+      transform: translateY(((@seek-height - @bar-height) / 2));
+      // 点击切换进度是由 seek 而不是 bar 处理的
+      cursor: pointer;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      background: transparent;
+      &:focus {
+        outline: none;
+      }
+      // 小圆点所在轨道
+      &::-webkit-slider-runnable-track {
+        width: 100%;
+        cursor: pointer;
+        -webkit-appearance: none;
+        transition: all 0.4s ease;
+        // 背景透明避免遮盖进度条
+        background-color: transparent;
+      }
+      // 小圆点的颜色和大小
+      &::-webkit-slider-thumb {
+        height: @seek-height;
+        width: @seek-height;
+        border-radius: @seek-height;
+        background: #fff;
+        cursor: pointer;
+        -webkit-appearance: none;
+      }
+      // 兼容 firefox
+      &::-moz-range-track {
+        width: 100%;
+        background: transparent;
+        cursor: pointer;
+        border: none;
+      }
+      &::-moz-range-thumb {
+        height: @seek-height;
+        width: @seek-height;
+        border-radius: @seek-height;
+        background: #fff;
+        border: none;
+        cursor: pointer;
+      }
+    }
+  }
+}
