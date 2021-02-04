@@ -16,16 +16,30 @@
     height: 100%;
     background-color: #111;
   }
+  &-icons {
+    img {
+      height: 80px;
+      width: 80px;
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      margin: auto;
+      transition: opacity 0.3s linear;
+    }
+  }
   // 播放按钮水平、竖直居中
-  &-play-icon {
-    height: 80px;
-    width: 80px;
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    margin: auto;
+  &-loading-icon {
+    animation: spin 2s linear infinite;
+    @keyframes spin {
+      0% {
+        transform: rotate(0deg);
+      }
+      100% {
+        transform: rotate(360deg);
+      }
+    }
   }
   &-controls {
     position: absolute;
