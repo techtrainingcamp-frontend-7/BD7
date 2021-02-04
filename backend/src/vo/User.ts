@@ -50,7 +50,7 @@ User.init(
       comment: '用户名',
     },
     password: {
-      type: DataTypes.TEXT(),
+      type: DataTypes.STRING(100),
       allowNull: false,
       validate: {
         notNull: {

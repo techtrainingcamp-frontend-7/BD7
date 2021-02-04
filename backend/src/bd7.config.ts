@@ -33,7 +33,6 @@ const devConfig = {
     // "https://api.hokori.online" ||
     'http://localhost/',
   // 完整URL为： nginx配置下的转发路径 `${location}`
-  baseURL: '/bd7',
   cryptoConfig: {
     // 每次分段加密的字符串最大长度（优先度高于cryptCount字段）
     onceCryptLength: 5,

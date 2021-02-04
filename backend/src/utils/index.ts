@@ -8,6 +8,9 @@ const { cryptoConfig } = config
  */
 const QUERY_METHODS = ['GET', 'DELETE']
 const BODY_METHODS = ['POST', 'PUT']
+const ROUTER_WHITE_LIST = [`user/register`, `user/login`].map(
+  (v) => `/api/${v}`,
+)
 const isDev = process.env.NODE_ENV === 'development'
 
 /**
@@ -165,7 +168,7 @@ class Restful {
   constructor(code: number, message: string, data: any = null) {
     this.code = code
     this.message = message
-    this.data = data
+    data && (this.data = data)
   }
 
   static initWithError(e: any) {
@@ -176,6 +179,7 @@ class Restful {
 export {
   QUERY_METHODS,
   BODY_METHODS,
+  ROUTER_WHITE_LIST,
   isDev,
   isDef,
   isUndef,
@@ -191,6 +195,7 @@ export {
 export default {
   QUERY_METHODS,
   BODY_METHODS,
+  ROUTER_WHITE_LIST,
   isDev,
   isDef,
   isUndef,

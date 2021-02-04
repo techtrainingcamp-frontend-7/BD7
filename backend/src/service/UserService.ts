@@ -30,20 +30,19 @@ const Register = async (user: User): Promise<Restful> => {
  * 登录
  * @param { User } user
  */
-const Login = async (user: User): Promise<Restful> => {
-  const { username, password } = user
+const Login = async (username: string, password: string): Promise<Restful> => {
   try {
     const existedUser = await Action.Retrieve('username', username)
     if (isUndef(existedUser)) {
-      return new Restful(1, '用户名不存在')
+      return new Restful(1, '账号或密码错误')
     }
     // 匹配密码
-    if (md5Crypto(password) === user.password) {
+    if (md5Crypto(password) === existedUser.password) {
       // 脱敏
-      user.password = null
-      return new Restful(0, '登陆成功', user.toJSON())
+      existedUser.password = null
+      return new Restful(0, '登陆成功', existedUser.toJSON())
     }
-    return new Restful(2, '账号或密码错误')
+    return new Restful(1, '账号或密码错误')
   } catch (e) {
     return new Restful(99, `登陆失败, ${String(e.message)}`)
   }

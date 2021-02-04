@@ -3,7 +3,7 @@ import expressJwt from 'express-jwt'
 
 import config from 'bd7.config'
 import { UserRouter, TestRouter } from '@routes'
-import { Restful } from '@utils'
+import { Restful, ROUTER_WHITE_LIST } from '@utils'
 const { cryptoConfig } = config
 
 const app = express()
@@ -16,7 +16,7 @@ app.use(
     algorithms: ['HS256'],
     requestProperty: 'auth',
   }).unless({
-    path: ['/login', '/signup', '/api/test'], // 指定路径不经过 Token 解析
+    path: ROUTER_WHITE_LIST, // 指定路径不经过 Token 解析
   }),
 )
 app.use('/api/test', TestRouter)
