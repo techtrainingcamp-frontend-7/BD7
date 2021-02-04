@@ -69,5 +69,27 @@ userRouter.post(
     next()
   }),
 )
+/**
+ * 遍历/单个查询
+ * @path /retrieve
+ * @param { string } ?account
+ */
+userRouter.get(
+  '/retrieve',
+  asyncWrapper(async (req, res, next) => {
+    const { username } = req.query
+    try {
+      if (isUndef(username)) {
+        res.status(200).json(await Service.Retrieve__All())
+      } else {
+        res.status(200).json(await Service.Retrieve(username as string))
+      }
+    } catch (e) {
+      // 进行邮件提醒
+      res.status(500).end()
+    }
+    next()
+  }),
+)
 
 export default userRouter
