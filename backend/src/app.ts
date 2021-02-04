@@ -3,7 +3,9 @@ import expressJwt from 'express-jwt'
 
 import config from 'bd7.config'
 import { UserRouter, TestRouter } from '@routes'
-import { Restful, ROUTER_WHITE_LIST } from '@utils'
+import { ROUTER_WHITE_LIST } from '@utils'
+import { errorHandler } from '@middleware'
+
 const { cryptoConfig } = config
 
 const app = express()
@@ -22,10 +24,7 @@ app.use(
 app.use('/api/test', TestRouter)
 app.use('/api/user', UserRouter)
 
-// https://liu-xin.me/2017/10/07/%E8%AE%A9Express%E6%94%AF%E6%8C%81async-await/
-app.use(function (err, req, res, next) {
-  console.error('Error caught:', err)
-  res.status(err.status).json(new Restful(err.code, err?.inner?.message))
-})
+// 包底错误处理中间件
+app.use(errorHandler)
 
 export default app
