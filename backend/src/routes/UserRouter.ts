@@ -6,7 +6,7 @@ import { UserService as Service } from '@service'
 import { User } from '@vo'
 import { Restful, checkIntegrity, isUndef, CodeDictionary } from '@utils'
 import config from 'bd7.config'
-const { cryptoConfig } = config
+const { cryptoConfig, tokenExpiredTime } = config
 
 const userRouter = Router()
 
@@ -48,17 +48,15 @@ userRouter.post(
         // 设置响应头
         res.set(
           'Authorization',
-          `Bearer ${
-            jwt.sign(
-              {
-                username,
-              },
-              cryptoConfig.password,
-              {
-                expiresIn: 60 * 60 * 12, // 12个小时 单位second
-              },
-            ) as string
-          }`,
+          `Bearer ${jwt.sign(
+            {
+              username,
+            },
+            cryptoConfig.password,
+            {
+              expiresIn: 60 * 60 * 12, // 12个小时 单位second
+            },
+          )}`,
         )
       }
       res.status(200).json(result)
