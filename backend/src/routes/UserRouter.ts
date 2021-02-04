@@ -54,7 +54,7 @@ userRouter.post(
             },
             cryptoConfig.password,
             {
-              expiresIn: 60 * 60 * 12, // 12个小时 单位second
+              expiresIn: tokenExpiredTime, // 12个小时 单位second
             },
           )}`,
         )

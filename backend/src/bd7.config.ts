@@ -61,6 +61,7 @@ const devConfig = {
     // 时区
     timezone: '+08:00',
   },
+  tokenExpiredTime: 60 * 60 * 12, // 12个小时 单位second
 }
 
 const prodConfig = {

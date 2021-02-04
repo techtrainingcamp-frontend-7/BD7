@@ -1,26 +1,14 @@
 import express from 'express'
-import expressJwt from 'express-jwt'
 
-import config from 'bd7.config'
 import { UserRouter, TestRouter } from '@routes'
-import { ROUTER_WHITE_LIST } from '@utils'
-import { errorHandler } from '@middleware'
-
-const { cryptoConfig } = config
+import { errorHandler, checkJWT, refreshJWT } from '@middleware'
 
 const app = express()
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
-app.use(
-  expressJwt({
-    secret: cryptoConfig.password,
-    algorithms: ['HS256'],
-    requestProperty: 'auth',
-  }).unless({
-    path: ROUTER_WHITE_LIST, // 指定路径不经过 Token 解析
-  }),
-)
+app.use(checkJWT)
+app.use(refreshJWT)
 app.use('/api/test', TestRouter)
 app.use('/api/user', UserRouter)
 
