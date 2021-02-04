@@ -1,18 +1,7 @@
 import { DataTypes, Model } from 'sequelize'
 import DB from 'database'
 
-interface UserAttributes {
-  id: number | null
-  username: string
-  password: string | null
-  avatar_url: string | null
-  followings_count: number
-  followers_count: number
-  createdAt: Date
-  updatedAt: Date
-}
-
-class User extends Model implements UserAttributes {
+class User extends Model {
   public id!: number | null
   public username!: string
   public password!: string | null
