@@ -6,10 +6,10 @@
   "private": false,
   "main": "/bin/www.js",
   "scripts": {
+    "compile": "ttsc && node --inspect ./build/bin/www.js",
     "serve": "cross-env NODE_ENV=production nodemon ./build/bin/www.js",
-    "dev": "cross-env NODE_ENV=development nodemon --inspect ./build/bin/www.js",
-    "build": "ttsc",
-    "build:watch": "ttsc -w"
+    "dev": "cross-env NODE_ENV=development nodemon -e ts --exec \"npm run compile\"",
+    "build": "ttsc"
   },
   "repository": {
     "type": "git",
