@@ -1,18 +1,7 @@
 import { DataTypes, Model } from 'sequelize'
-import DB from 'database'
+import sequelize from 'database'
 
-interface UserAttributes {
-  id: number | null
-  username: string
-  password: string | null
-  avatar_url: string | null
-  followings_count: number
-  followers_count: number
-  createdAt: Date
-  updatedAt: Date
-}
-
-class User extends Model implements UserAttributes {
+class User extends Model {
   public id!: number | null
   public username!: string
   public password!: string | null
@@ -50,7 +39,7 @@ User.init(
       comment: '用户名',
     },
     password: {
-      type: DataTypes.TEXT(),
+      type: DataTypes.STRING(100),
       allowNull: false,
       validate: {
         notNull: {
@@ -80,7 +69,7 @@ User.init(
     },
   },
   {
-    sequelize: DB,
+    sequelize: sequelize,
     tableName: 'user',
   },
 )

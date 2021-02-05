@@ -8,6 +8,9 @@ const { cryptoConfig } = config
  */
 const QUERY_METHODS = ['GET', 'DELETE']
 const BODY_METHODS = ['POST', 'PUT']
+const ROUTER_WHITE_LIST = [`user/register`, `user/login`, `test/`].map(
+  (v) => `/api/${v}`,
+)
 const isDev = process.env.NODE_ENV === 'development'
 
 /**
@@ -150,22 +153,28 @@ const decipherCrypto = (v: string | null, password: string) => {
   return decipher.final('utf-8')
 }
 
+enum CodeDictionary {
+  SUCCESS = 0,
+  REGISTER_ERROR__USER_EXISTED = 1,
+  LOGIN_ERROR = 2,
+  RETRIEVE_ERROR__USER_NON_EXISTED = 3,
+  PARAMS_ERROR = 98,
+  COMMON_ERROR = 99,
+  JWT_ERROR__REQUIRED = 100,
+  JWT_ERROR__EXPIRED = 101,
+}
+
 /**
  * Restful API类声明
  */
-interface Restful {
-  code: number
-  message: string
-  data?: any
-}
 class Restful {
-  code: number
+  code: CodeDictionary
   message: string
   data?: any
   constructor(code: number, message: string, data: any = null) {
     this.code = code
     this.message = message
-    this.data = data
+    data && (this.data = data)
   }
 
   static initWithError(e: any) {
@@ -176,6 +185,7 @@ class Restful {
 export {
   QUERY_METHODS,
   BODY_METHODS,
+  ROUTER_WHITE_LIST,
   isDev,
   isDef,
   isUndef,
@@ -186,11 +196,13 @@ export {
   cipherCrypto,
   decipherCrypto,
   Restful,
+  CodeDictionary,
 }
 
 export default {
   QUERY_METHODS,
   BODY_METHODS,
+  ROUTER_WHITE_LIST,
   isDev,
   isDef,
   isUndef,
@@ -201,4 +213,5 @@ export default {
   cipherCrypto,
   decipherCrypto,
   Restful,
+  CodeDictionary,
 }

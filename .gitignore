@@ -9,3 +9,4 @@ yarn-error.log
 build
 storybook-static
 .vercel
+.env

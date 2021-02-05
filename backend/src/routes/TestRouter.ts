@@ -8,7 +8,21 @@ const ROUTER = EXPRESS.Router()
 ROUTER.get('/', (_req, res, next) => {
   res
     .status(200)
-    .json(new Restful(0, 'Hello world', `Time now is ${currentTime}`))
+    .json(
+      new Restful(
+        0,
+        'Hello world(no need for token)',
+        `Time now is ${currentTime}`,
+      ),
+    )
+  next()
+})
+ROUTER.get('/token', (_req, res, next) => {
+  res
+    .status(200)
+    .json(
+      new Restful(0, 'Hello world(token needed)', `Time now is ${currentTime}`),
+    )
   next()
 })
 export default ROUTER
