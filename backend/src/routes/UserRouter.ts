@@ -50,9 +50,10 @@ userRouter.post(
           {
             username,
           },
-          cryptoConfig.password,
+          cryptoConfig.secret,
           {
-            expiresIn: tokenExpiredTime, // 12个小时 单位second
+            // 12个小时
+            expiresIn: tokenExpiredTime,
           },
         )
       }

@@ -1,5 +1,7 @@
 import { BinaryToTextEncoding } from 'crypto'
 import { Options } from 'sequelize/types'
+import dotenv from 'dotenv'
+dotenv.config()
 
 const sequelizeOptions: Options = {
   // 数据库类别
@@ -32,7 +34,6 @@ const devConfig = {
   host:
     // "https://api.hokori.online" ||
     'http://localhost/',
-  // 完整URL为： nginx配置下的转发路径 `${location}`
   cryptoConfig: {
     // 每次分段加密的字符串最大长度（优先度高于cryptCount字段）
     onceCryptLength: 5,
@@ -43,7 +44,7 @@ const devConfig = {
     // 可选值：['hex', 'Base64', ...]
     digest: 'hex' as BinaryToTextEncoding,
     // 用于cipher对称加密生成密钥的密码
-    password: 'bd7',
+    secret: process.env.ACCESS_TOKEN_SECRET as string,
   },
   dataBaseConfig: {
     // 数据库名
@@ -53,7 +54,7 @@ const devConfig = {
     user: 'bd7',
 
     // 密码
-    password: 'M4NshB5mLw5r5c83',
+    password: process.env.DATABASE_PASSWORD as string,
 
     // options
     options: sequelizeOptions,
@@ -61,7 +62,8 @@ const devConfig = {
     // 时区
     timezone: '+08:00',
   },
-  tokenExpiredTime: '12h', // 12个小时 单位second
+  // 12个小时
+  tokenExpiredTime: '12h',
 }
 
 const prodConfig = {

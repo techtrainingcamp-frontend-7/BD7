@@ -7,7 +7,7 @@
   "main": "/bin/www.js",
   "scripts": {
     "serve": "cross-env NODE_ENV=production nodemon ./build/bin/www.js",
-    "dev": "cross-env NODE_ENV=development nodemon ./build/bin/www.js",
+    "dev": "cross-env NODE_ENV=development nodemon --inspect ./build/bin/www.js",
     "build": "ttsc",
     "build:watch": "ttsc -w"
   },
@@ -29,6 +29,7 @@
     "jsonwebtoken": "^8.5.1",
     "moment": "^2.29.0",
     "mysql2": "^2.1.0",
+    "dotenv": "^8.2.0",
     "sequelize": "^6.3.5"
   },
   "devDependencies": {

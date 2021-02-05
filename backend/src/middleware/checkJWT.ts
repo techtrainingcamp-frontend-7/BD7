@@ -2,9 +2,11 @@ import expressJwt from 'express-jwt'
 import config from 'bd7.config'
 import { ROUTER_WHITE_LIST } from '@utils'
 
-const { cryptoConfig } = config
+const {
+  cryptoConfig: { secret },
+} = config
 export default expressJwt({
-  secret: cryptoConfig.password,
+  secret,
   algorithms: ['HS256'],
   requestProperty: 'auth',
 }).unless({

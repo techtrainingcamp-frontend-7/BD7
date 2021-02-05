@@ -45,5 +45,9 @@
   ],
   "regions": [
     "hkg1"
-  ]
+  ],
+  "env": {
+    "ACCESS_TOKEN_SECRET": "@bd7-jwt-secret",
+    "DATABASE_PASSWORD": "@bd7-db-password"
+  }
 }
