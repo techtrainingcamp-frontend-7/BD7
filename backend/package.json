@@ -22,7 +22,6 @@
   },
   "homepage": "https://github.com/techtrainingcamp-frontend-7/BD7#readme",
   "dependencies": {
-    "@types/jsonwebtoken": "^8.5.0",
     "async-wrapper-express-ts": "^3.1.1",
     "axios": "^0.21.0",
     "express": "~4.16.1",
@@ -35,6 +34,7 @@
   "devDependencies": {
     "@types/express": "^4.17.11",
     "@types/express-jwt": "^6.0.0",
+    "@types/jsonwebtoken": "^8.5.0",
     "@types/node": "^14.11.4",
     "@types/validator": "^13.1.0",
     "@zerollup/ts-transform-paths": "^1.7.18",

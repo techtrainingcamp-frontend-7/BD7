@@ -45,18 +45,15 @@ userRouter.post(
     try {
       const result = await Service.Login(username, password)
       if (result.code === 0) {
-        // 设置响应头
-        res.set(
-          'Authorization',
-          `Bearer ${jwt.sign(
-            {
-              username,
-            },
-            cryptoConfig.password,
-            {
-              expiresIn: tokenExpiredTime, // 12个小时 单位second
-            },
-          )}`,
+        // 设置token
+        result.data.token = jwt.sign(
+          {
+            username,
+          },
+          cryptoConfig.password,
+          {
+            expiresIn: tokenExpiredTime, // 12个小时 单位second
+          },
         )
       }
       res.status(200).json(result)

@@ -1,14 +1,21 @@
 import express from 'express'
 
 import { UserRouter, TestRouter } from '@routes'
-import { errorHandler, checkJWT, refreshJWT } from '@middleware'
+import { errorHandler, checkJWT } from '@middleware'
 
 const app = express()
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
+
+/**
+ * JWT中间件
+ */
 app.use(checkJWT)
-app.use(refreshJWT)
+
+/**
+ * 业务路由
+ */
 app.use('/api/test', TestRouter)
 app.use('/api/user', UserRouter)
 
