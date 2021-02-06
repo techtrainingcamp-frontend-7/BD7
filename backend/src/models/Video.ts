@@ -5,6 +5,8 @@ import User from './User'
 class Video extends Model {
   id!: number
   uid!: number
+  video_url!: string
+  poster_url!: string
   description!: string
   like_count!: number
   play_count!: number
@@ -28,6 +30,15 @@ Video.init(
         model: User,
         key: 'id',
       },
+    },
+    video_url: {
+      type: DataTypes.STRING(2083),
+      comment: '视频地址',
+      allowNull: false,
+    },
+    poster_url: {
+      type: DataTypes.STRING(2083),
+      comment: '视频封面地址',
     },
     description: {
       type: DataTypes.TEXT,

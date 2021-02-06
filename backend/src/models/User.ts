@@ -68,8 +68,8 @@ User.init(
       allowNull: false,
     },
     avatar_url: {
-      type: DataTypes.STRING(100),
-      comment: '头像图片路径',
+      type: DataTypes.STRING(2083),
+      comment: '头像图片地址',
     },
     followings_count: {
       type: DataTypes.INTEGER.UNSIGNED,
