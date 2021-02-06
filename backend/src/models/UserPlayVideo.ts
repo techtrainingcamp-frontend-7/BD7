@@ -1,46 +1,47 @@
 import { DataTypes, Model } from 'sequelize'
 import sequelize from 'database'
 import User from './User'
+import Video from './Video'
 
-class Following extends Model {
-  uid_from!: number
-  uid_to!: number
-  followed!: boolean
+class UserPlayVideo extends Model {
+  uid!: number
+  vid!: number
+  play_count!: number
   public readonly createdAt!: Date
   public readonly updatedAt!: Date
 }
 
-Following.init(
+UserPlayVideo.init(
   {
-    uid_from: {
+    uid: {
       type: DataTypes.INTEGER.UNSIGNED,
-      comment: 'follow 发起者',
+      comment: '用户 id',
       primaryKey: true,
       references: {
         model: User,
         key: 'id',
       },
     },
-    uid_to: {
+    vid: {
       type: DataTypes.INTEGER.UNSIGNED,
-      comment: '被 follow 的人',
+      comment: '视频 id',
       primaryKey: true,
       references: {
-        model: User,
+        model: Video,
         key: 'id',
       },
     },
-    // follow之后可以删除，将followed置为 false
-    followed: {
-      type: DataTypes.BOOLEAN,
-      comment: '是否 follow',
-      defaultValue: true,
+    play_count: {
+      type: DataTypes.INTEGER.UNSIGNED,
+      comment: '播放次数',
+      allowNull: false,
+      defaultValue: 1,
     },
   },
   {
     sequelize,
-    tableName: 'following',
+    tableName: 'user_play_video',
   },
 )
 
-export default Following
+export default UserPlayVideo

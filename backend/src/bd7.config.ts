@@ -13,6 +13,10 @@ const sequelizeOptions: Options = {
     // 字符集
     charset: 'utf8mb4',
   },
+  define: {
+    charset: 'utf8mb4',
+    collate: 'utf8mb4_general_ci',
+  },
 
   // 主机，如IP 或 'localhost'
   host: '101.201.239.229',
