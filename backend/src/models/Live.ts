@@ -5,10 +5,10 @@ import User from './User'
 class Live extends Model {
   id!: number
   uid!: number
-  description!: string
+  description?: string
   live_url!: string
   start_time!: Date
-  end_time!: Date
+  end_time?: Date
   public readonly createdAt!: Date
   public readonly updatedAt!: Date
 }

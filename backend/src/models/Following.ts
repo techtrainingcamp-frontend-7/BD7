@@ -25,6 +25,7 @@ Following.init(
         model: User,
         key: 'id',
       },
+      allowNull: false,
     },
     uid_to: {
       type: DataTypes.INTEGER.UNSIGNED,
@@ -34,11 +35,13 @@ Following.init(
         model: User,
         key: 'id',
       },
+      allowNull: false,
     },
     followed: {
       type: DataTypes.INTEGER.UNSIGNED,
       comment: '是否 follow',
       defaultValue: Followed.FOLLOWED,
+      allowNull: false,
     },
   },
   {

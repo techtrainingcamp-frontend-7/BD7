@@ -11,9 +11,9 @@ class User extends Model {
   public id!: number
   public username!: string
   public password!: string
-  public profile!: string
+  public profile?: string
   public gender!: Gender
-  public avatar_url!: string
+  public avatar_url?: string
   public followings_count!: number
   public followers_count!: number
   public readonly createdAt!: Date
@@ -61,6 +61,7 @@ User.init(
     },
     profile: {
       type: DataTypes.STRING(100),
+      comment: '用户简介',
     },
     gender: {
       type: DataTypes.INTEGER.UNSIGNED,
