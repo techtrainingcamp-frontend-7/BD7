@@ -1,5 +1,5 @@
 import { UserAction as Action } from 'action'
-import { User } from 'vo'
+import { User } from 'models'
 import { Restful, md5Crypto, isUndef, isDef, CodeDictionary } from 'utils'
 /**
  * 添加账号

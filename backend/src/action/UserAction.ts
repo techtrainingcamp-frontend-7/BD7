@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/promise-function-async */
-import { User } from 'vo'
+import { User } from 'models'
 
 /**
  * 添加用户
