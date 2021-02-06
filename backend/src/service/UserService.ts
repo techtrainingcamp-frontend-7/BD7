@@ -1,6 +1,7 @@
 import { UserAction as Action } from 'action'
 import { User } from 'models'
 import { Restful, md5Crypto, isUndef, isDef, CodeDictionary } from 'utils'
+import Omit from 'omit.js'
 /**
  * 添加账号
  * @param { User } user
@@ -18,11 +19,12 @@ const Register = async (user: User): Promise<Restful> => {
     user.password = md5Crypto(user.password)
 
     // 去除前端可能给的多余ID（自增字段）
-    user.id = null
-
-    user = await Action.Create(user)
-    user.password = null
-    return new Restful(CodeDictionary.SUCCESS, '注册成功', user.toJSON())
+    const registeredUser = await Action.Create(Omit(user, ['id']))
+    return new Restful(
+      CodeDictionary.SUCCESS,
+      '注册成功',
+      registeredUser.toJSON(),
+    )
   } catch (e) {
     return new Restful(
       CodeDictionary.COMMON_ERROR,
@@ -43,12 +45,10 @@ const Login = async (username: string, password: string): Promise<Restful> => {
     }
     // 匹配密码
     if (md5Crypto(password) === existedUser.password) {
-      // 脱敏
-      existedUser.password = null
       return new Restful(
         CodeDictionary.SUCCESS,
         '登陆成功',
-        existedUser.toJSON(),
+        Omit(existedUser, ['password']).toJSON(),
       )
     }
     return new Restful(CodeDictionary.LOGIN_ERROR, '账号或密码错误')

@@ -1,12 +1,13 @@
 /* eslint-disable @typescript-eslint/promise-function-async */
 import { User } from 'models'
+import Omit from 'omit.js'
 
 /**
  * 添加用户
  * @param { User } user
  */
-const Create = (user: User): Promise<User> => {
-  return user.save()
+const Create = async (user: Pick<User, Exclude<keyof User, 'id'>>) => {
+  return Omit(await user.save(), ['password'])
 }
 
 /**
@@ -14,11 +15,11 @@ const Create = (user: User): Promise<User> => {
  * @param { string } param
  * @param { string } value
  */
-const Retrieve = (
+const Retrieve = async (
   key: string,
   value: string | number,
 ): Promise<User | null> => {
-  return User.findOne({
+  return await User.findOne({
     where: {
       [`${key}`]: value,
     },

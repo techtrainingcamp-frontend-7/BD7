@@ -2,9 +2,9 @@ import { DataTypes, Model } from 'sequelize'
 import sequelize from 'database'
 
 class User extends Model {
-  public id!: number | null
+  public id!: number
   public username!: string
-  public password!: string | null
+  public password!: string
   public avatar_url!: string | null
   public followings_count!: number
   public followers_count!: number
@@ -69,7 +69,7 @@ User.init(
     },
   },
   {
-    sequelize: sequelize,
+    sequelize,
     tableName: 'user',
   },
 )

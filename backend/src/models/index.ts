@@ -1,4 +1,5 @@
 import User from './User'
+import Following from './Following'
 
-export { User }
-export default { User }
+export { User, Following }
+export default { User, Following }
