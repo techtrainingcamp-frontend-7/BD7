@@ -1,7 +1,7 @@
 import { createModel } from '@rematch/core'
 import { RootModel } from '@/models'
-import axios, { AxiosResponse } from 'axios'
-
+import { AxiosResponse } from 'axios'
+import { request } from '@/utils'
 export interface HomeState {
   count: number
   players: PlayerModel[]
@@ -46,7 +46,10 @@ export const demo = createModel<RootModel>()({
         demo.SET_PLAYERS(data)
       },
       async getTestAPI(): Promise<any> {
-        const res = await axios.get('/api/test')
+        const res = await request.user.login({
+          username: 'testName',
+          password: '123456',
+        })
         demo.SET_testAPTResult(res)
       },
     }
