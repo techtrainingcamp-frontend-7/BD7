@@ -2,10 +2,15 @@ import { DataTypes, Model } from 'sequelize'
 import sequelize from 'database'
 import User from './User'
 
+export enum Followed {
+  FOLLOWED = 1,
+  FOLLOW_CANCELED = 0,
+}
+
 class Following extends Model {
   uid_from!: number
   uid_to!: number
-  followed!: boolean
+  followed!: Followed
   public readonly createdAt!: Date
   public readonly updatedAt!: Date
 }
@@ -30,11 +35,10 @@ Following.init(
         key: 'id',
       },
     },
-    // follow之后可以删除，将followed置为 false
     followed: {
-      type: DataTypes.BOOLEAN,
+      type: DataTypes.INTEGER.UNSIGNED,
       comment: '是否 follow',
-      defaultValue: true,
+      defaultValue: Followed.FOLLOWED,
     },
   },
   {

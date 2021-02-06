@@ -36,7 +36,6 @@ VideoTag.init(
         key: 'id',
       },
     },
-    // 添加标签后可以删除，删除将其置为 false 即可
     linked: {
       type: DataTypes.BOOLEAN,
       comment: '视频是否有这个标签',

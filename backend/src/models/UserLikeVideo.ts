@@ -36,7 +36,6 @@ UserLikeVideo.init(
         key: 'id',
       },
     },
-    // 喜欢后可以取消，取消将其置为 false 即可
     liked: {
       type: DataTypes.INTEGER.UNSIGNED,
       comment: '是否喜欢',
