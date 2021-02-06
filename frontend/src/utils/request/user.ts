@@ -13,7 +13,7 @@ const login = async (payload: object) => {
     code,
     data: { token },
   } = res.data
-  if (!code && token) {
+  if (code === 0 && token) {
     // 存储token
     localStorage.setItem('token', token)
   }

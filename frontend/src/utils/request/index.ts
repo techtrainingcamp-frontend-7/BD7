@@ -10,9 +10,9 @@ axios.interceptors.request.use(
     }
     return config
   },
-  async (error) => {
+  (error) => {
     // 对请求错误做些什么
-    return await Promise.reject(error)
+    return error
   },
 )
 
@@ -24,9 +24,9 @@ axios.interceptors.response.use(
     // TODO: 根据响应状态码进行相应处理，如401、403重定向
     return response
   },
-  async (error) => {
+  (error) => {
     // 对响应错误做点什么
-    return await Promise.reject(error)
+    return error
   },
 )
 
