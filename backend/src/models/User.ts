@@ -13,7 +13,7 @@ class User extends Model {
   public password!: string
   public profile!: string
   public gender!: Gender
-  public avatar_url!: string | null
+  public avatar_url!: string
   public followings_count!: number
   public followers_count!: number
   public readonly createdAt!: Date

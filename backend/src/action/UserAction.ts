@@ -6,7 +6,7 @@ import Omit from 'omit.js'
  * 添加用户
  * @param { User } user
  */
-const Create = async (user: Pick<User, Exclude<keyof User, 'id'>>) => {
+const Create = async (user: Omit<User, 'id'>) => {
   return Omit(await user.save(), ['password'])
 }
 
