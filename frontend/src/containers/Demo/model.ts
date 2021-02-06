@@ -50,13 +50,7 @@ export const demo = createModel<RootModel>()({
           username: 'testName',
           password: '123456',
         })
-        const {
-          code,
-          message,
-          data,
-          data: { token },
-        } = res.data
-        console.log(code, message, data, token)
+        console.log(res.data)
         demo.SET_testAPTResult(res)
       },
     }

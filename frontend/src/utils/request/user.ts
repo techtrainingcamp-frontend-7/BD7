@@ -1,15 +1,33 @@
 import axios from 'axios'
 
-const userAPI = axios.create({
-  baseURL: '/api/user',
-})
-
-const login = async (payload: any) => {
-  return await userAPI.get('/login', {
-    params: payload,
-  })
+const baseUrl = '/api/user'
+/**
+ * payload: {
+ *  username: string,
+ *  password: string
+ * }
+ */
+const login = async (payload: object) => {
+  const res = await axios.post(`${baseUrl}/login`, payload)
+  const {
+    code,
+    data: { token },
+  } = res.data
+  if (!code && token) {
+    // 存储token
+    localStorage.setItem('token', token)
+  }
+  return res
 }
 
+const retrieve = async (username?: string) => {
+  return await axios.get(`${baseUrl}/retrieve`, {
+    params: {
+      username,
+    },
+  })
+}
 export default {
   login,
+  retrieve,
 }
