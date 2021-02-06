@@ -1,11 +1,19 @@
 import { DataTypes, Model } from 'sequelize'
 import sequelize from 'database'
 
+export enum Gender {
+  UNKNOWN = 0,
+  MALE = 1,
+  FEMALE = 2,
+}
+
 class User extends Model {
-  public id!: number | null
+  public id!: number
   public username!: string
-  public password!: string | null
-  public avatar_url!: string | null
+  public password!: string
+  public profile!: string
+  public gender!: Gender
+  public avatar_url!: string
   public followings_count!: number
   public followers_count!: number
   public readonly createdAt!: Date
@@ -51,9 +59,17 @@ User.init(
       },
       comment: '密码',
     },
-    avatar_url: {
+    profile: {
       type: DataTypes.STRING(100),
-      comment: '头像图片路径',
+    },
+    gender: {
+      type: DataTypes.INTEGER.UNSIGNED,
+      defaultValue: Gender.UNKNOWN,
+      allowNull: false,
+    },
+    avatar_url: {
+      type: DataTypes.STRING(2083),
+      comment: '头像图片地址',
     },
     followings_count: {
       type: DataTypes.INTEGER.UNSIGNED,
@@ -69,7 +85,7 @@ User.init(
     },
   },
   {
-    sequelize: sequelize,
+    sequelize,
     tableName: 'user',
   },
 )

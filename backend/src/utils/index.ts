@@ -85,11 +85,7 @@ const checkIntegrity = (obj: Object, params?: string[]): boolean => {
  * md5加密函数
  * @param { string } v 加密字段
  */
-const md5Crypto = (v: string | null): string | null => {
-  if (v === null) {
-    return v
-  }
-
+const md5Crypto = (v: string): string => {
   const { onceCryptLength, cryptCount, digest } = cryptoConfig
   const md5 = CRYPTO.createHash('md5')
   const vLength = v.length

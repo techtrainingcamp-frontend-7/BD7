@@ -3,7 +3,7 @@ import jwt from 'jsonwebtoken'
 import asyncWrapper from 'async-wrapper-express-ts'
 
 import { UserService as Service } from '@service'
-import { User } from '@vo'
+import { User } from 'models'
 import { Restful, checkIntegrity, isUndef, CodeDictionary } from '@utils'
 import config from 'bd7.config'
 const { cryptoConfig, tokenExpiredTime } = config

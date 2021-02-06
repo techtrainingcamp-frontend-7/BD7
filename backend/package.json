@@ -6,7 +6,7 @@
   "private": false,
   "main": "/bin/www.js",
   "scripts": {
-    "compile": "ttsc && node --inspect ./build/bin/www.js",
+    "compile": "ttsc; node --inspect ./build/bin/www.js",
     "serve": "cross-env NODE_ENV=production nodemon ./build/bin/www.js",
     "dev": "cross-env NODE_ENV=development nodemon -e ts --exec \"npm run compile\"",
     "build": "ttsc"
@@ -24,12 +24,13 @@
   "dependencies": {
     "async-wrapper-express-ts": "^3.1.1",
     "axios": "^0.21.0",
+    "dotenv": "^8.2.0",
     "express": "~4.16.1",
     "express-jwt": "^6.0.0",
     "jsonwebtoken": "^8.5.1",
     "moment": "^2.29.0",
     "mysql2": "^2.1.0",
-    "dotenv": "^8.2.0",
+    "omit.js": "^2.0.2",
     "sequelize": "^6.3.5"
   },
   "devDependencies": {

@@ -44,7 +44,7 @@
     // "moduleResolution": "node",            /* Specify module resolution strategy: 'node' (Node.js) or 'classic' (TypeScript pre-1.6). */
     "baseUrl": "./src" /* Base directory to resolve non-absolute module names. */,
     "paths": {
-      "@vo": ["vo"],
+      "@models": ["models"],
       "@action": ["action"],
       "@service": ["service"],
       "@utils": ["utils"],
@@ -52,7 +52,7 @@
       "@database": ["database"],
       "@middleware": ["middleware"],
 
-      "@vo/*": ["vo/*"],
+      "@models/*": ["models/*"],
       "@action/*": ["action/*"],
       "@service/*": ["service/*"],
       "@utils/*": ["utils/*"],
