@@ -20,7 +20,7 @@ axios.interceptors.request.use(
 axios.interceptors.response.use(
   function (response) {
     // 对响应数据做点什么
-    console.log(response.status)
+    // 响应状态码: response.status
     // TODO: 根据响应状态码进行相应处理，如401、403重定向
     return response
   },
