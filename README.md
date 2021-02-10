@@ -1,5 +1,7 @@
 # ByteDance techtrainingcamp-frontend-7
 
+![Build](https://github.com/techtrainingcamp-frontend-7/BD7/workflows/Build/badge.svg)
+
 ## 技术栈
 
 前后端放在一个仓库里面，使用 [lerna](https://github.com/lerna/lerna) 统一管理。你需要全局安装 lerna：
