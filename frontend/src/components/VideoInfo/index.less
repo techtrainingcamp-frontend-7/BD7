@@ -1,0 +1,54 @@
+@img-size: 40px;
+@border-size: 10px;
+
+.video-info {
+  position: absolute;
+  bottom: 10px;
+  right: 0;
+  width: 100%;
+  color: white;
+  font-size: 14px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  &-left {
+    flex-grow: 1;
+  }
+  &-username {
+    font-size: 16px;
+    font-weight: bolder;
+  }
+  &-description {
+    margin-top: 4px;
+    margin-bottom: 8px;
+  }
+  &-text {
+    color: darken(white, 10%);
+  }
+  &-tags {
+    margin-left: 10px;
+  }
+  &-right {
+    position: relative;
+  }
+  &-reference {
+    &-avatar {
+      margin-right: 5px;
+    }
+    &-img {
+      width: @img-size;
+      height: @img-size;
+      border-radius: @img-size;
+      border: @border-size solid lighten(#111, 10%);
+      animation: spin 15s linear infinite;
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+    }
+  }
+}

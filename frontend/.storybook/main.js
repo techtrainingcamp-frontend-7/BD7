@@ -3,6 +3,10 @@ const path = require('path')
 const postcssNormalize = require('postcss-normalize')
 
 module.exports = {
+  addons: [
+    '@storybook/addon-backgrounds/register',
+    '@storybook/addon-viewport'
+  ],
   "stories": [
     "../src/**/*.stories.mdx",
     "../src/**/*.stories.@(js|jsx|ts|tsx)"

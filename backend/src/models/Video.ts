@@ -10,6 +10,7 @@ class Video extends Model {
   description?: string
   like_count!: number
   play_count!: number
+  reference!: number
   public readonly createdAt!: Date
   public readonly updatedAt!: Date
 }
@@ -55,6 +56,14 @@ Video.init(
       comment: '播放数量',
       defaultValue: 0,
       allowNull: false,
+    },
+    reference: {
+      type: DataTypes.INTEGER.UNSIGNED,
+      comment: '这支视频引用的视频',
+      references: {
+        model: Video,
+        key: 'id',
+      },
     },
   },
   {
