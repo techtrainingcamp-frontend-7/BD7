@@ -10,11 +10,11 @@ const mapState = (state: RootState) => ({
 const mapDispatch = (dispatch: Dispatch) => ({
   dispatch: dispatch.demo,
 })
-export type HomeProps = ReturnType<typeof mapState> &
+export type DemoProps = ReturnType<typeof mapState> &
   ReturnType<typeof mapDispatch> &
   RouteComponentProps
 
-const Demo: FC<HomeProps> = ({ state, dispatch, history }) => {
+const Demo: FC<DemoProps> = ({ state, dispatch, history }) => {
   return (
     <div className="demo">
       <div className="demo-route">当前路由：{history.location.pathname}</div>

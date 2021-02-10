@@ -41,7 +41,7 @@ export const BDPlayer: React.FC<BDPlayerProps> = ({
     } catch (err) {
       // Auto-play was prevented
       // Show paused UI
-      console.error('播放失败', err)
+      console.log('播放失败', err)
     }
     setLoading(false)
   }
@@ -148,6 +148,8 @@ export const BDPlayer: React.FC<BDPlayerProps> = ({
             className="bd-player-progress-seek"
             max={Math.floor(videoDuration)}
             onChange={(evt) => {
+              if (!active) return
+
               setCurrentTime(videoRef.current?.currentTime || 0)
               if (videoRef.current) {
                 videoRef.current.currentTime = parseInt(

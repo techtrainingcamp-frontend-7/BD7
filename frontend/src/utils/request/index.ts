@@ -1,34 +1,32 @@
-import axios from 'axios'
+import axios, { AxiosRequestConfig } from 'axios'
+import { ACCESS_TOKEN_NAME } from '../const'
+import { Restful } from './type'
 import user from './user'
+import video from './video'
 
-axios.interceptors.request.use(
-  function (config) {
-    const token = localStorage.getItem('token')
+export const request = async <T>(config: AxiosRequestConfig) => {
+  try {
+    const token = localStorage.getItem(ACCESS_TOKEN_NAME)
+    const headers = config.headers
+    // 如果本地有token，每个请求都附带上token
     if (token) {
-      // 如果本地有token，每个请求都附带上token
-      config.headers.Authorization = `Bearer ${token}`
+      headers.Authorization = `Bearer ${token}`
     }
-    return config
-  },
-  (error) => {
-    // 对请求错误做些什么
-    return error
-  },
-)
+    const res = await axios.request<Restful<T>>({
+      ...config,
+      headers,
+    })
+    if (res.status !== 200) {
+      alert(`请求失败，状态码：${String(res.status)}`)
+    } else if (res.data.code !== 0) {
+      alert(`错误码：${String(res.data.code)}，${res.data.message}`)
+    } else {
+      return res.data.data as T
+    }
+  } catch (err) {
+    console.error('网络错误', err)
+  }
+}
 
-// 添加响应拦截器
-axios.interceptors.response.use(
-  function (response) {
-    // 对响应数据做点什么
-    // 响应状态码: response.status
-    // TODO: 根据响应状态码进行相应处理，如401、403重定向
-    return response
-  },
-  (error) => {
-    // 对响应错误做点什么
-    return error
-  },
-)
-
-export { user }
-export default { user }
+export { user, video }
+export default { user, video }

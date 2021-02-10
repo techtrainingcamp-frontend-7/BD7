@@ -1,0 +1,32 @@
+@import '@/static/less/reset.less';
+.bd7-register {
+  padding: 16px;
+  font-size: 18px;
+  position: absolute;
+  &-form {
+    input {
+      width: 100%;
+      padding: 12px 20px;
+      margin: 8px 0;
+      display: inline-block;
+      border: 1px solid #111;
+      box-sizing: border-box;
+    }
+    label {
+      color: #111;
+      font-weight: bolder;
+    }
+  }
+  &-input {
+    &-submit {
+      background-color: #111;
+      color: white;
+      font-size: 20px;
+      cursor: pointer;
+
+      &.disabled {
+        opacity: 0.2;
+      }
+    }
+  }
+}
