@@ -1,7 +1,8 @@
+import { PathName } from '@/routes'
 import { user } from '@/utils/request'
 import classNames from 'classnames'
 import React, { FC, useState } from 'react'
-import { RouteComponentProps, withRouter } from 'react-router-dom'
+import { Link, RouteComponentProps, withRouter } from 'react-router-dom'
 
 import './index.less'
 
@@ -35,7 +36,7 @@ const Login: FC<LoginProps> = ({ history }) => {
 
               if (timeout === 0) {
                 clearInterval(interval)
-                history.push('/')
+                history.push(PathName.HOME)
               }
             }, 1000)
           }
@@ -71,7 +72,7 @@ const Login: FC<LoginProps> = ({ history }) => {
         />
       </form>
       <div className="bd7-login-to-register">
-        <a href="/register">注册新账户</a>
+        <Link to="/register">注册新账户</Link>
       </div>
     </div>
   )

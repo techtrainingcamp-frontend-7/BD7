@@ -2,6 +2,7 @@ import classNames from 'classnames'
 import React, { FC, useState } from 'react'
 import { RouteComponentProps, withRouter } from 'react-router-dom'
 import { user } from '@/utils/request'
+import { PathName } from '@/routes'
 
 import './index.less'
 
@@ -37,7 +38,7 @@ const Register: FC<RegisterProps> = ({ history }) => {
 
               if (timeout === 0) {
                 clearInterval(interval)
-                history.push('/login')
+                history.push(PathName.LOGIN)
               }
             }, 1000)
           }
