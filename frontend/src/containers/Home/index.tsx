@@ -1,11 +1,10 @@
 import React, { FC } from 'react'
 import { Dispatch, RootState } from '@/store'
 import { connect } from 'react-redux'
-import { RouteComponentProps, withRouter } from 'react-router-dom'
 import { BDPlayer } from '@/components/BDPlayer'
+import { useAsync } from 'react-use'
 // https://swiperjs.com/react
 import { Swiper, SwiperSlide } from 'swiper/react'
-import { useAsync } from 'react-use'
 
 import 'swiper/swiper.less'
 import './index.less'
@@ -18,8 +17,7 @@ const mapDispatch = (dispatch: Dispatch) => ({
 })
 
 export interface HomeProps
-  extends RouteComponentProps,
-    ReturnType<typeof mapState>,
+  extends ReturnType<typeof mapState>,
     ReturnType<typeof mapDispatch> {}
 
 const Home: FC<HomeProps> = ({ state, dispatch }) => {
@@ -29,20 +27,25 @@ const Home: FC<HomeProps> = ({ state, dispatch }) => {
 
   return (
     <div className="bd7-home">
-      <Swiper direction="vertical" slidesPerView={1}>
-        {state.recommendedVideos.map((video) => {
-          return (
-            // TODO: Swiper 貌似有 bug,下次解决一下，swiper-slide 类名元素无法正常获取属性
+      {state.recommendedVideos.length && (
+        <Swiper
+          direction="vertical"
+          onSlideChange={(swiper) => {
+            console.log(swiper)
+          }}
+          slidesPerView={1}
+        >
+          {state.recommendedVideos.map((video) => (
             <SwiperSlide key={video.id}>
               {({ isActive }: { isActive: boolean }) => {
                 return <BDPlayer active={isActive} videoUrl={video.video_url} />
               }}
             </SwiperSlide>
-          )
-        })}
-      </Swiper>
+          ))}
+        </Swiper>
+      )}
     </div>
   )
 }
 
-export default connect(mapState, mapDispatch)(withRouter(Home))
+export default connect(mapState, mapDispatch)(Home)
