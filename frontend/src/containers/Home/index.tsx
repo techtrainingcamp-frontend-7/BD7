@@ -1,41 +1,37 @@
 import React, { FC } from 'react'
-import { Dispatch, RootState } from '@/store'
-import { connect } from 'react-redux'
 import { BDPlayer } from '@/components/BDPlayer'
+import { store } from '@/store'
 import { useAsync } from 'react-use'
 // https://swiperjs.com/react
 import { Swiper, SwiperSlide } from 'swiper/react'
+import { useSelector } from 'react-redux'
 
 import 'swiper/swiper.less'
 import './index.less'
 
-const mapState = (state: RootState) => ({
-  state: state.home,
-})
-const mapDispatch = (dispatch: Dispatch) => ({
-  dispatch: dispatch.home,
-})
+const Home: FC = () => {
+  // https://react-redux.js.org/next/api/hooks#useselector
+  // https://github.com/rematch/rematch/issues/758#issuecomment-628268224
+  // const state = useSelector((state: RootState) => state.home)
+  const dispatch = useSelector(() => store.dispatch.home)
+  const videosForRendering = useSelector(store.select.home.videosForRendering)
 
-export interface HomeProps
-  extends ReturnType<typeof mapState>,
-    ReturnType<typeof mapDispatch> {}
-
-const Home: FC<HomeProps> = ({ state, dispatch }) => {
   useAsync(async () => {
     await dispatch.getRecommendedVideos()
   }, [])
 
   return (
     <div className="bd7-home">
-      {state.recommendedVideos.length && (
+      {videosForRendering.length && (
         <Swiper
           direction="vertical"
-          onSlideChange={(swiper) => {
-            console.log(swiper)
+          onActiveIndexChange={(swiper) => {
+            dispatch.setActiveIndex(swiper.activeIndex)
+            swiper.update()
           }}
           slidesPerView={1}
         >
-          {state.recommendedVideos.map((video) => (
+          {videosForRendering.map((video) => (
             <SwiperSlide key={video.id}>
               {({ isActive }: { isActive: boolean }) => {
                 return <BDPlayer active={isActive} videoUrl={video.video_url} />
@@ -48,4 +44,4 @@ const Home: FC<HomeProps> = ({ state, dispatch }) => {
   )
 }
 
-export default connect(mapState, mapDispatch)(Home)
+export default Home

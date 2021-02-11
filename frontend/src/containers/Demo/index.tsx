@@ -1,13 +1,13 @@
 import React, { FC } from 'react'
 import { connect } from 'react-redux'
 import { RouteComponentProps, withRouter } from 'react-router-dom'
-import { Dispatch, RootState } from '@/store'
+import { RootDispatch, RootState } from '@/store'
 import './index.less'
 
 const mapState = (state: RootState) => ({
   state: state.demo,
 })
-const mapDispatch = (dispatch: Dispatch) => ({
+const mapDispatch = (dispatch: RootDispatch) => ({
   dispatch: dispatch.demo,
 })
 export type DemoProps = ReturnType<typeof mapState> &
