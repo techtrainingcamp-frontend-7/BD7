@@ -29,20 +29,14 @@ const Home: FC<HomeProps> = ({ state, dispatch }) => {
 
   return (
     <div className="bd7-home">
-      <Swiper
-        direction="vertical"
-        onSlideChange={(swiper) => {
-          dispatch.setActiveIndex(swiper.activeIndex)
-        }}
-        slidesPerView={1}
-      >
+      <Swiper direction="vertical" slidesPerView={1}>
         {state.recommendedVideos.map((video) => {
           return (
             // TODO: Swiper 貌似有 bug,下次解决一下，swiper-slide 类名元素无法正常获取属性
             <SwiperSlide key={video.id}>
-              {({ isActive }: { isActive: boolean }) => (
-                <BDPlayer active={isActive} videoUrl={video.video_url} />
-              )}
+              {({ isActive }: { isActive: boolean }) => {
+                return <BDPlayer active={isActive} videoUrl={video.video_url} />
+              }}
             </SwiperSlide>
           )
         })}

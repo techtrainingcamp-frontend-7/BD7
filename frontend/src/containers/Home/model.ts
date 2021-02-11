@@ -3,12 +3,10 @@ import { RootModel } from '@/models'
 import { Video, fetchRecommendedVideos } from '@/utils/request/video'
 
 export interface HomeState {
-  activeIndex: number
   recommendedVideos: Video[]
 }
 
 export const defaultHomeState: HomeState = {
-  activeIndex: 0,
   recommendedVideos: [],
 }
 
@@ -20,13 +18,6 @@ export const home = createModel<RootModel>()({
       recommendedVideos: HomeState['recommendedVideos'],
     ) => {
       state.recommendedVideos = recommendedVideos
-      return state
-    },
-    setActiveIndex: (
-      state: HomeState,
-      activeIndex: HomeState['activeIndex'],
-    ) => {
-      state.activeIndex = activeIndex
       return state
     },
   },
