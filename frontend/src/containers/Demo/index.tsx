@@ -1,20 +1,20 @@
 import React, { FC } from 'react'
 import { connect } from 'react-redux'
 import { RouteComponentProps, withRouter } from 'react-router-dom'
-import { Dispatch, RootState } from '@/store'
+import { RootDispatch, RootState } from '@/store'
 import './index.less'
 
 const mapState = (state: RootState) => ({
   state: state.demo,
 })
-const mapDispatch = (dispatch: Dispatch) => ({
+const mapDispatch = (dispatch: RootDispatch) => ({
   dispatch: dispatch.demo,
 })
-export type HomeProps = ReturnType<typeof mapState> &
+export type DemoProps = ReturnType<typeof mapState> &
   ReturnType<typeof mapDispatch> &
   RouteComponentProps
 
-const Demo: FC<HomeProps> = ({ state, dispatch, history }) => {
+const Demo: FC<DemoProps> = ({ state, dispatch, history }) => {
   return (
     <div className="demo">
       <div className="demo-route">当前路由：{history.location.pathname}</div>

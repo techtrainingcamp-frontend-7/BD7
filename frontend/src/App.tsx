@@ -1,6 +1,7 @@
 import React from 'react'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import { RouteConfig, routes } from './routes'
+import { Tabs } from './tabs'
 
 const App = (): JSX.Element => {
   return (
@@ -11,9 +12,10 @@ const App = (): JSX.Element => {
       <div className="App">
         <Switch>
           {routes.map((route, i) => (
-            <RouteWithSubRoutes key={i} {...route} />
+            <RouteWithSubRoutes key={route.path} {...route} />
           ))}
         </Switch>
+        <Tabs />
       </div>
     </Router>
   )
@@ -25,9 +27,9 @@ const App = (): JSX.Element => {
 const RouteWithSubRoutes = (route: RouteConfig): JSX.Element => {
   return (
     <Route
+      {...route.routeProps}
       path={route.path}
       render={(props: any) => (
-        // pass the sub-routes down to keep nesting
         <route.component {...props} routes={route.routes} />
       )}
     />

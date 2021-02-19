@@ -1,35 +1,32 @@
 import { createModel } from '@rematch/core'
 import { RootModel } from '@/models'
-import { AxiosResponse } from 'axios'
 import { request } from '@/utils'
-export interface HomeState {
+import { LoggedInUser } from '@/utils/request/user'
+export interface DemoState {
   count: number
   players: PlayerModel[]
   testAPTResult: any
 }
 
-export const defaultHomeState: HomeState = {
+export const defaultDemoState: DemoState = {
   count: 0,
   players: [],
   testAPTResult: null,
 }
 
 export const demo = createModel<RootModel>()({
-  state: defaultHomeState,
+  state: defaultDemoState,
   reducers: {
     // 直接修改 state 的 demo
-    SET_COUNT: (state: HomeState, newCount: number) => {
+    SET_COUNT: (state: DemoState, newCount: number) => {
       state.count = newCount
       return state
     },
-    SET_PLAYERS: (state: HomeState, players: PlayerModel[]) => {
+    SET_PLAYERS: (state: DemoState, players: PlayerModel[]) => {
       state.players = players
       return state
     },
-    SET_testAPTResult: (
-      state: HomeState,
-      testAPTResult: AxiosResponse<any>,
-    ) => {
+    SET_testAPTResult: (state: DemoState, testAPTResult: LoggedInUser) => {
       state.testAPTResult = testAPTResult
       return state
     },
@@ -50,7 +47,7 @@ export const demo = createModel<RootModel>()({
           username: 'testName',
           password: '123456',
         })
-        demo.SET_testAPTResult(res)
+        if (res) demo.SET_testAPTResult(res)
       },
     }
   },

@@ -8,7 +8,7 @@ export enum Gender {
 }
 
 class User extends Model {
-  public id!: number
+  public id!: number | null
   public username!: string
   public password!: string
   public profile?: string

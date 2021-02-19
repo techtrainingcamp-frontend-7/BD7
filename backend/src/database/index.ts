@@ -11,8 +11,8 @@ const sequelize = new Sequelize(database, user, password, {
 })
 
 const init = async () => {
-  await sequelize.sync({ alter: isDev })
-  console.log('All models were synchronized successfully.')
+  // await sequelize.sync({ alter: isDev })
+  // console.log('All models were synchronized successfully.')
 }
 export { init }
 export default sequelize

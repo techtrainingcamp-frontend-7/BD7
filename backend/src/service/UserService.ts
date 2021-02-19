@@ -19,11 +19,12 @@ const Register = async (user: User): Promise<Restful> => {
     user.password = md5Crypto(user.password)
 
     // 去除前端可能给的多余ID（自增字段）
-    const registeredUser = await Action.Create(Omit(user, ['id']))
+    user.id = null
+    const registeredUser = await Action.Create(user)
     return new Restful(
       CodeDictionary.SUCCESS,
       '注册成功',
-      registeredUser.toJSON(),
+      Omit(registeredUser.toJSON() as any, ['password']),
     )
   } catch (e) {
     return new Restful(
@@ -48,7 +49,7 @@ const Login = async (username: string, password: string): Promise<Restful> => {
       return new Restful(
         CodeDictionary.SUCCESS,
         '登陆成功',
-        Omit(existedUser, ['password']).toJSON(),
+        Omit(existedUser.toJSON() as any, ['password']),
       )
     }
     return new Restful(CodeDictionary.LOGIN_ERROR, '账号或密码错误')
