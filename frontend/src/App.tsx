@@ -1,7 +1,27 @@
-import React from 'react'
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
-import { RouteConfig, routes } from './routes'
+import React, { Fragment } from 'react'
+import { connect } from 'react-redux'
+import {
+  BrowserRouter as Router,
+  Redirect,
+  Route,
+  Switch,
+} from 'react-router-dom'
+import { PathName, RouteConfig, routes } from './routes'
 import { Tabs } from './tabs'
+import { RootDispatch, RootState } from '@/store'
+import './boot'
+import {
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogContentText,
+  Portal,
+  Button,
+  IconButton,
+  DialogActions,
+  Snackbar,
+} from '@material-ui/core'
+import CloseIcon from '@material-ui/icons/Close'
 
 const App = (): JSX.Element => {
   return (
@@ -24,16 +44,105 @@ const App = (): JSX.Element => {
 // A special wrapper for <Route> that knows how to
 // handle "sub"-routes by passing them in a `routes`
 // prop to the component it renders.
-const RouteWithSubRoutes = (route: RouteConfig): JSX.Element => {
-  return (
-    <Route
-      {...route.routeProps}
-      path={route.path}
-      render={(props: any) => (
-        <route.component {...props} routes={route.routes} />
-      )}
-    />
-  )
-}
+const mapState = (state: RootState) => ({
+  state: state,
+})
+const mapDispatch = (dispatch: RootDispatch) => ({
+  dispatch: dispatch,
+})
 
+/**
+ * 路由守卫
+ */
+const RouteWithSubRoutes = connect(
+  mapState,
+  mapDispatch,
+)(
+  (
+    route: RouteConfig &
+      ReturnType<typeof mapState> &
+      ReturnType<typeof mapDispatch>,
+  ): JSX.Element => {
+    console.log('guards')
+    const { state, path, dispatch } = route
+    console.log(state.user)
+    if (path === PathName.LOGIN && state.login.logStatus) {
+      console.log('guards redirect go to /user')
+      return <Redirect to={PathName.USER} />
+    }
+    if (
+      path === PathName.USER &&
+      (!state.login.logStatus || !state.user.userInfo)
+    ) {
+      console.log('guards redirect go to /login')
+      return <Redirect to={PathName.LOGIN} />
+    }
+    const handleDialogClose = () => {
+      dispatch.common.SET_DIALOGSTATUS(false)
+    }
+    const handleSnackClose = () => {
+      dispatch.common.SET_SNACKSTATUS(false)
+    }
+    const root = document.querySelector('#root')
+    return (
+      <Fragment>
+        <Route
+          {...route.routeProps}
+          path={route.path}
+          render={(props: any) => (
+            <route.component {...props} routes={route.routes} />
+          )}
+        />
+        <Portal container={root}>
+          <Dialog
+            className="global__dialog"
+            onClick={handleDialogClose}
+            onClose={handleDialogClose}
+            open={state.common.dialogStatus}
+          >
+            <DialogTitle>{state.common.dialogTitle}</DialogTitle>
+            <DialogContent>
+              <DialogContentText>
+                {state.common.dialogContent}
+              </DialogContentText>
+              <DialogActions>
+                <Button
+                  autoFocus
+                  color="primary"
+                  onClick={handleDialogClose}
+                  variant="contained"
+                >
+                  确定
+                </Button>
+              </DialogActions>
+            </DialogContent>
+          </Dialog>
+
+          <Snackbar
+            action={
+              <Fragment>
+                <IconButton
+                  aria-label="close"
+                  color="inherit"
+                  onClick={handleSnackClose}
+                  size="small"
+                >
+                  <CloseIcon fontSize="small" />
+                </IconButton>
+              </Fragment>
+            }
+            anchorOrigin={{
+              vertical: 'bottom',
+              horizontal: 'left',
+            }}
+            autoHideDuration={3000}
+            message={state.common.snackContent}
+            onClose={handleSnackClose}
+            open={state.common.snackStatus}
+          />
+        </Portal>
+      </Fragment>
+    )
+  },
+)
 export default App

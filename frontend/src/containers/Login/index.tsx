@@ -1,23 +1,33 @@
-import { PathName } from '@/routes'
 import { user } from '@/utils/request'
-import classNames from 'classnames'
+import { RootDispatch, RootState, store } from '@/store'
+
 import React, { FC, useState } from 'react'
+import { connect } from 'react-redux'
 import { Link, RouteComponentProps, withRouter } from 'react-router-dom'
+import { Typography, TextField, Button } from '@material-ui/core'
 
 import './index.less'
+const globalDispatch = store.dispatch
 
-export interface LoginProps extends RouteComponentProps {}
+const mapState = (state: RootState) => ({
+  state: state.login,
+})
+const mapDispatch = (dispatch: RootDispatch) => ({
+  dispatch: dispatch.login,
+})
+export type LoginProps = ReturnType<typeof mapState> &
+  ReturnType<typeof mapDispatch> &
+  RouteComponentProps
 
-let timeout = 3
-
-const Login: FC<LoginProps> = ({ history }) => {
+const Login: FC<LoginProps> = ({ dispatch }) => {
   const [username, setUserName] = useState('')
   const [password, setPassword] = useState('')
   const [loggingIn, setLoggingIn] = useState(false)
-
   return (
     <div className="bd7-login">
-      <h2>登陆我的账户</h2>
+      <Typography className="bd7-login-title" variant="h5">
+        登陆我的账户
+      </Typography>
       <form
         className="bd7-login-form"
         onSubmit={async (e) => {
@@ -30,52 +40,67 @@ const Login: FC<LoginProps> = ({ history }) => {
             password,
           })
           if (registeredUser?.username === username) {
-            alert(`登陆成功，点击确定后将在 ${timeout} 时间内重定向到主页...`)
-            const interval = setInterval(() => {
-              timeout--
-
-              if (timeout === 0) {
-                clearInterval(interval)
-                history.push(PathName.HOME)
-              }
-            }, 1000)
+            dispatch.SET_LOGSTATUS(true)
+            globalDispatch.common.SET_SNACKSTATUS(true)
+            globalDispatch.common.SET_SNACKCONTENT('登陆成功')
+            globalDispatch.user.SET_USERINFO({
+              username,
+            })
+            return
           }
           setLoggingIn(false)
         }}
       >
-        <label htmlFor="username">用户名</label>
-        <input
+        <TextField
           className="bd7-login-input-username"
+          label="用户名"
           name="username"
           onChange={(e) => {
             setUserName(e.target.value)
           }}
+          size="small"
           type="text"
           value={username}
         />
-        <label htmlFor="password">密码</label>
-        <input
+        <TextField
           className="bd7-login-input-password"
+          label="密码"
           name="password"
           onChange={(e) => {
             setPassword(e.target.value)
           }}
+          size="small"
           type="password"
           value={password}
         />
+
+        <label
+          className="bd7-login-input-submit-button"
+          htmlFor="bd7-login-input-submit"
+        >
+          <Button
+            color="primary"
+            component="span"
+            disabled={!username || !password || loggingIn}
+            variant="contained"
+          >
+            登陆
+          </Button>
+        </label>
         <input
-          className={classNames('bd7-login-input-submit', {
-            disabled: !username || !password || loggingIn,
-          })}
+          className="bd7-login-input-submit"
+          id="bd7-login-input-submit"
           type="submit"
           value="登陆"
         />
       </form>
       <div className="bd7-login-to-register">
-        <Link to="/register">注册新账户</Link>
+        <Button variant="outlined">
+          <Link to="/register">注册新账户</Link>
+        </Button>
       </div>
     </div>
   )
 }
 
-export default withRouter(Login)
+export default connect(mapState, mapDispatch)(withRouter(Login))

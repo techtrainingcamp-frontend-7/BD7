@@ -1,23 +1,33 @@
-import classNames from 'classnames'
 import React, { FC, useState } from 'react'
 import { RouteComponentProps, withRouter } from 'react-router-dom'
+import { Typography, TextField, Button, IconButton } from '@material-ui/core'
+import { store } from '@/store'
+import NavigateBeforeIcon from '@material-ui/icons/NavigateBefore'
 import { user } from '@/utils/request'
 import { PathName } from '@/routes'
 
 import './index.less'
+const { dispatch } = store
 
 export interface RegisterProps extends RouteComponentProps {}
-
-let timeout = 3
 
 const Register: FC<RegisterProps> = ({ history }) => {
   const [username, setUserName] = useState('')
   const [password, setPassword] = useState('')
   const [registering, setRegistering] = useState(false)
-
+  const handleBackward = () => {
+    history.goBack()
+  }
   return (
     <div className="bd7-register">
-      <h2>注册新账户</h2>
+      <div className="bd7-register-backward">
+        <IconButton aria-label="back" onClick={handleBackward}>
+          <NavigateBeforeIcon />
+        </IconButton>
+      </div>
+      <Typography className="bd7-login-title" variant="h5">
+        注册账号
+      </Typography>
       <form
         className="bd7-register-form"
         onSubmit={async (e) => {
@@ -30,45 +40,52 @@ const Register: FC<RegisterProps> = ({ history }) => {
             password,
           })
           if (registeredUser?.username === username) {
-            alert(
-              `注册成功，点击确定后将在 ${timeout} 时间内重定向到登录页面...`,
-            )
-            const interval = setInterval(() => {
-              timeout--
-
-              if (timeout === 0) {
-                clearInterval(interval)
-                history.push(PathName.LOGIN)
-              }
-            }, 1000)
+            history.push(PathName.LOGIN)
+            dispatch.common.SET_SNACKSTATUS(true)
+            dispatch.common.SET_SNACKCONTENT('注册成功, 跳转到登陆页面')
           }
           setRegistering(false)
         }}
       >
-        <label htmlFor="username">用户名</label>
-        <input
-          className="bd7-register-input-username"
+        <TextField
+          className="bd7-login-input-username"
+          label="用户名"
           name="username"
           onChange={(e) => {
             setUserName(e.target.value)
           }}
+          size="small"
           type="text"
           value={username}
         />
-        <label htmlFor="password">密码</label>
-        <input
-          className="bd7-register-input-password"
+        <TextField
+          className="bd7-login-input-password"
+          label="密码"
           name="password"
           onChange={(e) => {
             setPassword(e.target.value)
           }}
+          size="small"
           type="password"
           value={password}
         />
+
+        <label
+          className="bd7-register-input-submit-button"
+          htmlFor="bd7-register-input-submit"
+        >
+          <Button
+            color="primary"
+            component="span"
+            disabled={!username || !password || registering}
+            variant="contained"
+          >
+            注册
+          </Button>
+        </label>
         <input
-          className={classNames('bd7-register-input-submit', {
-            disabled: !username || !password || registering,
-          })}
+          className="bd7-register-input-submit"
+          id="bd7-register-input-submit"
           type="submit"
           value="注册"
         />

@@ -1,17 +1,28 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import './index.less'
+import 'fontsource-roboto'
 import App from './App'
 import reportWebVitals from './reportWebVitals'
 import { Provider } from 'react-redux'
 import { store } from './store'
-
+import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles'
+import CssBaseline from '@material-ui/core/CssBaseline'
+const theme = createMuiTheme({
+  palette: {
+    type: 'dark',
+    primary: {
+      main: '#ffffff',
+    },
+  },
+})
 ReactDOM.render(
-  <React.StrictMode>
-    <Provider store={store}>
+  <Provider store={store}>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
       <App />
-    </Provider>
-  </React.StrictMode>,
+    </ThemeProvider>
+  </Provider>,
   document.getElementById('root'),
 )
 

@@ -3,8 +3,10 @@ import Demo from './containers/Demo'
 import Home from './containers/Home'
 import Login from './containers/Login'
 import Register from './containers/Register'
+import User from './containers/User'
 
 export enum PathName {
+  USER = '/user',
   LOGIN = '/login',
   REGISTER = '/register',
   DEMO = '/demo',
@@ -20,6 +22,10 @@ export const routes: RouteConfig[] = [
   {
     path: PathName.REGISTER,
     component: Register,
+  },
+  {
+    path: PathName.USER,
+    component: User,
   },
   {
     path: PathName.DEMO,

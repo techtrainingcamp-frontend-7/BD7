@@ -2,6 +2,7 @@ import React from 'react'
 import classNames from 'classnames'
 import { PathName } from './routes'
 import { useHistory, useLocation } from 'react-router-dom'
+import { Button, ButtonGroup } from '@material-ui/core'
 
 /* Tab ID */
 export enum TabType {
@@ -19,6 +20,7 @@ export const tabRoutes = {
 export const path2Tab: { [key in PathName]: TabType } = {
   [PathName.LOGIN]: TabType.ME,
   [PathName.REGISTER]: TabType.ME,
+  [PathName.USER]: TabType.ME,
   [PathName.DEMO]: TabType.ME,
   [PathName.HOME]: TabType.HOME,
 }
@@ -33,20 +35,32 @@ export const Tabs: React.FC = () => {
   const history = useHistory()
   const location = useLocation()
   return (
-    <div className="App-tabs">
+    // <div className="App-tabs">
+    <ButtonGroup
+      aria-label="outlined primary button group"
+      className="App-tabs"
+      color="default"
+      disableElevation
+    >
       {Object.keys(tabNames).map((id) => (
-        <div
-          className={classNames(`App-tabs-${id}`, {
+        <Button
+          className={classNames(`App-tabs-items App-tabs-${id}`, {
             selected: path2Tab[location.pathname as PathName] === id,
           })}
           key={id}
           onClick={() => {
             history.push(tabRoutes[id as TabType])
           }}
+          variant={
+            path2Tab[location.pathname as PathName] === id
+              ? 'contained'
+              : 'outlined'
+          }
         >
           {tabNames[id as TabType]}
-        </div>
+        </Button>
       ))}
-    </div>
+      {/* </div> */}
+    </ButtonGroup>
   )
 }
