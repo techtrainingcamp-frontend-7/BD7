@@ -1,4 +1,5 @@
 import { RouteProps } from 'react-router-dom'
+import Admin from './containers/Admin'
 import Demo from './containers/Demo'
 import Home from './containers/Home'
 import Login from './containers/Login'
@@ -11,6 +12,7 @@ export enum PathName {
   REGISTER = '/register',
   DEMO = '/demo',
   HOME = '/',
+  ADMIN_ROOT = '/admin',
 }
 
 /* 集中存放所有路由配置 */
@@ -30,6 +32,13 @@ export const routes: RouteConfig[] = [
   {
     path: PathName.DEMO,
     component: Demo,
+  },
+  {
+    path: PathName.ADMIN_ROOT,
+    component: Admin,
+    routeProps: {
+      exact: true,
+    },
   },
   {
     path: PathName.HOME,
