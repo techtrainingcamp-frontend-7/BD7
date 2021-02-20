@@ -98,9 +98,35 @@ const Retrieve__All = async (): Promise<Restful> => {
   }
 }
 
+/**
+ * 编辑用户
+ */
+const Edit = async (user: User): Promise<Restful> => {
+  try {
+    const existedUser = await Action.Retrieve('username', user.username)
+    if (existedUser === null || existedUser === undefined) {
+      return new Restful(1, '账号不存在')
+    }
+
+    const newUser = await Action.Update(existedUser, user)
+
+    return new Restful(
+      CodeDictionary.SUCCESS,
+      '编辑成功',
+      Omit(newUser.toJSON() as any, ['password']),
+    )
+  } catch (e) {
+    return new Restful(
+      CodeDictionary.COMMON_ERROR,
+      `查询失败, ${String(e.message)}`,
+    )
+  }
+}
+
 export default {
   Register,
   Login,
   Retrieve,
   Retrieve__All,
+  Edit,
 }
