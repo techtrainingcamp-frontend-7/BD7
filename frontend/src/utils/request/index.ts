@@ -4,14 +4,16 @@ import { ACCESS_TOKEN_NAME } from '../const'
 import { Restful } from './type'
 import user from './user'
 import video from './video'
+import upload from './upload'
 
+const whiteList = [/^https:\/\/v0.api.upyun.com\//]
 export const request = async <T>(config: AxiosRequestConfig) => {
   const { dispatch } = store
   try {
     const token = localStorage.getItem(ACCESS_TOKEN_NAME)
     const headers = config.headers || {}
-    // 如果本地有token，每个请求都附带上token
-    if (token) {
+    // 如果本地有token，每个非白名单请求都附带上token
+    if (token && whiteList.every((reg) => !reg.test(config.url as string))) {
       headers.Authorization = `Bearer ${token}`
     }
     const res = await axios.request<Restful<T>>({
@@ -43,5 +45,5 @@ export const request = async <T>(config: AxiosRequestConfig) => {
   }
 }
 
-export { user, video }
-export default { user, video }
+export { user, video, upload }
+export default { user, video, upload }

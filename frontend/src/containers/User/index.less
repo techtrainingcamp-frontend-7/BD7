@@ -2,21 +2,52 @@
   width: 100%;
   height: 0;
   flex-grow: 1;
+  &__title {
+    margin: 20px 0;
+    text-align: center;
+  }
   &__banner {
     display: flex;
-    padding: 15% 5% 8% 5%;
-    height: 18vw;
+    padding: 5%;
+    justify-content: space-around;
+    align-items: center;
     box-sizing: content-box;
-    &__avatar {
-      height: 100%;
-      padding: 0 10vw 0 5vw;
-      flex: 1 0 18vw;
-    }
-    &__editWrapper {
+    &__left {
       display: flex;
+      flex-direction: column;
       align-items: center;
-      height: 100%;
-      flex: 1 1 100vw;
+      &__avatar {
+        height: 60px;
+        width: 60px;
+        min-height: 60px;
+        min-width: 60px;
+        padding: 1px;
+        border: 1px solid #ffffff;
+        border-radius: 50%;
+      }
+      &__info {
+        display: flex;
+        align-items: center;
+        margin-top: 10px;
+        &__username {
+          max-width: 80px;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+        &__gender {
+          margin-left: 10px;
+        }
+      }
+    }
+    &__right {
+      display: flex;
+      align-self: stretch;
+      flex-direction: column;
+      justify-content: center;
     }
   }
+}
+
+#bd7-user__banner__left__avatar-upload {
+  display: none;
 }
