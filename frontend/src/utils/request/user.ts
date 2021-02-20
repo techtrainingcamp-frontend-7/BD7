@@ -45,7 +45,7 @@ const login = async (user: Partial<User>) => {
   return loggedInUser
 }
 
-const retrieve = async (username?: string) => {
+export const retrieve = async (username: string) => {
   return await request<User>({
     method: 'GET',
     url: `${baseUrl}/retrieve`,
@@ -54,8 +54,14 @@ const retrieve = async (username?: string) => {
     },
   })
 }
+export const retrieveAll = async () => {
+  return await request<User[]>({
+    method: 'GET',
+    url: `${baseUrl}/retrieve`,
+  })
+}
 
-const register = async (user: Partial<User>) => {
+export const register = async (user: Partial<User>) => {
   return await request<User>({
     method: 'POST',
     url: `${baseUrl}/register`,
@@ -66,5 +72,6 @@ const register = async (user: Partial<User>) => {
 export default {
   login,
   retrieve,
+  retrieveAll,
   register,
 }
