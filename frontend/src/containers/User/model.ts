@@ -54,6 +54,21 @@ export const user = createModel<RootModel>()({
             store.dispatch.common.SET_DIALOGCONTENT(String(e))
           })
       },
+      async uploadImage(data: object, state) {
+        console.log(data)
+        const { fileName, formData } = data as any
+
+        // 请求Authorization和Policy
+        const res = await request.upload.getAuthorizationAndPolicy(
+          fileName,
+          0,
+          {},
+        )
+        if (!res) return
+        const { url, payload } = res
+        const uploadRes = await request.upload.upload(formData, payload, url)
+        console.log(uploadRes)
+      },
     }
   },
 })

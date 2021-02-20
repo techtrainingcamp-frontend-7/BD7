@@ -63,18 +63,16 @@ const RouteWithSubRoutes = connect(
       ReturnType<typeof mapState> &
       ReturnType<typeof mapDispatch>,
   ): JSX.Element => {
-    console.log('guards')
     const { state, path, dispatch } = route
-    console.log(state.user)
     if (path === PathName.LOGIN && state.login.logStatus) {
-      console.log('guards redirect go to /user')
       return <Redirect to={PathName.USER} />
     }
     if (
       path === PathName.USER &&
       (!state.login.logStatus || !state.user.userInfo)
     ) {
-      console.log('guards redirect go to /login')
+      dispatch.common.SET_SNACKSTATUS(true)
+      dispatch.common.SET_SNACKCONTENT('登陆失效，请重新登陆')
       return <Redirect to={PathName.LOGIN} />
     }
     const handleDialogClose = () => {

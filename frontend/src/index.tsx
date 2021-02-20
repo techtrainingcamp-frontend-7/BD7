@@ -8,6 +8,7 @@ import { Provider } from 'react-redux'
 import { store } from './store'
 import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles'
 import CssBaseline from '@material-ui/core/CssBaseline'
+
 const theme = createMuiTheme({
   palette: {
     text: {

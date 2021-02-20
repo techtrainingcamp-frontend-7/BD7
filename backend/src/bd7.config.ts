@@ -66,6 +66,14 @@ const devConfig = {
     // 时区
     timezone: '+08:00',
   },
+  upyunConfig: {
+    operator: process.env.UPYUN_OPERATOR as string,
+    secret: process.env.UPYUN_SECRET as string,
+    bucket: process.env.UPYUN_BUCKET as string,
+    domainName: process.env.UPYUN_DOMAINNAME as string,
+    imgPath: 'bd7/image/',
+    videoPath: 'bd7/video/',
+  },
   // 12个小时
   tokenExpiredTime: '12h',
 }
