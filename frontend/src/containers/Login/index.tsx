@@ -1,5 +1,5 @@
 import { user } from '@/utils/request'
-import { RootDispatch, RootState, store } from '@/store'
+import { RootDispatch, RootState } from '@/store'
 
 import React, { FC, useState } from 'react'
 import { connect } from 'react-redux'
@@ -8,18 +8,18 @@ import { Typography, TextField, Button } from '@material-ui/core'
 
 import './index.less'
 
-const globalDispatch = store.dispatch
 const mapState = (state: RootState) => ({
   state: state.login,
 })
 const mapDispatch = (dispatch: RootDispatch) => ({
   dispatch: dispatch.login,
+  commonDispatch: dispatch.common,
 })
 export type LoginProps = ReturnType<typeof mapState> &
   ReturnType<typeof mapDispatch> &
   RouteComponentProps
 
-const Login: FC<LoginProps> = ({ dispatch }) => {
+const Login: FC<LoginProps> = ({ dispatch, commonDispatch }) => {
   const [username, setUserName] = useState('')
   const [password, setPassword] = useState('')
   const [loggingIn, setLoggingIn] = useState(false)
@@ -40,12 +40,9 @@ const Login: FC<LoginProps> = ({ dispatch }) => {
             password,
           })
           if (registeredUser?.username === username) {
-            dispatch.SET_LOGSTATUS(true)
-            globalDispatch.common.SET_SNACKSTATUS(true)
-            globalDispatch.common.SET_SNACKCONTENT('登陆成功')
-            globalDispatch.user.SET_USERINFO({
-              username,
-            })
+            commonDispatch.SET_USERINFO(registeredUser)
+            commonDispatch.SET_SNACKSTATUS(true)
+            commonDispatch.SET_SNACKCONTENT('登陆成功')
             return
           }
           setLoggingIn(false)

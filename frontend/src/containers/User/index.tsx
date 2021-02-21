@@ -17,10 +17,10 @@ import {
   TextField,
 } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
-
-import './index.less'
 import { UPYUN_URL } from '@/utils/const'
 import { request } from '@/utils'
+
+import './index.less'
 
 const globalDispatch = store.dispatch
 const useStyles = makeStyles((theme) => ({
@@ -35,9 +35,11 @@ const useStyles = makeStyles((theme) => ({
 }))
 const mapState = (state: RootState) => ({
   state: state.user,
+  commonState: state.common,
 })
 const mapDispatch = (dispatch: RootDispatch) => ({
   dispatch: dispatch.user,
+  commonDispatch: dispatch.common,
 })
 export type UserProps = ReturnType<typeof mapState> &
   ReturnType<typeof mapDispatch> &
@@ -48,7 +50,12 @@ export enum GenderCN {
   '男' = 1,
   '女' = 2,
 }
-const User: FC<UserProps> = ({ state, dispatch, history }) => {
+const User: FC<UserProps> = ({
+  state,
+  dispatch,
+  commonState,
+  commonDispatch,
+}) => {
   useEffect(() => {
     setTimeout(() => {
       dispatch.retrieveUserInfo()
@@ -56,17 +63,18 @@ const User: FC<UserProps> = ({ state, dispatch, history }) => {
   }, [])
   const [loading, setLoading] = useState(false)
   const [profileEditing, setProfileEditing] = useState(false)
-  const [profile, setProfile] = useState(state.userInfo.profile || '')
+  const userInfo = commonState.userInfo
+  const [profile, setProfile] = useState(userInfo.profile || '')
+
   const handleProfileEditDialogConfirm = async () => {
     setLoading(true)
     await request.user.edit({
-      ...state.userInfo,
+      ...userInfo,
       profile,
     })
     setProfileEditing(false)
     setLoading(false)
   }
-  const userInfo = state.userInfo
 
   const classes = useStyles()
 
@@ -91,7 +99,7 @@ const User: FC<UserProps> = ({ state, dispatch, history }) => {
     }
 
     // 更改用户信息
-    const user = JSON.parse(JSON.stringify(state.userInfo))
+    const user = JSON.parse(JSON.stringify(userInfo))
     user.avatar_url = `${UPYUN_URL}${res.url as string}`
     await request.user.edit(user)
     setLoading(false)
@@ -137,6 +145,17 @@ const User: FC<UserProps> = ({ state, dispatch, history }) => {
         <div className="bd7-user__banner__right">
           <Button color="primary" size="small" variant="outlined">
             编辑信息
+          </Button>
+
+          <Button
+            color="secondary"
+            onClick={() => {
+              commonDispatch.LOGOUT()
+            }}
+            size="small"
+            variant="outlined"
+          >
+            退出登录
           </Button>
         </div>
       </div>

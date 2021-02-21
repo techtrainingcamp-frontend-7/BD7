@@ -40,9 +40,10 @@ const Register: FC<RegisterProps> = ({ history }) => {
             password,
           })
           if (registeredUser?.username === username) {
-            history.push(PathName.LOGIN)
             dispatch.common.SET_SNACKSTATUS(true)
             dispatch.common.SET_SNACKCONTENT('注册成功, 跳转到登陆页面')
+            history.push(PathName.LOGIN)
+            return
           }
           setRegistering(false)
         }}

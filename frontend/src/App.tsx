@@ -45,10 +45,10 @@ const App = (): JSX.Element => {
 // handle "sub"-routes by passing them in a `routes`
 // prop to the component it renders.
 const mapState = (state: RootState) => ({
-  state: state,
+  state: state.common,
 })
 const mapDispatch = (dispatch: RootDispatch) => ({
-  dispatch: dispatch,
+  dispatch: dispatch.common,
 })
 
 /**
@@ -65,21 +65,23 @@ const RouteWithSubRoutes = connect(
   ): JSX.Element => {
     const { state, path, dispatch } = route
 
-    const isLoggedIn = state.login.isLoggedIn
+    const isLoggedIn = Boolean(state.userInfo.id)
 
     if (path === PathName.LOGIN && isLoggedIn) {
+      console.warn('路由守卫：当前登录成功，自动从 Login 跳转到 User')
       return <Redirect to={PathName.USER} />
     }
     if (path === PathName.USER && !isLoggedIn) {
-      dispatch.common.SET_SNACKSTATUS(true)
-      dispatch.common.SET_SNACKCONTENT('登陆失效，请重新登陆')
+      console.warn('路由守卫：当前登录失效，自动从 User 跳转到 Login')
+      dispatch.SET_SNACKSTATUS(true)
+      dispatch.SET_SNACKCONTENT('登陆失效，请重新登陆')
       return <Redirect to={PathName.LOGIN} />
     }
     const handleDialogClose = () => {
-      dispatch.common.SET_DIALOGSTATUS(false)
+      dispatch.SET_DIALOGSTATUS(false)
     }
     const handleSnackClose = () => {
-      dispatch.common.SET_SNACKSTATUS(false)
+      dispatch.SET_SNACKSTATUS(false)
     }
     const root = document.querySelector('#root')
     return (
@@ -96,13 +98,11 @@ const RouteWithSubRoutes = connect(
             className="global__dialog"
             onClick={handleDialogClose}
             onClose={handleDialogClose}
-            open={state.common.dialogStatus}
+            open={state.dialogStatus}
           >
-            <DialogTitle>{state.common.dialogTitle}</DialogTitle>
+            <DialogTitle>{state.dialogTitle}</DialogTitle>
             <DialogContent>
-              <DialogContentText>
-                {state.common.dialogContent}
-              </DialogContentText>
+              <DialogContentText>{state.dialogContent}</DialogContentText>
               <DialogActions>
                 <Button
                   autoFocus
@@ -134,9 +134,9 @@ const RouteWithSubRoutes = connect(
               horizontal: 'left',
             }}
             autoHideDuration={3000}
-            message={state.common.snackContent}
+            message={state.snackContent}
             onClose={handleSnackClose}
-            open={state.common.snackStatus}
+            open={state.snackStatus}
           />
         </Portal>
       </Fragment>

@@ -1,57 +1,32 @@
 import { createModel } from '@rematch/core'
 import { RootModel } from '@/models'
-import { store } from '@/store'
-import { USER_INFO_NAME } from '@/utils/const'
 import { request } from '@/utils'
-import { User } from '@/utils/request/user'
-export interface UserState {
-  userInfo: Partial<User>
-}
 
-const defaultUserState: UserState = {
-  userInfo: {
-    id: null,
-    username: '',
-    profile: '',
-    gender: 0,
-    avatar_url: '',
-    followings_count: 0,
-    followers_count: 0,
-    createdAt: undefined,
-    updatedAt: undefined,
-  },
-}
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+export interface UserState {}
+
+const defaultUserState: UserState = {}
 
 export const user = createModel<RootModel>()({
   state: defaultUserState,
-  reducers: {
-    SET_USERINFO: (state: UserState, newUserInfo: Partial<User>) => {
-      state.userInfo = {
-        ...state.userInfo,
-        ...newUserInfo,
-      }
-      localStorage.setItem(USER_INFO_NAME, JSON.stringify(state.userInfo))
-      return state
-    },
-  },
+  reducers: {},
   effects: (dispatch) => {
-    const { user } = dispatch
     return {
       retrieveUserInfo(payload, state) {
-        if (!state.user.userInfo.username) {
+        if (!state.common.userInfo.username) {
           dispatch.common.SET_SNACKSTATUS(true)
           dispatch.common.SET_SNACKCONTENT('用户名不存在')
           return
         }
         request.user
-          .retrieve(state.user.userInfo.username)
+          .retrieve(state.common.userInfo.username)
           .then((res) => {
-            res && user.SET_USERINFO(res)
+            res && dispatch.common.SET_USERINFO(res)
           })
           .catch((e) => {
-            store.dispatch.common.SET_DIALOGSTATUS(true)
-            store.dispatch.common.SET_DIALOGTITLE('警告')
-            store.dispatch.common.SET_DIALOGCONTENT(String(e))
+            dispatch.common.SET_DIALOGSTATUS(true)
+            dispatch.common.SET_DIALOGTITLE('警告')
+            dispatch.common.SET_DIALOGCONTENT(String(e))
           })
       },
       async uploadImage(data: object, state) {

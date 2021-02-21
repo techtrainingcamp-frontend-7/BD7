@@ -45,7 +45,6 @@ export const request = async <T>(config: AxiosRequestConfig) => {
     if (err.response.status === 401 && !isWhiteUrlFlag) {
       localStorage.removeItem(ACCESS_TOKEN_NAME)
       localStorage.removeItem(USER_INFO_NAME)
-      dispatch.login.SET_LOGSTATUS(false)
     }
     console.log(err.response)
     console.error('网络错误', err)

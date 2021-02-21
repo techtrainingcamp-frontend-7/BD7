@@ -1,8 +1,8 @@
 import { AppBar, Tabs, Tab } from '@material-ui/core'
-import Box from '@material-ui/core/Box'
-import Typography from '@material-ui/core/Typography'
 import React, { FC } from 'react'
 import { UserAdmin } from './UserAdmin'
+
+import './index.less'
 
 export const tabRoutes = [
   {
@@ -59,16 +59,13 @@ function TabPanel(props: { value: any; index: number; children: any }) {
   return (
     <div
       aria-labelledby={`simple-tab-${index}`}
+      className="bd7-tab-panel"
       hidden={value !== index}
       id={`simple-tabpanel-${index}`}
       role="tabpanel"
       {...other}
     >
-      {value === index && (
-        <Box p={3}>
-          <Typography component="div">{children}</Typography>
-        </Box>
-      )}
+      {value === index && children}
     </div>
   )
 }

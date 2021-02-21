@@ -1,19 +1,11 @@
 import { createModel } from '@rematch/core'
 import { RootModel } from '@/models'
-export interface LoginState {
-  isLoggedIn: boolean
-}
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+export interface LoginState {}
 
-export const defaultLoginState: LoginState = {
-  isLoggedIn: false,
-}
+export const defaultLoginState: LoginState = {}
 
 export const login = createModel<RootModel>()({
   state: defaultLoginState,
-  reducers: {
-    SET_LOGSTATUS: (state: LoginState, newStatus: boolean) => {
-      state.isLoggedIn = newStatus
-      return state
-    },
-  },
+  reducers: {},
 })

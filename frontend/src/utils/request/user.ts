@@ -77,7 +77,7 @@ const edit = async (user: Partial<User>) => {
     data: user,
   })
   if (!newUser) return
-  store.dispatch.user.SET_USERINFO(newUser)
+  store.dispatch.common.SET_USERINFO(newUser)
   return newUser
 }
 
