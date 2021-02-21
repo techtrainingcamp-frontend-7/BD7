@@ -31,23 +31,29 @@ const generateSignature = (fileType: FileType, fileName: string): Restful => {
         `上传类型错误: [${AcceptImageType.join(', ')}]`,
       )
     }
-    const md5Password = MD5(secret)
-    const date = new Date().toUTCString()
-    const uri = `/${encodeURI(fileType ? videoPath : imgPath)}}`
+
     const newPayload: any = {
       bucket,
       'save-key': `/${
         fileType ? videoPath : imgPath
-      }{filename}_{filemd5}{.suffix}`,
+      }{year}{mon}{day}-{hour}_{min}_{sec}__{filename}{.suffix}`,
       expiration: moment().add(30, 'm').valueOf(),
-      date,
     }
+    /**
+     * policy
+     * @description { bucket, save-key, expiration }
+     */
     const policy = generatePolicy(newPayload)
-    const value = `POST&${uri}&${date}&${policy}`
+    /**
+     * signature
+     * @description { method, bucket, policy }
+     */
+    const value = `POST&/${bucket}&${policy}`
     const sign = crypto
-      .createHmac('sha1', md5Password)
-      .update(value, 'utf-8')
-      .digest('base64')
+      .createHmac('sha1', MD5(secret))
+      .update(value, 'utf8')
+      .digest()
+      .toString('base64')
 
     newPayload.policy = policy
     return new Restful(
@@ -55,7 +61,10 @@ const generateSignature = (fileType: FileType, fileName: string): Restful => {
       `获取${fileType ? 'video' : 'img'}上传签名和链接成功`,
       {
         url: `https://v0.api.upyun.com/${bucket}`,
-        payload: { ...newPayload, authorization: `UPYUN ${operator}:${sign}` },
+        payload: {
+          ...newPayload,
+          authorization: `UPYUN ${operator}:${sign}`,
+        },
       },
     )
   } catch (e) {
