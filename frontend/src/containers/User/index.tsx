@@ -1,4 +1,4 @@
-import { RootDispatch, RootState, store } from '@/store'
+import { RootDispatch, RootState } from '@/store'
 
 import React, { FC, useEffect, useState } from 'react'
 import { connect } from 'react-redux'
@@ -13,24 +13,41 @@ import {
   Dialog,
   DialogActions,
   DialogContent,
+  DialogContentText,
   DialogTitle,
   TextField,
+  Fab,
+  Card,
+  CardContent,
+  CardActionArea,
 } from '@material-ui/core'
+import { Add as AddIcon } from '@material-ui/icons'
 import { makeStyles } from '@material-ui/core/styles'
 import { UPYUN_URL } from '@/utils/const'
 import { request } from '@/utils'
+import { Video } from '@/utils/request/video'
 
 import './index.less'
 
-const globalDispatch = store.dispatch
 const useStyles = makeStyles((theme) => ({
   avatar: {
     width: '100%',
     height: '100%',
   },
   backdrop: {
-    zIndex: theme.zIndex.drawer + 1,
+    zIndex: theme.zIndex.drawer + 1301,
     color: '#fff',
+  },
+  fab: {
+    zIndex: theme.zIndex.drawer + 1300,
+    position: 'absolute',
+    right: theme.spacing(2),
+    bottom: theme.spacing(2),
+  },
+  videoItem: {
+    maxWidth: 'calc(50% - 20px)',
+    minWidth: 'calc(50% - 20px)',
+    margin: '5px 10px',
   },
 }))
 const mapState = (state: RootState) => ({
@@ -59,13 +76,16 @@ const User: FC<UserProps> = ({
   useEffect(() => {
     setTimeout(() => {
       dispatch.retrieveUserInfo()
+      dispatch.retrieveUserVideos()
     }, 0)
   }, [])
   const [loading, setLoading] = useState(false)
   const [profileEditing, setProfileEditing] = useState(false)
   const userInfo = commonState.userInfo
   const [profile, setProfile] = useState(userInfo.profile || '')
-
+  const [videoUploading, setVideoUploading] = useState(false)
+  const [video, setVideo] = useState(null as any)
+  const [description, setDescription] = useState('')
   const handleProfileEditDialogConfirm = async () => {
     setLoading(true)
     await request.user.edit({
@@ -75,16 +95,62 @@ const User: FC<UserProps> = ({
     setProfileEditing(false)
     setLoading(false)
   }
+  const handleVideoAdd = (e: any) => {
+    const file = e.target.files[0]
+    if (!file) return
+    const { size } = file
+    if (size > 1024 * 1024 * 15) {
+      commonDispatch.SET_DIALOG({
+        title: '提示',
+        content: '请选择小于15MB的视频',
+        status: true,
+      })
+      return
+    }
+    setVideo(file)
+  }
+  const handleVideoUploadDialogConfirm = async () => {
+    const formData = new FormData()
+    formData.append('file', video)
+    setLoading(true)
+    let res = await dispatch.uploadVideo({
+      fileName: video.name,
+      formData,
+    })
+    if (!res || res.code !== 200) {
+      setLoading(false)
+      return
+    }
+
+    // 通知后端
+    const videoData: Partial<Video> = {
+      uid: userInfo.id as number,
+      description,
+      video_url: `${UPYUN_URL}${res.url as string}`,
+    }
+    res = await dispatch.createVideo(videoData)
+    if (res && !res.code) {
+      // 后端保存成功
+      setVideo(null)
+      setDescription('')
+    }
+    setVideoUploading(false)
+    setLoading(false)
+    commonDispatch.SET_SNACKCONTENT('上传视频成功')
+    commonDispatch.SET_SNACKSTATUS(true)
+    dispatch.retrieveUserVideos()
+  }
 
   const classes = useStyles()
 
   const handleImgUpload = async (e: any) => {
     const file = e.target.files[0]
+    if (!file) return
     const { name, size } = file
     if (size > 1024 * 1024) {
-      globalDispatch.common.SET_DIALOG({
+      commonDispatch.SET_DIALOG({
         title: '提示',
-        content: '请上传小于1MB的图片',
+        content: '请选择小于1MB的图片',
         status: true,
       })
       return
@@ -101,10 +167,8 @@ const User: FC<UserProps> = ({
     // 更改用户信息
     const user = JSON.parse(JSON.stringify(userInfo))
     user.avatar_url = `${UPYUN_URL}${res.url as string}`
-    await request.user.edit(user)
+    await dispatch.editUserInfo(user)
     setLoading(false)
-    // globalDispatch.common.SET_SNACKSTATUS(true)
-    // globalDispatch.common.SET_SNACKCONTENT('上传头像成功')
   }
   return (
     <div className="bd7-user">
@@ -143,7 +207,7 @@ const User: FC<UserProps> = ({
           </div>
         </div>
         <div className="bd7-user__banner__right">
-          <Button color="primary" size="small" variant="outlined">
+          <Button color="secondary" size="small" variant="contained">
             编辑信息
           </Button>
 
@@ -188,7 +252,38 @@ const User: FC<UserProps> = ({
         </div>
       </div>
       <Divider variant="middle" />
-      <Typography variant="subtitle1">已发布视频</Typography>
+      <Typography
+        className="bd7-user__video-title"
+        component="div"
+        variant="subtitle1"
+      >
+        已发布视频
+      </Typography>
+      <div className="bd7-user__video-list">
+        {state.userVideos.map((video) => (
+          <CardActionArea
+            className={classes.videoItem}
+            key={video.id}
+            style={{
+              backgroundImage: `url(${
+                video.poster_url ? video.poster_url : ''
+              })`,
+            }}
+          >
+            <Card variant="outlined">
+              <CardContent>
+                <Typography component="p" variant="body2">
+                  {video.description || '暂无描述...'}
+                </Typography>
+              </CardContent>
+            </Card>
+          </CardActionArea>
+        ))}
+      </div>
+
+      {/* ========================================================== */}
+      {/* ========================= DIALOG ========================= */}
+      {/* ========================================================== */}
 
       <Dialog
         aria-labelledby="form-dialog-title"
@@ -220,11 +315,119 @@ const User: FC<UserProps> = ({
           >
             取消
           </Button>
-          <Button color="primary" onClick={handleProfileEditDialogConfirm}>
+          <Button
+            color="secondary"
+            onClick={handleProfileEditDialogConfirm}
+            variant="contained"
+          >
             保存
           </Button>
         </DialogActions>
       </Dialog>
+
+      <Dialog
+        aria-labelledby="form-dialog-title"
+        onClose={() => {
+          setVideoUploading(false)
+          setVideo(null)
+          setDescription('')
+        }}
+        open={videoUploading}
+      >
+        <DialogTitle>上传视频</DialogTitle>
+        <DialogContent>
+          {video && (
+            <DialogContentText component="div">
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                }}
+              >
+                已选中视频文件：{video.name}
+                <label
+                  htmlFor="bd7-user__video-upload"
+                  style={{ margin: '0 10px' }}
+                >
+                  <Button
+                    color="secondary"
+                    component="span"
+                    size="small"
+                    variant="contained"
+                  >
+                    更改
+                  </Button>
+                </label>
+              </div>
+              <TextField
+                autoFocus
+                defaultValue={description}
+                fullWidth
+                label="视频描述"
+                margin="dense"
+                onChange={(e) => {
+                  setDescription(e.target.value)
+                }}
+                placeholder="可以为空"
+                type="text"
+              />
+            </DialogContentText>
+          )}
+          <div className={video ? 'non-display' : ''}>
+            <input
+              accept="video/mp4, video/mpeg, video/3gpp"
+              id="bd7-user__video-upload"
+              onChange={handleVideoAdd}
+              type="file"
+            />
+            <label htmlFor="bd7-user__video-upload">
+              <Button
+                color={video ? 'secondary' : 'primary'}
+                component="span"
+                variant="contained"
+              >
+                点击添加视频
+              </Button>
+            </label>
+          </div>
+        </DialogContent>
+        <DialogActions>
+          <Button
+            color="primary"
+            onClick={() => {
+              setVideoUploading(false)
+              setVideo(null)
+              setDescription('')
+            }}
+          >
+            取消
+          </Button>
+          <Button
+            color="secondary"
+            disabled={!video}
+            onClick={handleVideoUploadDialogConfirm}
+            variant={!video ? 'outlined' : 'contained'}
+          >
+            上传
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      {/* =========================================================== */}
+      {/* ======================= TOP Z-INDEX ======================= */}
+      {/* =========================================================== */}
+
+      <Fab
+        aria-label="add"
+        className={classes.fab}
+        color="secondary"
+        onClick={() => {
+          setVideoUploading(true)
+        }}
+        size="medium"
+      >
+        <AddIcon />
+      </Fab>
       <Backdrop className={classes.backdrop} open={loading}>
         <CircularProgress color="inherit" />
       </Backdrop>

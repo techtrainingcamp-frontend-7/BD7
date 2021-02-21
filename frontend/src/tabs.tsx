@@ -37,18 +37,21 @@ export const Tabs: React.FC = () => {
   // 管理后台不需要 Tab
   if (location.pathname.startsWith(PathName.ADMIN_ROOT)) return null
   return (
-    // <div className="App-tabs">
     <ButtonGroup
       aria-label="outlined primary button group"
       className="App-tabs"
-      color="default"
-      disableElevation
+      color="primary"
     >
       {Object.keys(tabNames).map((id) => (
         <Button
           className={classNames(`App-tabs-items App-tabs-${id}`, {
             selected: path2Tab[location.pathname as PathName] === id,
           })}
+          color={
+            path2Tab[location.pathname as PathName] === id
+              ? 'secondary'
+              : 'primary'
+          }
           key={id}
           onClick={() => {
             history.push(tabRoutes[id as TabType])
@@ -56,16 +59,11 @@ export const Tabs: React.FC = () => {
           style={{
             borderRadius: 0,
           }}
-          variant={
-            path2Tab[location.pathname as PathName] === id
-              ? 'contained'
-              : 'outlined'
-          }
+          variant="contained"
         >
           {tabNames[id as TabType]}
         </Button>
       ))}
-      {/* </div> */}
     </ButtonGroup>
   )
 }

@@ -30,10 +30,6 @@ body,
     display: flex;
     justify-content: space-around;
     align-items: center;
-    // .selected {
-    //   font-weight: bolder;
-    //   background-color: rgba(0, 0, 0, 0.8);
-    // }
     &-items {
       display: flex;
       justify-content: center;
@@ -41,6 +37,13 @@ body,
       width: 50%;
       height: 100%;
       cursor: pointer;
+      &:not(.selected) {
+        color: #fff;
+        background-color: #444;
+      }
+      &.selected {
+        font-weight: bolder;
+      }
     }
   }
 }
@@ -49,4 +52,8 @@ body,
   &__dialog .MuiDialog-paper {
     min-width: 200px;
   }
+}
+
+.non-display {
+  display: none;
 }
