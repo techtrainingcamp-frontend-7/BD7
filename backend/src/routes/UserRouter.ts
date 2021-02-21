@@ -102,7 +102,7 @@ userRouter.post(
       res.status(403).end()
       return next()
     }
-    if (!checkIntegrity(user, ['username', 'password'])) {
+    if (!checkIntegrity(user, ['username'])) {
       res.status(200).json(new Restful(CodeDictionary.PARAMS_ERROR, '参数错误'))
       return next()
     }
