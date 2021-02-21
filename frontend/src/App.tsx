@@ -58,13 +58,15 @@ const RouteWithSubRoutes = connect(
   mapState,
   mapDispatch,
 )(
-  (
-    route: RouteConfig &
-      ReturnType<typeof mapState> &
-      ReturnType<typeof mapDispatch>,
-  ): JSX.Element => {
-    const { state, path, dispatch } = route
-
+  ({
+    state,
+    path,
+    dispatch,
+    routeProps,
+    component: SubComponent,
+  }: RouteConfig &
+    ReturnType<typeof mapState> &
+    ReturnType<typeof mapDispatch>): JSX.Element => {
     const isLoggedIn = Boolean(state.userInfo.id)
 
     if (path === PathName.LOGIN && isLoggedIn) {
@@ -87,11 +89,9 @@ const RouteWithSubRoutes = connect(
     return (
       <Fragment>
         <Route
-          {...route.routeProps}
-          path={route.path}
-          render={(props: any) => (
-            <route.component {...props} routes={route.routes} />
-          )}
+          {...routeProps}
+          path={path}
+          render={(props: any) => <SubComponent {...props} routes={routes} />}
         />
         <Portal container={root}>
           <Dialog
