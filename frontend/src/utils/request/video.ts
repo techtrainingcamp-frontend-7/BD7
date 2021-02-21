@@ -1,5 +1,9 @@
+import { request } from '.'
+
+const baseUrl = '/api/video'
+
 export interface Video {
-  id: number
+  id: number | null
   uid: number
   video_url: string
   poster_url?: string
@@ -11,29 +15,37 @@ export interface Video {
   readonly updatedAt: Date
 }
 
-// TODO: 实现具体 API
 export const fetchRecommendedVideos = async (): Promise<
   Video[] | undefined
 > => {
-  return (await Promise.resolve([
-    {
-      id: 1,
-      video_url:
-        'https://picgo-1256492673.cos.ap-chengdu.myqcloud.com/RW20seconds_1.mp4',
+  return await request<Video[]>({
+    method: 'GET',
+    url: `${baseUrl}/retrieve`,
+  })
+}
+
+export const fetchUserVideos = async (
+  uid: number,
+): Promise<Video[] | undefined> => {
+  return await request<Video[]>({
+    method: 'GET',
+    url: `${baseUrl}/retrieve`,
+    params: {
+      uid,
     },
-    {
-      id: 2,
-      video_url:
-        'https://picgo-1256492673.cos.ap-chengdu.myqcloud.com/RW20seconds_1.mp4',
-    },
-    {
-      id: 3,
-      video_url:
-        'https://picgo-1256492673.cos.ap-chengdu.myqcloud.com/RW20seconds_1.mp4',
-    },
-  ])) as Video[]
+  })
+}
+
+export const uploadVideo = async (video: Partial<Video>) => {
+  return await request<Video>({
+    method: 'POST',
+    url: `${baseUrl}/upload`,
+    data: video,
+  })
 }
 
 export default {
   fetchRecommendedVideos,
+  fetchUserVideos,
+  uploadVideo,
 }

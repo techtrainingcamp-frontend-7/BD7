@@ -1,6 +1,8 @@
 .bd7-user {
+  position: relative;
   width: 100%;
   height: 0;
+  overflow: auto;
   flex-grow: 1;
   &__title {
     margin: 10px 0;
@@ -50,7 +52,7 @@
     display: flex;
     justify-content: space-around;
     align-items: center;
-    margin-top: 1%;
+    margin: 10px 0;
   }
   &__follow-wrapper {
     display: flex;
@@ -62,8 +64,18 @@
   &__followers {
     display: flex;
   }
+  &__video-title {
+    padding: 10px 20px 0 20px;
+  }
+  &__video-list {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 0 15px;
+    margin-bottom: 20px;
+  }
 }
 
-#bd7-user__banner__left__avatar-upload {
+#bd7-user__banner__left__avatar-upload,
+#bd7-user__video-upload {
   display: none;
 }
