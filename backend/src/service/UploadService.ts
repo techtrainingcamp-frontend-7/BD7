@@ -16,7 +16,13 @@ export enum FileType {
   video = 1,
 }
 export const AcceptImageType = ['png', 'jpg', 'jpeg']
+export const AcceptVideoType = ['mpeg', 'mp4', '3gpp', 'm4v', 'mpg']
 
+const checkFileType = (fileType: FileType, fileName: string): boolean => {
+  const fileNameArr = fileName.split('.')
+  const acceptType = fileType ? AcceptVideoType : AcceptImageType
+  return !acceptType.includes(fileNameArr[fileNameArr.length - 1])
+}
 /**
  * @param { FileType } fileType
  * @param { string } fileName
@@ -24,8 +30,7 @@ export const AcceptImageType = ['png', 'jpg', 'jpeg']
  */
 const generateSignature = (fileType: FileType, fileName: string): Restful => {
   try {
-    const fileNameArr = fileName.split('.')
-    if (!AcceptImageType.includes(fileNameArr[fileNameArr.length - 1])) {
+    if (checkFileType(fileType, fileName)) {
       return new Restful(
         CodeDictionary.UPLOAD_TYPE_ERROR,
         `上传类型错误: [${AcceptImageType.join(', ')}]`,
