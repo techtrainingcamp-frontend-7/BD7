@@ -7,8 +7,6 @@ const token = localStorage.getItem(ACCESS_TOKEN_NAME)
 const userInfo = JSON.parse(localStorage.getItem(USER_INFO_NAME) || 'null')
 if (!token || !userInfo) {
   dispatch.login.SET_LOGSTATUS(false)
-  localStorage.removeItem(ACCESS_TOKEN_NAME)
-  localStorage.removeItem(USER_INFO_NAME)
 } else {
   dispatch.login.SET_LOGSTATUS(true)
 

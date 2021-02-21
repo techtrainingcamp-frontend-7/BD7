@@ -1,6 +1,6 @@
 import axios, { AxiosRequestConfig } from 'axios'
 import { store } from '@/store'
-import { ACCESS_TOKEN_NAME, USER_INFO_NAME } from '../const'
+import { ACCESS_TOKEN_NAME } from '../const'
 import { Restful } from './type'
 import user from './user'
 import video from './video'
@@ -43,8 +43,6 @@ export const request = async <T>(config: AxiosRequestConfig) => {
     }
   } catch (err) {
     if (err.response.status === 401 && !isWhiteUrlFlag) {
-      localStorage.removeItem(ACCESS_TOKEN_NAME)
-      localStorage.removeItem(USER_INFO_NAME)
       dispatch.login.SET_LOGSTATUS(false)
     }
     console.log(err.response)
