@@ -65,7 +65,7 @@ const RouteWithSubRoutes = connect(
   ): JSX.Element => {
     const { state, path, dispatch } = route
 
-    const isLoggedIn = state.login.logStatus && state.user.userInfo.id
+    const isLoggedIn = state.login.isLoggedIn
 
     if (path === PathName.LOGIN && isLoggedIn) {
       return <Redirect to={PathName.USER} />

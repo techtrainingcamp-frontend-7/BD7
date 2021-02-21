@@ -1,18 +1,18 @@
 import { createModel } from '@rematch/core'
 import { RootModel } from '@/models'
 export interface LoginState {
-  logStatus: boolean
+  isLoggedIn: boolean
 }
 
 export const defaultLoginState: LoginState = {
-  logStatus: false,
+  isLoggedIn: false,
 }
 
 export const login = createModel<RootModel>()({
   state: defaultLoginState,
   reducers: {
     SET_LOGSTATUS: (state: LoginState, newStatus: boolean) => {
-      state.logStatus = newStatus
+      state.isLoggedIn = newStatus
       return state
     },
   },
