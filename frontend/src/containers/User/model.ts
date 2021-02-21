@@ -35,11 +35,12 @@ export const user = createModel<RootModel>()({
     },
   },
   effects: (dispatch) => {
-    const { user, common } = dispatch
+    const { user } = dispatch
     return {
       retrieveUserInfo(payload, state) {
         if (!state.user.userInfo.username) {
-          common.SET_SNACKCONTENT('用户名不存在')
+          dispatch.common.SET_SNACKSTATUS(true)
+          dispatch.common.SET_SNACKCONTENT('用户名不存在')
           return
         }
         request.user

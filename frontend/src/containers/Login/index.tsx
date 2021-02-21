@@ -7,8 +7,8 @@ import { Link, RouteComponentProps, withRouter } from 'react-router-dom'
 import { Typography, TextField, Button } from '@material-ui/core'
 
 import './index.less'
-const globalDispatch = store.dispatch
 
+const globalDispatch = store.dispatch
 const mapState = (state: RootState) => ({
   state: state.login,
 })
@@ -80,7 +80,7 @@ const Login: FC<LoginProps> = ({ dispatch }) => {
           htmlFor="bd7-login-input-submit"
         >
           <Button
-            color="primary"
+            color="secondary"
             component="span"
             disabled={!username || !password || loggingIn}
             variant="contained"
@@ -96,7 +96,7 @@ const Login: FC<LoginProps> = ({ dispatch }) => {
         />
       </form>
       <div className="bd7-login-to-register">
-        <Button variant="outlined">
+        <Button color="secondary" variant="contained">
           <Link to="/register">注册新账户</Link>
         </Button>
       </div>

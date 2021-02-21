@@ -53,6 +53,9 @@ export const Tabs: React.FC = () => {
           onClick={() => {
             history.push(tabRoutes[id as TabType])
           }}
+          style={{
+            borderRadius: 0,
+          }}
           variant={
             path2Tab[location.pathname as PathName] === id
               ? 'contained'
