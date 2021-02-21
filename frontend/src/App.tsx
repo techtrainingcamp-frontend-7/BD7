@@ -71,8 +71,10 @@ const RouteWithSubRoutes = connect(
       path === PathName.USER &&
       (!state.login.logStatus || !state.user.userInfo)
     ) {
-      dispatch.common.SET_SNACKSTATUS(true)
-      dispatch.common.SET_SNACKCONTENT('登陆失效，请重新登陆')
+      setTimeout(() => {
+        dispatch.common.SET_SNACKSTATUS(true)
+        dispatch.common.SET_SNACKCONTENT('登陆失效，请重新登陆')
+      })
       return <Redirect to={PathName.LOGIN} />
     }
     const handleDialogClose = () => {
