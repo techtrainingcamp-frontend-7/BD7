@@ -49,6 +49,7 @@ userRouter.post(
         result.data.token = jwt.sign(
           {
             username,
+            id: result.data.id,
           },
           cryptoConfig.secret,
           {
