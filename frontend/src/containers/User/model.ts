@@ -12,7 +12,6 @@ const defaultUserState: UserState = {
   userInfo: {
     id: null,
     username: '',
-    password: '',
     profile: '',
     gender: 0,
     avatar_url: '',
@@ -51,7 +50,6 @@ export const user = createModel<RootModel>()({
           })
       },
       async uploadImage(data: object, state) {
-        console.log(data)
         const { fileName, formData } = data as any
 
         // 请求Authorization和Policy
@@ -62,8 +60,9 @@ export const user = createModel<RootModel>()({
         )
         if (!res) return
         const { url, payload } = res
-        const uploadRes = await request.upload.upload(formData, payload, url)
-        console.log(uploadRes)
+
+        // 上传又拍云
+        return await request.upload.upload(formData, payload, url)
       },
     }
   },

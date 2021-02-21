@@ -29,7 +29,7 @@ const upload = async (formData: FormData, payload: any, url: string) => {
   Object.keys(payload).map((key) => {
     formData.append(key, payload[key])
   })
-  return await request({
+  return await request<any>({
     method: 'POST',
     url,
     data: formData,

@@ -3,6 +3,7 @@ import { demo } from '@/containers/Demo/model'
 import { home } from '@/containers/Home/model'
 import { login } from '@/containers/Login/model'
 import { user } from '@/containers/User/model'
+import { isDef } from '@/utils/tools'
 interface CommonState {
   dialogStatus: boolean
   dialogContent: string
@@ -32,6 +33,13 @@ const common = createModel<RootModel>()({
     },
     SET_DIALOGTITLE: (state: CommonState, newTitle: string) => {
       state.dialogTitle = newTitle
+      return state
+    },
+    SET_DIALOG: (state: CommonState, dialog: object) => {
+      const { content, status, title } = dialog as any
+      if (isDef(content)) state.dialogContent = content
+      if (isDef(status)) state.dialogStatus = status
+      if (isDef(title)) state.dialogTitle = title
       return state
     },
     SET_SNACKSTATUS: (state: CommonState, newStatus: boolean) => {
