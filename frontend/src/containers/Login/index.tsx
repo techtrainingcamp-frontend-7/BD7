@@ -53,6 +53,7 @@ const Login: FC<LoginProps> = ({ dispatch }) => {
       >
         <TextField
           className="bd7-login-input-username"
+          color="primary"
           label="用户名"
           name="username"
           onChange={(e) => {

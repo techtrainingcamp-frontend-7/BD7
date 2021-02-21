@@ -11,11 +11,12 @@ import CssBaseline from '@material-ui/core/CssBaseline'
 
 const theme = createMuiTheme({
   palette: {
+    type: 'dark',
     text: {
       primary: '#fff',
     },
     primary: {
-      main: '#111',
+      main: '#fff',
     },
     secondary: {
       main: '#EE1D52',
