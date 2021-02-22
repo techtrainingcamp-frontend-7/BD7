@@ -35,10 +35,7 @@ const sequelizeOptions: Options = {
 
 const devConfig = {
   port: 8003,
-  host:
-    process.env.NODE_ENV === 'production'
-      ? 'https://bd7.upupming.vercel.app/'
-      : 'http://localhost/',
+  host: 'http://localhost/',
   cryptoConfig: {
     // 每次分段加密的字符串最大长度（优先度高于cryptCount字段）
     onceCryptLength: 5,

@@ -47,9 +47,9 @@ export const VideoEdit: React.FC<EditProps> = (props) => (
       <ReferenceInput label="所属用户" reference="admin/user" source="uid">
         <SelectInput optionText="username" />
       </ReferenceInput>
-      <TextInput source="video_url" />
-      <TextInput source="poster_url" />
-      <TextInput source="description" />
+      <TextInput multiline source="video_url" />
+      <TextInput multiline source="poster_url" />
+      <TextInput multiline source="description" />
       <NumberInput source="like_count" />
       <NumberInput source="play_count" />
       <ReferenceInput

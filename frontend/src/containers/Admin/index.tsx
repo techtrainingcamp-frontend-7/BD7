@@ -3,7 +3,7 @@ import * as React from 'react'
 import { Admin, Resource } from 'react-admin'
 import { fetchUtils } from 'ra-core'
 import simpleRestProvider from 'ra-data-simple-rest'
-import { useHistory } from 'react-router-dom'
+import { Route, useHistory } from 'react-router-dom'
 import { ACCESS_TOKEN_NAME } from '@/utils/const'
 import { PathName } from '@/routes'
 import { UserCreate, UserEdit, UserList } from './user'
@@ -36,6 +36,7 @@ import {
 import { TagCreate, TagEdit, TagList } from './tag'
 import { VideoTagCreate, VideoTagEdit, VideoTagList } from './video-tag'
 import { FollowingCreate, FollowingEdit, FollowingList } from './following'
+import { Dashboard } from './dashboard'
 
 export const AdminApp: React.FC = () => {
   const history = useHistory()
@@ -53,6 +54,9 @@ export const AdminApp: React.FC = () => {
 
   return (
     <Admin
+      customRoutes={[
+        <Route exact key="/admin" path="/admin" render={Dashboard} />,
+      ]}
       dataProvider={simpleRestProvider('/api', httpClient, 'X-Total-Count')}
       history={history}
     >
