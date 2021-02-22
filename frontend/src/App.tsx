@@ -68,13 +68,12 @@ const RouteWithSubRoutes = connect(
     ReturnType<typeof mapState> &
     ReturnType<typeof mapDispatch>): JSX.Element => {
     const isLoggedIn = Boolean(state.userInfo.id)
-
     if (path === PathName.LOGIN && isLoggedIn) {
       console.warn('路由守卫：当前登录成功，自动从 Login 跳转到 User')
       return <Redirect to={PathName.USER} />
     }
-    if (path === PathName.USER && !isLoggedIn) {
-      console.warn('路由守卫：当前登录失效，自动从 User 跳转到 Login')
+    if (path !== PathName.LOGIN && path !== PathName.REGISTER && !isLoggedIn) {
+      console.warn('路由守卫：当前登录失效，自动跳转到 Login')
       dispatch.SET_SNACKSTATUS(true)
       dispatch.SET_SNACKCONTENT('登陆失效，请重新登陆')
       return <Redirect to={PathName.LOGIN} />
