@@ -1,5 +1,6 @@
 import { request } from '.'
 import { ACCESS_TOKEN_NAME } from '../const'
+import { store } from '@/store'
 
 const baseUrl = '/api/user'
 
@@ -12,7 +13,7 @@ export enum Gender {
 export interface User {
   id: number | null
   username: string
-  password: string
+  password: string | null
   profile?: string
   gender: Gender
   avatar_url?: string
@@ -45,7 +46,7 @@ const login = async (user: Partial<User>) => {
   return loggedInUser
 }
 
-const retrieve = async (username?: string) => {
+export const retrieve = async (username: string) => {
   return await request<User>({
     method: 'GET',
     url: `${baseUrl}/retrieve`,
@@ -54,8 +55,14 @@ const retrieve = async (username?: string) => {
     },
   })
 }
+export const retrieveAll = async () => {
+  return await request<User[]>({
+    method: 'GET',
+    url: `${baseUrl}/retrieve`,
+  })
+}
 
-const register = async (user: Partial<User>) => {
+export const register = async (user: Partial<User>) => {
   return await request<User>({
     method: 'POST',
     url: `${baseUrl}/register`,
@@ -63,8 +70,21 @@ const register = async (user: Partial<User>) => {
   })
 }
 
+const edit = async (user: Partial<User>) => {
+  const newUser = await request<User>({
+    method: 'POST',
+    url: `${baseUrl}/edit`,
+    data: user,
+  })
+  if (!newUser) return
+  store.dispatch.common.SET_USERINFO(newUser)
+  return newUser
+}
+
 export default {
   login,
   retrieve,
+  retrieveAll,
   register,
+  edit,
 }

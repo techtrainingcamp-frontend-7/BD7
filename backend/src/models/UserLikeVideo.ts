@@ -9,6 +9,7 @@ export enum Liked {
 }
 
 class UserLikeVideo extends Model {
+  id!: number
   uid!: number
   vid!: number
   liked!: Liked
@@ -18,10 +19,15 @@ class UserLikeVideo extends Model {
 
 UserLikeVideo.init(
   {
+    id: {
+      type: DataTypes.INTEGER.UNSIGNED,
+      primaryKey: true,
+      autoIncrement: true,
+      comment: '自增字段（主键）',
+    },
     uid: {
       type: DataTypes.INTEGER.UNSIGNED,
       comment: '用户 id',
-      primaryKey: true,
       references: {
         model: User,
         key: 'id',
@@ -30,7 +36,6 @@ UserLikeVideo.init(
     vid: {
       type: DataTypes.INTEGER.UNSIGNED,
       comment: '视频 id',
-      primaryKey: true,
       references: {
         model: Video,
         key: 'id',

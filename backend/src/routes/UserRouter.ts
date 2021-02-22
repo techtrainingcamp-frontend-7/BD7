@@ -49,6 +49,7 @@ userRouter.post(
         result.data.token = jwt.sign(
           {
             username,
+            id: result.data.id,
           },
           cryptoConfig.secret,
           {
@@ -82,6 +83,34 @@ userRouter.get(
       }
     } catch (e) {
       // 进行邮件提醒
+      res.status(500).end()
+    }
+    next()
+  }),
+)
+
+/**
+ * 修改
+ * @path /edit
+ * @param { User } user
+ */
+userRouter.post(
+  '/edit',
+  // https://github.com/xiondlph/async-wrapper-express-ts
+  asyncWrapper(async (req: any, res, next) => {
+    const user: any = User.build(req.body).toJSON()
+    if (req.auth.username !== user.username) {
+      res.status(403).end()
+      return next()
+    }
+    if (!checkIntegrity(user, ['username'])) {
+      res.status(200).json(new Restful(CodeDictionary.PARAMS_ERROR, '参数错误'))
+      return next()
+    }
+    try {
+      res.status(200).json(await Service.Edit(user))
+    } catch (e) {
+      // TODO: 进行邮件提醒
       res.status(500).end()
     }
     next()

@@ -9,6 +9,7 @@ export enum VideoTagLinked {
 }
 
 class VideoTag extends Model {
+  id!: number
   vid!: number
   tid!: number
   linked!: VideoTagLinked
@@ -18,10 +19,15 @@ class VideoTag extends Model {
 
 VideoTag.init(
   {
+    id: {
+      type: DataTypes.INTEGER.UNSIGNED,
+      primaryKey: true,
+      autoIncrement: true,
+      comment: '自增字段（主键）',
+    },
     vid: {
       type: DataTypes.INTEGER.UNSIGNED,
       comment: '视频 id',
-      primaryKey: true,
       references: {
         model: Video,
         key: 'id',
@@ -30,7 +36,6 @@ VideoTag.init(
     tid: {
       type: DataTypes.INTEGER.UNSIGNED,
       comment: '标签 id',
-      primaryKey: true,
       references: {
         model: Tag,
         key: 'id',

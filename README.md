@@ -37,6 +37,8 @@ npm run start
 - Storybook
 - Less
 
+后台管理路由：http://localhost:3000/admin/
+
 ### 后端
 
 存放于文件夹 [backend](backend)。

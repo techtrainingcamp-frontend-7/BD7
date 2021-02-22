@@ -4,6 +4,7 @@ import User from './User'
 import Video from './Video'
 
 class UserPlayVideo extends Model {
+  id!: number
   uid!: number
   vid!: number
   play_count!: number
@@ -13,10 +14,15 @@ class UserPlayVideo extends Model {
 
 UserPlayVideo.init(
   {
+    id: {
+      type: DataTypes.INTEGER.UNSIGNED,
+      primaryKey: true,
+      autoIncrement: true,
+      comment: '自增字段（主键）',
+    },
     uid: {
       type: DataTypes.INTEGER.UNSIGNED,
       comment: '用户 id',
-      primaryKey: true,
       references: {
         model: User,
         key: 'id',
@@ -25,7 +31,6 @@ UserPlayVideo.init(
     vid: {
       type: DataTypes.INTEGER.UNSIGNED,
       comment: '视频 id',
-      primaryKey: true,
       references: {
         model: Video,
         key: 'id',

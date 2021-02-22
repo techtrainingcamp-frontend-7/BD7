@@ -16,7 +16,7 @@ const Register = async (user: User): Promise<Restful> => {
       )
     }
     // 加密密码
-    user.password = md5Crypto(user.password)
+    user.password = md5Crypto(user.password as string)
 
     // 去除前端可能给的多余ID（自增字段）
     user.id = null
@@ -98,9 +98,36 @@ const Retrieve__All = async (): Promise<Restful> => {
   }
 }
 
+/**
+ * 编辑用户
+ */
+const Edit = async (user: User): Promise<Restful> => {
+  try {
+    const existedUser = await Action.Retrieve('username', user.username)
+    if (existedUser === null || existedUser === undefined) {
+      return new Restful(1, '账号不存在')
+    }
+
+    delete user.password
+    const newUser = await Action.Update(existedUser, user)
+
+    return new Restful(
+      CodeDictionary.SUCCESS,
+      '编辑成功',
+      Omit(newUser.toJSON() as any, ['password']),
+    )
+  } catch (e) {
+    return new Restful(
+      CodeDictionary.COMMON_ERROR,
+      `编辑失败, ${String(e.message)}`,
+    )
+  }
+}
+
 export default {
   Register,
   Login,
   Retrieve,
   Retrieve__All,
+  Edit,
 }

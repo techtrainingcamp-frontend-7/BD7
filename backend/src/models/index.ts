@@ -8,6 +8,19 @@ import UserPlayVideo from './UserPlayVideo'
 import Live from './Live'
 import LiveComment from './LiveComment'
 
+/**
+ * Video : User
+ * N : 1
+ */
+Video.belongsTo(User, {
+  foreignKey: 'uid',
+  onDelete: 'SET NULL',
+})
+User.hasMany(Video, {
+  sourceKey: 'id',
+  foreignKey: 'uid',
+})
+
 export {
   User,
   Following,

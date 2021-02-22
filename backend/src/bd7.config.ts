@@ -35,9 +35,7 @@ const sequelizeOptions: Options = {
 
 const devConfig = {
   port: 8003,
-  host:
-    // "https://api.hokori.online" ||
-    'http://localhost/',
+  host: 'http://localhost/',
   cryptoConfig: {
     // 每次分段加密的字符串最大长度（优先度高于cryptCount字段）
     onceCryptLength: 5,
@@ -65,6 +63,14 @@ const devConfig = {
 
     // 时区
     timezone: '+08:00',
+  },
+  upyunConfig: {
+    operator: process.env.UPYUN_OPERATOR as string,
+    secret: process.env.UPYUN_SECRET as string,
+    bucket: process.env.UPYUN_BUCKET as string,
+    domainName: process.env.UPYUN_DOMAINNAME as string,
+    imgPath: 'bd7/image/',
+    videoPath: 'bd7/video/',
   },
   // 12个小时
   tokenExpiredTime: '12h',

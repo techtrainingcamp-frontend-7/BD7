@@ -27,14 +27,33 @@ body,
     width: 100%;
     height: 50px;
     font-size: 16px;
-    background-color: #111;
-    color: #9e9e9e;
     display: flex;
     justify-content: space-around;
     align-items: center;
-    .selected {
-      font-weight: bolder;
-      color: white;
+    &-items {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 50%;
+      height: 100%;
+      cursor: pointer;
+      &:not(.selected) {
+        color: #fff;
+        background-color: #444;
+      }
+      &.selected {
+        font-weight: bolder;
+      }
     }
   }
+}
+
+.global {
+  &__dialog .MuiDialog-paper {
+    min-width: 200px;
+  }
+}
+
+.non-display {
+  display: none;
 }

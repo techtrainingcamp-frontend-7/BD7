@@ -1,5 +1,7 @@
 # ByteDance 7 前端代码
 
+后台管理路由：http://localhost:3000/admin/
+
 ## 前置知识
 
 - React
