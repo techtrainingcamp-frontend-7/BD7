@@ -4,6 +4,7 @@ import { User } from './user'
 const baseUrl = '/api/video'
 
 export interface Video {
+  likedUsers?: User[]
   id: number | null
   uid: number
   video_url: string

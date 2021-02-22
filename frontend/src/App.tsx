@@ -18,6 +18,7 @@ import {
   Snackbar,
 } from '@material-ui/core'
 import CloseIcon from '@material-ui/icons/Close'
+import 'animate.css'
 
 const App = (): JSX.Element => {
   return (

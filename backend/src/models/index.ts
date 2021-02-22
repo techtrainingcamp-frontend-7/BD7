@@ -20,6 +20,19 @@ User.hasMany(Video, {
   sourceKey: 'id',
   foreignKey: 'uid',
 })
+// UserLikeVideo：多对多关系
+Video.belongsToMany(User, {
+  through: UserLikeVideo,
+  as: 'likedUsers',
+  foreignKey: 'vid',
+  otherKey: 'uid',
+})
+User.belongsToMany(Video, {
+  through: UserLikeVideo,
+  as: 'likedVideos',
+  foreignKey: 'uid',
+  otherKey: 'vid',
+})
 
 export {
   User,

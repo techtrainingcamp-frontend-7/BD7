@@ -14,7 +14,12 @@ const Create = async (video: Video) => {
  */
 const Retrieve__All = () => {
   return Video.findAll({
-    include: [User],
+    include: [
+      User,
+      {
+        association: 'likedUsers',
+      },
+    ],
   })
 }
 
