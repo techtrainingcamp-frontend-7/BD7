@@ -5,33 +5,43 @@ import LoadingIcon from '../static/img/loading.svg'
 import { useAsync } from 'react-use'
 import Hls from 'hls.js'
 import { makeStyles } from '@material-ui/core/styles'
-import { Avatar } from '@material-ui/core'
+import { Avatar, Typography } from '@material-ui/core'
 import { User } from '@/utils/request/user'
 
 import './index.less'
 
 const useStyles = makeStyles((theme) => ({
-  playerLayer: {
-    zIndex: theme.zIndex.drawer + 1300,
+  operationButton: {
+    zIndex: theme.zIndex.drawer + 1301,
     position: 'absolute',
-    right: '5%',
-    bottom: '5%',
+    right: '8%',
+    bottom: '8%',
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'flex-end',
-    boxSizing: 'border-box',
-    width: '10%',
     maxWidth: '80px',
     '& > div': {
-      marginTop: '20px',
+      marginTop: '15px',
     },
   },
+  descriptionBar: {
+    zIndex: theme.zIndex.drawer + 1300,
+    position: 'absolute',
+    left: 0,
+    bottom: '6px',
+    display: 'flex',
+    alignItems: 'center',
+    padding: '0 20px',
+    width: '100%',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    boxSizing: 'border-box',
+  },
   avatar: {
-    height: '12vh',
-    width: '12vh',
-    maxHeight: '60px',
-    maxWidth: '60px',
+    height: '15vw',
+    width: '15vw',
+    maxHeight: '50px',
+    maxWidth: '50px',
   },
 }))
 export interface BDPlayerProps {
@@ -43,8 +53,12 @@ export interface BDPlayerProps {
   active?: boolean
   /* 自定义类名 */
   className?: string
+  /* 视频描述 */
+  description?: string
   /* 视频作者信息 */
   author?: User
+  /* 点击头像回调 */
+  onAvatarClick?: Function
 }
 
 export const BDPlayer: React.FC<BDPlayerProps> = ({
@@ -52,7 +66,9 @@ export const BDPlayer: React.FC<BDPlayerProps> = ({
   className,
   videoPosterUrl,
   active = true,
+  description,
   author,
+  onAvatarClick = () => {},
 }) => {
   const classes = useStyles()
   const [playing, setPlaying] = useState(false)
@@ -107,24 +123,46 @@ export const BDPlayer: React.FC<BDPlayerProps> = ({
   return (
     <div className={classnames('bd-player', className)}>
       {author && (
-        <div className={classes.playerLayer}>
-          <Avatar
-            alt={author.username}
-            className={classes.avatar}
-            src={author.avatar_url}
-          />
-          <Avatar
-            alt={author.username}
-            className={classes.avatar}
-            src={author.avatar_url}
-          />
-          <Avatar
-            alt={author.username}
-            className={classes.avatar}
-            src={author.avatar_url}
-          />
+        <div className={classes.operationButton}>
+          <div className="bd-player-avatar">
+            <Avatar
+              alt={author.username}
+              className={classes.avatar}
+              onClick={() => {
+                onAvatarClick()
+              }}
+              src={author.avatar_url}
+            />
+          </div>
+
+          {/* TODO: 点赞 */}
+          <div className="bd-player-like">
+            <Avatar
+              alt={author.username}
+              className={classes.avatar}
+              onClick={() => {
+                onAvatarClick()
+              }}
+              src={''}
+            />
+          </div>
+
+          {/* TODO: 评论 */}
+          <div className="bd-player-comment">
+            <Avatar
+              alt={author.username}
+              className={classes.avatar}
+              onClick={() => {
+                onAvatarClick()
+              }}
+              src={''}
+            />
+          </div>
         </div>
       )}
+      <div className={classes.descriptionBar}>
+        <Typography variant="h6">{description}</Typography>
+      </div>
       <div
         className="bd-player-main"
         onClick={async () => {

@@ -8,14 +8,15 @@ import { useSelector } from 'react-redux'
 
 import 'swiper/swiper.less'
 import './index.less'
+import { RouteComponentProps } from 'react-router-dom'
+import { PathName } from '@/routes'
 
-const Home: FC = () => {
+const Home: FC<RouteComponentProps> = ({ history }) => {
   // https://react-redux.js.org/next/api/hooks#useselector
   // https://github.com/rematch/rematch/issues/758#issuecomment-628268224
   // const state = useSelector((state: RootState) => state.home)
   const dispatch = useSelector(() => store.dispatch.home)
   const videosForRendering = useSelector(store.select.home.videosForRendering)
-
   useAsync(async () => {
     await dispatch.getRecommendedVideos()
   }, [])
@@ -38,6 +39,12 @@ const Home: FC = () => {
                   <BDPlayer
                     active={isActive}
                     author={video.User}
+                    description={video.description}
+                    onAvatarClick={() => {
+                      history.push(
+                        `${PathName._OTHER_USER}/${video.User.username}`,
+                      )
+                    }}
                     videoUrl={video.video_url}
                   />
                 )

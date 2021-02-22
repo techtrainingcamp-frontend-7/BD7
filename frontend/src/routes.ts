@@ -5,10 +5,13 @@ import Home from './containers/Home'
 import Login from './containers/Login'
 import Register from './containers/Register'
 import User from './containers/User'
+import OtherUser from './containers/OtherUser'
 import SinglePlayer from './containers/SinglePlayer'
 import NotFoundPage from './containers/NotFoundPage'
 
 export enum PathName {
+  OTHER_USER = '/user/:username',
+  _OTHER_USER = '/user',
   USER = '/user',
   LOGIN = '/login',
   REGISTER = '/register',
@@ -28,6 +31,10 @@ export const routes: RouteConfig[] = [
   {
     path: PathName.REGISTER,
     component: Register,
+  },
+  {
+    path: PathName.OTHER_USER,
+    component: OtherUser,
   },
   {
     path: PathName.USER,
