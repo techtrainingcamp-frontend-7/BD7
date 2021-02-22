@@ -3,7 +3,13 @@ import { BDPlayer } from '@/components/BDPlayer'
 import { RouteComponentProps, useLocation, withRouter } from 'react-router-dom'
 import { PathName } from '@/routes'
 import './index.less'
-import { Backdrop, CircularProgress, makeStyles } from '@material-ui/core'
+import {
+  Backdrop,
+  CircularProgress,
+  IconButton,
+  makeStyles,
+} from '@material-ui/core'
+import NavigateBeforeIcon from '@material-ui/icons/NavigateBefore'
 import { useAsync } from 'react-use'
 import { connect } from 'react-redux'
 import { RootDispatch, RootState } from '@/store'
@@ -14,8 +20,14 @@ const useQuery = () => {
 
 const useStyles = makeStyles((theme) => ({
   backdrop: {
-    zIndex: theme.zIndex.drawer + 1301,
     color: '#fff',
+    zIndex: theme.zIndex.drawer + 1301,
+  },
+  backward: {
+    position: 'absolute',
+    zIndex: theme.zIndex.drawer + 1302,
+    top: '2%',
+    left: '2%',
   },
 }))
 
@@ -48,6 +60,16 @@ const SinglePlayer: FC<SinglePlayerProps> = ({ state, dispatch, history }) => {
   const { video } = state
   return (
     <div className="bd7-single-player">
+      <div className={classes.backward}>
+        <IconButton
+          aria-label="back"
+          onClick={() => {
+            history.goBack()
+          }}
+        >
+          <NavigateBeforeIcon />
+        </IconButton>
+      </div>
       {video ? (
         <Fragment>
           <div className="bd7-single-player__hover-layer"></div>
