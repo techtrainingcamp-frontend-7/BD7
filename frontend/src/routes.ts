@@ -11,6 +11,7 @@ import NotFoundPage from './containers/NotFoundPage'
 
 export enum PathName {
   OTHER_USER = '/user/:username',
+  _OTHER_USER = '/user',
   USER = '/user',
   LOGIN = '/login',
   REGISTER = '/register',

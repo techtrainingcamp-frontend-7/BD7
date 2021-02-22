@@ -42,7 +42,7 @@ const Home: FC<RouteComponentProps> = ({ history }) => {
                     description={video.description}
                     onAvatarClick={() => {
                       history.push(
-                        `${PathName.OTHER_USER}/${video.User.username}`,
+                        `${PathName._OTHER_USER}/${video.User.username}`,
                       )
                     }}
                     videoUrl={video.video_url}
