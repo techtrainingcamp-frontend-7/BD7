@@ -3,10 +3,36 @@ import { RootDispatch, RootState } from '@/store'
 
 import React, { FC, useState } from 'react'
 import { connect } from 'react-redux'
-import { Link, RouteComponentProps, withRouter } from 'react-router-dom'
-import { Typography, TextField, Button } from '@material-ui/core'
+import { RouteComponentProps, withRouter } from 'react-router-dom'
+import {
+  Typography,
+  TextField,
+  Button,
+  Link,
+  makeStyles,
+  Theme,
+  createStyles,
+} from '@material-ui/core'
+import classNames from 'classnames'
 
 import './index.less'
+
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    margin: {
+      margin: theme.spacing(1),
+    },
+    form: {
+      width: '40ch',
+      padding: '30px 20px',
+      borderRadius: 10,
+      border: '1px solid white',
+    },
+    textfield: {
+      padding: 10,
+    },
+  }),
+)
 
 const mapState = (state: RootState) => ({
   state: state.login,
@@ -20,6 +46,7 @@ export type LoginProps = ReturnType<typeof mapState> &
   RouteComponentProps
 
 const Login: FC<LoginProps> = ({ dispatch, commonDispatch }) => {
+  const classes = useStyles()
   const [username, setUserName] = useState('')
   const [password, setPassword] = useState('')
   const [loggingIn, setLoggingIn] = useState(false)
@@ -29,7 +56,7 @@ const Login: FC<LoginProps> = ({ dispatch, commonDispatch }) => {
         登陆我的账户
       </Typography>
       <form
-        className="bd7-login-form"
+        className={classNames('bd7-login-form', classes.margin, classes.form)}
         onSubmit={async (e) => {
           e.preventDefault()
           if (!username || !password) return
@@ -49,8 +76,9 @@ const Login: FC<LoginProps> = ({ dispatch, commonDispatch }) => {
         }}
       >
         <TextField
-          className="bd7-login-input-username"
+          className={classNames('bd7-login-input-username', classes.textfield)}
           color="primary"
+          fullWidth
           label="用户名"
           name="username"
           onChange={(e) => {
@@ -61,7 +89,8 @@ const Login: FC<LoginProps> = ({ dispatch, commonDispatch }) => {
           value={username}
         />
         <TextField
-          className="bd7-login-input-password"
+          className={classNames('bd7-login-input-password', classes.textfield)}
+          fullWidth
           label="密码"
           name="password"
           onChange={(e) => {
@@ -77,7 +106,7 @@ const Login: FC<LoginProps> = ({ dispatch, commonDispatch }) => {
           htmlFor="bd7-login-input-submit"
         >
           <Button
-            color="secondary"
+            color="primary"
             component="span"
             disabled={!username || !password || loggingIn}
             variant="contained"
@@ -93,9 +122,7 @@ const Login: FC<LoginProps> = ({ dispatch, commonDispatch }) => {
         />
       </form>
       <div className="bd7-login-to-register">
-        <Button color="secondary" variant="contained">
-          <Link to="/register">注册新账户</Link>
-        </Button>
+        <Link href="/register">注册新账户</Link>
       </div>
     </div>
   )
