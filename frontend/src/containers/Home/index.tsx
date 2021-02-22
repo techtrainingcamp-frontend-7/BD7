@@ -22,7 +22,7 @@ const Home: FC = () => {
 
   return (
     <div className="bd7-home">
-      {videosForRendering.length && (
+      {Boolean(videosForRendering.length) && (
         <Swiper
           direction="vertical"
           onActiveIndexChange={(swiper) => {
@@ -34,7 +34,13 @@ const Home: FC = () => {
           {videosForRendering.map((video) => (
             <SwiperSlide key={video.id}>
               {({ isActive }: { isActive: boolean }) => {
-                return <BDPlayer active={isActive} videoUrl={video.video_url} />
+                return (
+                  <BDPlayer
+                    active={isActive}
+                    author={video.User}
+                    videoUrl={video.video_url}
+                  />
+                )
               }}
             </SwiperSlide>
           ))}

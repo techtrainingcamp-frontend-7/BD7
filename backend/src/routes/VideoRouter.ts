@@ -40,10 +40,12 @@ videoRouter.post(
 videoRouter.get(
   '/retrieve',
   asyncWrapper(async (req, res, next) => {
-    const { uid } = req.query
+    const { uid, id } = req.query
     try {
       if (isDef(uid)) {
-        res.status(200).json(await Service.Retrieve(Number(uid)))
+        res.status(200).json(await Service.Retrieve__UID(Number(uid)))
+      } else if (isDef(id)) {
+        res.status(200).json(await Service.Retrieve__ID(Number(id)))
       } else {
         res.status(200).json(await Service.Retrieve__All())
       }

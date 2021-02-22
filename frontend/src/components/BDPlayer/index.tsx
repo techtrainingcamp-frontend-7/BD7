@@ -4,9 +4,36 @@ import PlayIcon from '../static/img/play.svg'
 import LoadingIcon from '../static/img/loading.svg'
 import { useAsync } from 'react-use'
 import Hls from 'hls.js'
+import { makeStyles } from '@material-ui/core/styles'
+import { Avatar } from '@material-ui/core'
+import { User } from '@/utils/request/user'
 
 import './index.less'
 
+const useStyles = makeStyles((theme) => ({
+  playerLayer: {
+    zIndex: theme.zIndex.drawer + 1300,
+    position: 'absolute',
+    right: '5%',
+    bottom: '5%',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+    boxSizing: 'border-box',
+    width: '10%',
+    maxWidth: '80px',
+    '& > div': {
+      marginTop: '20px',
+    },
+  },
+  avatar: {
+    height: '12vh',
+    width: '12vh',
+    maxHeight: '60px',
+    maxWidth: '60px',
+  },
+}))
 export interface BDPlayerProps {
   /* 视频地址或者直播地址，目前只支持「.m3u8」格式的 HLS 直播 */
   videoUrl: string
@@ -16,6 +43,8 @@ export interface BDPlayerProps {
   active?: boolean
   /* 自定义类名 */
   className?: string
+  /* 视频作者信息 */
+  author?: User
 }
 
 export const BDPlayer: React.FC<BDPlayerProps> = ({
@@ -23,7 +52,9 @@ export const BDPlayer: React.FC<BDPlayerProps> = ({
   className,
   videoPosterUrl,
   active = true,
+  author,
 }) => {
+  const classes = useStyles()
   const [playing, setPlaying] = useState(false)
   const [loading, setLoading] = useState(false)
   const [videoDuration, setVideoDuration] = useState(1)
@@ -75,6 +106,25 @@ export const BDPlayer: React.FC<BDPlayerProps> = ({
 
   return (
     <div className={classnames('bd-player', className)}>
+      {author && (
+        <div className={classes.playerLayer}>
+          <Avatar
+            alt={author.username}
+            className={classes.avatar}
+            src={author.avatar_url}
+          />
+          <Avatar
+            alt={author.username}
+            className={classes.avatar}
+            src={author.avatar_url}
+          />
+          <Avatar
+            alt={author.username}
+            className={classes.avatar}
+            src={author.avatar_url}
+          />
+        </div>
+      )}
       <div
         className="bd-player-main"
         onClick={async () => {

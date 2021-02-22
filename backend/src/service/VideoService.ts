@@ -41,13 +41,14 @@ const Retrieve__All = async (): Promise<Restful> => {
 
 /**
  * 查询某用户视频
+ * @param { number } uid
  */
-const Retrieve = async (uid: number): Promise<Restful> => {
+const Retrieve__UID = async (uid: number): Promise<Restful> => {
   try {
     return new Restful(
       CodeDictionary.SUCCESS,
       '查询视频成功',
-      await Action.Retrieve(uid),
+      await Action.Retrieve__UID(uid),
     )
   } catch (e) {
     return new Restful(
@@ -57,4 +58,23 @@ const Retrieve = async (uid: number): Promise<Restful> => {
   }
 }
 
-export default { Create, Retrieve__All, Retrieve }
+/**
+ * 通过ID查询某视频
+ * @param { number } id
+ */
+const Retrieve__ID = async (id: number): Promise<Restful> => {
+  try {
+    return new Restful(
+      CodeDictionary.SUCCESS,
+      '查询视频成功',
+      await Action.Retrieve__ID(id),
+    )
+  } catch (e) {
+    return new Restful(
+      CodeDictionary.COMMON_ERROR,
+      `查询视频失败, ${String(e.message)}`,
+    )
+  }
+}
+
+export default { Create, Retrieve__All, Retrieve__UID, Retrieve__ID }
