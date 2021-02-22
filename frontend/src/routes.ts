@@ -36,9 +36,6 @@ export const routes: RouteConfig[] = [
   {
     path: PathName.ADMIN_ROOT,
     component: Admin,
-    routeProps: {
-      exact: true,
-    },
   },
   {
     path: PathName.HOME,

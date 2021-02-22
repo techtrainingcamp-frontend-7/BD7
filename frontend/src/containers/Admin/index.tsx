@@ -1,73 +1,23 @@
-import { AppBar, Tabs, Tab } from '@material-ui/core'
-import React, { FC } from 'react'
-import { UserAdmin } from './UserAdmin'
+// in src/App.js
+import * as React from 'react'
+import { Admin } from 'react-admin'
+import { fetchUtils } from 'ra-core'
+import simpleRestProvider from 'ra-data-simple-rest'
+import { useHistory } from 'react-router-dom'
 
-import './index.less'
-
-export const tabRoutes = [
-  {
-    label: '用户',
-    component: UserAdmin,
-  },
-  {
-    label: '视频',
-    component: UserAdmin,
-  },
-]
-
-const Admin: FC = () => {
-  const [value, setValue] = React.useState(0)
+export const AdminApp: React.FC = () => {
+  const history = useHistory()
 
   return (
-    <div className="bd7-admin">
-      <AppBar position="static">
-        <Tabs
-          aria-label="simple tabs example"
-          onChange={(evt, newValue) => {
-            setValue(newValue)
-          }}
-          value={value}
-        >
-          {tabRoutes.map((tabRoute) => (
-            <Tab
-              key={tabRoute.label}
-              label={tabRoute.label}
-              {...a11yProps(0)}
-            />
-          ))}
-        </Tabs>
-      </AppBar>
-      {tabRoutes.map((tabRoute, idx) => (
-        <TabPanel index={idx} key={idx} value={value}>
-          <tabRoute.component />
-        </TabPanel>
-      ))}
-    </div>
+    <Admin
+      dataProvider={simpleRestProvider(
+        '/api/admin/',
+        fetchUtils.fetchJson,
+        'X-Total-Count',
+      )}
+      history={history}
+    />
   )
 }
 
-function a11yProps(index: number) {
-  return {
-    id: `simple-tab-${index}`,
-    'aria-controls': `simple-tabpanel-${index}`,
-  }
-}
-
-function TabPanel(props: { value: any; index: number; children: any }) {
-  const { children, value, index, ...other } = props
-
-  return (
-    <div
-      aria-labelledby={`simple-tab-${index}`}
-      className="bd7-tab-panel"
-      hidden={value !== index}
-      id={`simple-tabpanel-${index}`}
-      role="tabpanel"
-      {...other}
-    >
-      {value === index && children}
-    </div>
-  )
-}
-
-export default Admin
+export default AdminApp
