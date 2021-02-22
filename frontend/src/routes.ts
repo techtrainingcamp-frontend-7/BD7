@@ -5,12 +5,16 @@ import Home from './containers/Home'
 import Login from './containers/Login'
 import Register from './containers/Register'
 import User from './containers/User'
+import SinglePlayer from './containers/SinglePlayer'
+import NotFoundPage from './containers/NotFoundPage'
 
 export enum PathName {
   USER = '/user',
   LOGIN = '/login',
   REGISTER = '/register',
   DEMO = '/demo',
+  SINGLE_PLAYER = '/video',
+  NOT_FOUND_PAGE = '/404',
   HOME = '/',
   ADMIN_ROOT = '/admin',
 }
@@ -32,6 +36,17 @@ export const routes: RouteConfig[] = [
   {
     path: PathName.DEMO,
     component: Demo,
+  },
+  {
+    path: PathName.SINGLE_PLAYER,
+    component: SinglePlayer,
+  },
+  {
+    path: PathName.NOT_FOUND_PAGE,
+    component: NotFoundPage,
+    routeProps: {
+      exact: true,
+    },
   },
   {
     path: PathName.ADMIN_ROOT,
