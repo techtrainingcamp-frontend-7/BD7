@@ -1,15 +1,11 @@
 import React, { Fragment } from 'react'
 import { connect } from 'react-redux'
-import {
-  BrowserRouter as Router,
-  Redirect,
-  Route,
-  Switch,
-} from 'react-router-dom'
+import { Redirect, Route, Switch } from 'react-router-dom'
 import { PathName, RouteConfig, routes } from './routes'
 import { Tabs } from './tabs'
-import { RootDispatch, RootState } from '@/store'
+import { RootDispatch, RootState, history } from '@/store'
 import './boot'
+import { ConnectedRouter } from 'connected-react-router'
 import {
   Dialog,
   DialogTitle,
@@ -25,19 +21,16 @@ import CloseIcon from '@material-ui/icons/Close'
 
 const App = (): JSX.Element => {
   return (
-    <Router
-      // https://reactrouter.com/web/api/HashRouter/basename-string
-      basename={process.env.PUBLIC_URL}
-    >
-      <div className="App">
+    <div className="App">
+      <ConnectedRouter history={history}>
         <Switch>
           {routes.map((route, i) => (
             <RouteWithSubRoutes key={route.path} {...route} />
           ))}
         </Switch>
         <Tabs />
-      </div>
-    </Router>
+      </ConnectedRouter>
+    </div>
   )
 }
 

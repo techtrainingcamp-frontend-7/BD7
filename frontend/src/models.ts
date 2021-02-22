@@ -5,7 +5,6 @@ import { login } from '@/containers/Login/model'
 import { user } from '@/containers/User/model'
 import { player } from '@/containers/SinglePlayer/model'
 
-import { admin } from './containers/Admin/model'
 import { common } from './common-model'
 
 export interface RootModel extends Models<RootModel> {
@@ -15,7 +14,6 @@ export interface RootModel extends Models<RootModel> {
   user: typeof user
   player: typeof player
   common: typeof common
-  admin: typeof admin
 }
 
 export const models: RootModel = {
@@ -25,5 +23,4 @@ export const models: RootModel = {
   user,
   player,
   common,
-  admin,
 }
