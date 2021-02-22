@@ -12,6 +12,16 @@
     border: 2px solid #ffffff;
     background-color: #333;
     border-radius: 50%;
+    cursor: pointer;
+    animation: spin 5s linear infinite;
+    @keyframes spin {
+      0% {
+        rotate: 0deg;
+      }
+      100% {
+        rotate: 360deg;
+      }
+    }
   }
   &-main {
     width: 100%;

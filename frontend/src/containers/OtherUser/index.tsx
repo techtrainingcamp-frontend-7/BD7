@@ -25,6 +25,7 @@ const useStyles = makeStyles((theme) => ({
   avatar: {
     width: '100%',
     height: '100%',
+    cursor: 'pointer',
   },
   backdrop: {
     zIndex: theme.zIndex.drawer + 1301,
