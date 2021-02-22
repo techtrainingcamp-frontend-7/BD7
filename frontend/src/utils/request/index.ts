@@ -42,7 +42,7 @@ export const request = async <T>(config: AxiosRequestConfig) => {
       return (res.data.data as T) || ((res.data as unknown) as T)
     }
   } catch (err) {
-    if (err.response.status === 401 && !isWhiteUrlFlag) {
+    if (err?.response?.status === 401 && !isWhiteUrlFlag) {
       dispatch.common.LOGOUT()
     }
     console.log(err.response)
