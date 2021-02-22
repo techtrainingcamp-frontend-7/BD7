@@ -35,13 +35,13 @@ app.use('/api/upload', UploadRouter)
 
 app.use(crud('/api/admin/user', sequelizeCrud(User)))
 app.use(crud('/api/admin/video', sequelizeCrud(Video)))
-app.use(crud('/api/admin/following', sequelizeCrud(Following)))
+app.use(crud('/api/admin/user-like-video', sequelizeCrud(UserLikeVideo)))
+app.use(crud('/api/admin/user-play-video', sequelizeCrud(UserPlayVideo)))
 app.use(crud('/api/admin/live', sequelizeCrud(Live)))
 app.use(crud('/api/admin/live-comment', sequelizeCrud(LiveComment)))
 app.use(crud('/api/admin/tag', sequelizeCrud(Tag)))
-app.use(crud('/api/admin/user-like-video', sequelizeCrud(UserLikeVideo)))
-app.use(crud('/api/admin/user-play-video', sequelizeCrud(UserPlayVideo)))
 app.use(crud('/api/admin/video-tag', sequelizeCrud(VideoTag)))
+app.use(crud('/api/admin/following', sequelizeCrud(Following)))
 
 // 包底错误处理中间件
 app.use(errorHandler)

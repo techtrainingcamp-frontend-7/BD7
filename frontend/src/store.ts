@@ -6,11 +6,13 @@ import { connectRouter, routerMiddleware } from 'connected-react-router'
 import immerPlugin from '@rematch/immer'
 import selectPlugin from '@rematch/select'
 import { createBrowserHistory } from 'history'
+import { adminReducer } from 'react-admin'
 
 export const history = createBrowserHistory({
   basename: process.env.PUBLIC_URL,
 })
-const reducers = { router: connectRouter(history) }
+// https://marmelab.com/react-admin/CustomApp.html
+const reducers = { router: connectRouter(history), admin: adminReducer }
 
 export const store = init<RootModel>({
   models,

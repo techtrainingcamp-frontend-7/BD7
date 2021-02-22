@@ -8,6 +8,7 @@ export enum Followed {
 }
 
 class Following extends Model {
+  id!: number
   uid_from!: number
   uid_to!: number
   followed!: Followed
@@ -17,10 +18,15 @@ class Following extends Model {
 
 Following.init(
   {
+    id: {
+      type: DataTypes.INTEGER.UNSIGNED,
+      primaryKey: true,
+      autoIncrement: true,
+      comment: '自增字段（主键）',
+    },
     uid_from: {
       type: DataTypes.INTEGER.UNSIGNED,
       comment: 'follow 发起者',
-      primaryKey: true,
       references: {
         model: User,
         key: 'id',
@@ -30,7 +36,6 @@ Following.init(
     uid_to: {
       type: DataTypes.INTEGER.UNSIGNED,
       comment: '被 follow 的人',
-      primaryKey: true,
       references: {
         model: User,
         key: 'id',

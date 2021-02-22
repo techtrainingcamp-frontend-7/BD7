@@ -16,23 +16,24 @@
     "typescriptreact"
   ],
   "cSpell.words": [
-    "upyun",
-    "filemd",
-    "USERINFO",
-    "fontsource",
-    "DIALOGSTATUS",
     "DIALOGCONTENT",
+    "DIALOGSTATUS",
     "DIALOGTITLE",
-    "SNACKSTATUS",
-    "SNACKCONTENT",
+    "Datagrid",
     "LOGSTATUS",
+    "SNACKCONTENT",
+    "SNACKSTATUS",
     "Swiper",
+    "USERINFO",
     "Vercel",
     "douyin",
+    "filemd",
+    "fontsource",
     "gitee",
     "immer",
     "standardjs",
-    "techtrainingcamp"
+    "techtrainingcamp",
+    "upyun"
   ],
   "[less]": {
     "editor.formatOnSave": true,
