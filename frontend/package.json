@@ -22,6 +22,7 @@
     "connected-react-router": "^6.9.0",
     "fontsource-roboto": "^4.0.0",
     "hls.js": "^0.14.17",
+    "lodash.isequalwith": "^4.4.0",
     "ra-data-simple-rest": "^3.10.4",
     "react": "^17.0.1",
     "react-admin": "^3.12.4",

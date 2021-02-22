@@ -1,8 +1,12 @@
 import { RootDispatch, RootState } from '@/store'
 
-import React, { FC, useEffect, useState } from 'react'
+import React, { FC, useState } from 'react'
+import { useAsync } from 'react-use'
 import { connect } from 'react-redux'
 import { RouteComponentProps, withRouter } from 'react-router-dom'
+import { PathName } from '@/routes'
+import { request } from '@/utils'
+
 import {
   Avatar,
   Button,
@@ -24,7 +28,7 @@ import {
 import { Add as AddIcon } from '@material-ui/icons'
 import { makeStyles } from '@material-ui/core/styles'
 import { UPYUN_URL } from '@/utils/const'
-import { request } from '@/utils'
+
 import { Video } from '@/utils/request/video'
 
 import './index.less'
@@ -41,8 +45,8 @@ const useStyles = makeStyles((theme) => ({
   fab: {
     zIndex: theme.zIndex.drawer + 1300,
     position: 'absolute',
-    right: theme.spacing(2),
-    bottom: theme.spacing(2),
+    right: '5%',
+    bottom: '5%',
   },
   videoItem: {
     maxWidth: 'calc(50% - 20px)',
@@ -70,15 +74,18 @@ export enum GenderCN {
 const User: FC<UserProps> = ({
   state,
   dispatch,
+  history,
   commonState,
   commonDispatch,
 }) => {
-  useEffect(() => {
-    setTimeout(() => {
-      dispatch.retrieveUserInfo()
-      dispatch.retrieveUserVideos()
-    }, 0)
+  useAsync(async () => {
+    await Promise.all([
+      dispatch.retrieveUserInfo(),
+      dispatch.retrieveUserVideos(),
+    ])
   }, [])
+  const classes = useStyles()
+
   const [loading, setLoading] = useState(false)
   const [profileEditing, setProfileEditing] = useState(false)
   const userInfo = commonState.userInfo
@@ -140,8 +147,6 @@ const User: FC<UserProps> = ({
     commonDispatch.SET_SNACKSTATUS(true)
     dispatch.retrieveUserVideos()
   }
-
-  const classes = useStyles()
 
   const handleImgUpload = async (e: any) => {
     const file = e.target.files[0]
@@ -264,6 +269,9 @@ const User: FC<UserProps> = ({
           <CardActionArea
             className={classes.videoItem}
             key={video.id}
+            onClick={() => {
+              history.push(`${PathName.SINGLE_PLAYER}?id=${String(video.id)}`)
+            }}
             style={{
               backgroundImage: `url(${
                 video.poster_url ? video.poster_url : ''

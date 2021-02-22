@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/promise-function-async */
-import { Video } from 'models'
+import { User, Video } from 'models'
 
 /**
  * 添加视频
@@ -13,18 +13,33 @@ const Create = async (video: Video) => {
  * 遍历视频
  */
 const Retrieve__All = () => {
-  return Video.findAll({})
+  return Video.findAll({
+    include: [User],
+  })
 }
 
 /**
  * 查询某用户的视频
  * @param { number } uid
  */
-const Retrieve = (uid: number) => {
+const Retrieve__UID = (uid: number) => {
   return Video.findAll({
     where: {
       uid,
     },
+  })
+}
+
+/**
+ * 通过ID查询某视频
+ * @param { number } id
+ */
+const Retrieve__ID = (id: number) => {
+  return Video.findOne({
+    where: {
+      id,
+    },
+    include: [User],
   })
 }
 
@@ -43,6 +58,7 @@ const Delete = (id: number): Promise<number> => {
 export default {
   Create,
   Retrieve__All,
-  Retrieve,
+  Retrieve__ID,
+  Retrieve__UID,
   Delete,
 }

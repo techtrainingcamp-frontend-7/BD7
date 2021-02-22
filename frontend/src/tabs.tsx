@@ -18,6 +18,7 @@ export const tabRoutes: { [key in TabType]: PathName } = {
 
 /* 路由所处的 Tab */
 export const path2Tab: { [key in PathName]?: TabType } = {
+  [PathName.SINGLE_PLAYER]: TabType.ME,
   [PathName.LOGIN]: TabType.ME,
   [PathName.REGISTER]: TabType.ME,
   [PathName.USER]: TabType.ME,

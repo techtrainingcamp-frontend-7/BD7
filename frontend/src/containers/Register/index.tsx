@@ -15,13 +15,16 @@ const Register: FC<RegisterProps> = ({ history }) => {
   const [username, setUserName] = useState('')
   const [password, setPassword] = useState('')
   const [registering, setRegistering] = useState(false)
-  const handleBackward = () => {
-    history.goBack()
-  }
+
   return (
     <div className="bd7-register">
       <div className="bd7-register-backward">
-        <IconButton aria-label="back" onClick={handleBackward}>
+        <IconButton
+          aria-label="back"
+          onClick={() => {
+            history.goBack()
+          }}
+        >
           <NavigateBeforeIcon />
         </IconButton>
       </div>

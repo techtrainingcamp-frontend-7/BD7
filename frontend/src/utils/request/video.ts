@@ -1,4 +1,5 @@
 import { request } from '.'
+import { User } from './user'
 
 const baseUrl = '/api/video'
 
@@ -11,6 +12,7 @@ export interface Video {
   like_count: number
   play_count: number
   reference: number
+  User: User
   readonly createdAt: Date
   readonly updatedAt: Date
 }
@@ -36,6 +38,18 @@ export const fetchUserVideos = async (
   })
 }
 
+export const fetchSingleVideo = async (
+  id: number,
+): Promise<Video | undefined> => {
+  return await request<Video | undefined>({
+    method: 'GET',
+    url: `${baseUrl}/retrieve`,
+    params: {
+      id,
+    },
+  })
+}
+
 export const uploadVideo = async (video: Partial<Video>) => {
   return await request<Video>({
     method: 'POST',
@@ -48,4 +62,5 @@ export default {
   fetchRecommendedVideos,
   fetchUserVideos,
   uploadVideo,
+  fetchSingleVideo,
 }
