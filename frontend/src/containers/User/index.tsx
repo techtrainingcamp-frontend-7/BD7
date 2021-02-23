@@ -48,9 +48,9 @@ const useStyles = makeStyles((theme) => ({
   },
   fab: {
     zIndex: theme.zIndex.drawer,
-    position: 'absolute',
+    position: 'fixed',
     right: '5%',
-    bottom: '5%',
+    bottom: '60px',
   },
   videoItem: {
     maxWidth: 'calc(50% - 20px)',
