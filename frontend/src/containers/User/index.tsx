@@ -99,6 +99,7 @@ const User: FC<UserProps> = ({
   const [profile, setProfile] = useState(userInfo.profile || '')
   const [videoUploading, setVideoUploading] = useState(false)
   const [video, setVideo] = useState(null as any)
+  const [videoPoster, setVideoPoster] = useState(null as any)
   const [description, setDescription] = useState('')
   const [videoDescEditingIndex, setVideoDescEditingIndex] = useState(-1)
   const handleProfileEditDialogConfirm = async () => {
@@ -124,13 +125,50 @@ const User: FC<UserProps> = ({
     }
     setVideo(file)
   }
+  const handleVideoPosterAdd = (e: any) => {
+    const file = e.target.files[0]
+    if (!file) return
+    const { size } = file
+    if (size > 1024 * 1024 * 15) {
+      commonDispatch.SET_DIALOG({
+        title: '提示',
+        content: '请选择小于5MB的封面',
+        status: true,
+      })
+      return
+    }
+    setVideoPoster(file)
+  }
+
   const handleVideoUploadDialogConfirm = async () => {
-    const formData = new FormData()
-    formData.append('file', video)
+    if (!video || !videoPoster) {
+      commonDispatch.SET_DIALOG({
+        title: '提示',
+        content: '请选择视频封面和视频',
+        status: true,
+      })
+      return
+    }
+
+    const videoPosterFormData = new FormData()
+    videoPosterFormData.append('file', videoPoster)
+    const videoFormData = new FormData()
+    videoFormData.append('file', video)
     setLoading(true)
+    // 上传视频封面
+    const posterRes = await dispatch.uploadImage({
+      fileName: videoPoster.name,
+      formData: videoPosterFormData,
+    })
+    if (!posterRes || posterRes.code !== 200) {
+      setLoading(false)
+      return
+    }
+
+    // 上传视频
     let res = await dispatch.uploadVideo({
       fileName: video.name,
-      formData,
+      formData: videoFormData,
     })
     if (!res || res.code !== 200) {
       setLoading(false)
@@ -142,10 +180,12 @@ const User: FC<UserProps> = ({
       uid: userInfo.id as number,
       description,
       video_url: `${UPYUN_URL}${res.url as string}`,
+      poster_url: `${UPYUN_URL}${posterRes.url as string}`,
     }
     res = await dispatch.createVideo(videoData)
     if (res && !res.code) {
       // 后端保存成功
+      setVideoPoster(null)
       setVideo(null)
       setDescription('')
     }
@@ -423,9 +463,35 @@ const User: FC<UserProps> = ({
                 style={{
                   display: 'flex',
                   alignItems: 'center',
+                  margin: 10,
+                  justifyContent: 'space-between',
                 }}
               >
-                已选中视频文件：{video.name}
+                已选中视频封面：{videoPoster?.name}
+                <label
+                  htmlFor="bd7-user__video-poster-upload"
+                  style={{ margin: '0 10px' }}
+                >
+                  <Button
+                    color="secondary"
+                    component="span"
+                    size="small"
+                    variant="contained"
+                  >
+                    更改
+                  </Button>
+                </label>
+              </div>
+              <Divider />
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  margin: 10,
+                }}
+              >
+                已选中视频文件：{video?.name}
                 <label
                   htmlFor="bd7-user__video-upload"
                   style={{ margin: '0 10px' }}
@@ -457,6 +523,28 @@ const User: FC<UserProps> = ({
           )}
           <div className={video ? 'non-display' : ''}>
             <input
+              accept="image/png, image/jpeg, image/jpg"
+              id="bd7-user__video-poster-upload"
+              onChange={handleVideoPosterAdd}
+              type="file"
+            />
+            <label htmlFor="bd7-user__video-poster-upload">
+              <Button
+                color={video ? 'secondary' : 'primary'}
+                component="span"
+                disabled={videoPoster !== null}
+                style={{
+                  margin: 10,
+                  minWidth: 250,
+                }}
+                variant="contained"
+              >
+                点击添加视频封面
+              </Button>
+            </label>
+
+            <Divider />
+            <input
               accept="video/mp4, video/mpeg, video/3gpp"
               id="bd7-user__video-upload"
               onChange={handleVideoAdd}
@@ -466,6 +554,10 @@ const User: FC<UserProps> = ({
               <Button
                 color={video ? 'secondary' : 'primary'}
                 component="span"
+                style={{
+                  margin: 10,
+                  minWidth: 250,
+                }}
                 variant="contained"
               >
                 点击添加视频
