@@ -14,10 +14,9 @@ import {
   CardContent,
   CardActionArea,
   Button,
+  CardMedia,
 } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
-
-import { Video } from '@/utils/request/video'
 
 import './index.less'
 
@@ -40,6 +39,9 @@ const useStyles = makeStyles((theme) => ({
     maxWidth: 'calc(50% - 20px)',
     minWidth: 'calc(50% - 20px)',
     margin: '5px 10px',
+  },
+  media: {
+    height: 140,
   },
 }))
 const mapState = (state: RootState) => ({
@@ -162,27 +164,28 @@ const OtherUser: FC<OtherUserProps> = ({
         已发布视频
       </Typography>
       <div className="bd7-user__video-list">
-        {state.userVideos.map((video: Partial<Video>) => (
-          <CardActionArea
-            className={classes.videoItem}
-            key={video.id}
-            onClick={() => {
-              history.push(`${PathName.SINGLE_PLAYER}?id=${String(video.id)}`)
-            }}
-            style={{
-              backgroundImage: `url(${
-                video.poster_url ? video.poster_url : ''
-              })`,
-            }}
-          >
-            <Card variant="outlined">
+        {state.userVideos.map((video) => (
+          <Card className={classes.videoItem} key={video.id} variant="outlined">
+            <CardActionArea
+              onClick={() => {
+                history.push(`${PathName.SINGLE_PLAYER}?id=${String(video.id)}`)
+              }}
+            >
+              <CardMedia
+                className={classes.media}
+                image={`${
+                  video.poster_url ||
+                  'https://qcloudtest-1256492673.cos.ap-guangzhou.myqcloud.com/201902221550826875449034.png'
+                }`}
+                title={video.description}
+              />
               <CardContent>
                 <Typography component="p" variant="body2">
                   {video.description || '暂无描述...'}
                 </Typography>
               </CardContent>
-            </Card>
-          </CardActionArea>
+            </CardActionArea>
+          </Card>
         ))}
       </div>
     </div>
