@@ -124,7 +124,6 @@ const Login: FC<LoginProps> = ({ dispatch, commonDispatch, history }) => {
       <div className="bd7-login-to-register">
         <Link
           onClick={() => {
-            console.log('asdhj')
             history.push(PathName.REGISTER)
           }}
         >
