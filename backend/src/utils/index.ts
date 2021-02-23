@@ -12,6 +12,9 @@ const ROUTER_WHITE_LIST = [`user/register`, `user/login`, `test`].map(
   (v) => `/api/${v}`,
 )
 const isDev = process.env.NODE_ENV === 'development'
+const ALIYUN_PUSH_URL = process.env.ALIYUN_PUSH_URL as string
+const ALIYUN_LIVE_URL = process.env.ALIYUN_LIVE_URL as string
+const ALIYUN_APPNAME = process.env.ALIYUN_APPNAME as string
 
 /**
  * 判断变量是否已定义
@@ -155,6 +158,8 @@ enum CodeDictionary {
   LOGIN_ERROR = 2,
   RETRIEVE_ERROR__USER_NON_EXISTED = 3,
   UPLOAD_TYPE_ERROR = 4,
+  CREATE_ERROR__LIVE_EXISTED = 5,
+  CREATE_ERROR__LIVE_PARAM_WRONG = 6,
   PARAMS_ERROR = 98,
   COMMON_ERROR = 99,
   JWT_ERROR__REQUIRED = 100,
@@ -183,6 +188,9 @@ export {
   QUERY_METHODS,
   BODY_METHODS,
   ROUTER_WHITE_LIST,
+  ALIYUN_PUSH_URL,
+  ALIYUN_LIVE_URL,
+  ALIYUN_APPNAME,
   isDev,
   isDef,
   isUndef,
@@ -200,6 +208,9 @@ export default {
   QUERY_METHODS,
   BODY_METHODS,
   ROUTER_WHITE_LIST,
+  ALIYUN_PUSH_URL,
+  ALIYUN_LIVE_URL,
+  ALIYUN_APPNAME,
   isDev,
   isDef,
   isUndef,

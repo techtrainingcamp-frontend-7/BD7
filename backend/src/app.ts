@@ -1,6 +1,14 @@
 import express from 'express'
 
-import { UserRouter, TestRouter, VideoRouter, UploadRouter } from '@routes'
+import {
+  UserRouter,
+  TestRouter,
+  VideoRouter,
+  UploadRouter,
+  UserLikeVideoRouter,
+  FollowingRouter,
+  LiveRouter,
+} from '@routes'
 import { errorHandler, checkJWT, checkValidUser } from '@middleware'
 import crud, { sequelizeCrud } from 'express-sequelize-crud'
 import {
@@ -14,8 +22,6 @@ import {
   VideoTag,
   Following,
 } from '@models'
-import userLikeVideoRouter from '@routes/UserLikeVideo'
-import followingRouter from '@routes/Following'
 
 const app = express()
 
@@ -35,8 +41,9 @@ app.use('/api/test', TestRouter)
 app.use('/api/user', UserRouter)
 app.use('/api/video', VideoRouter)
 app.use('/api/upload', UploadRouter)
-app.use('/api/user-like-video', userLikeVideoRouter)
-app.use('/api/following', followingRouter)
+app.use('/api/user-like-video', UserLikeVideoRouter)
+app.use('/api/following', FollowingRouter)
+app.use('/api/live', LiveRouter)
 
 app.use(crud('/api/admin/user', sequelizeCrud(User)))
 app.use(crud('/api/admin/video', sequelizeCrud(Video)))

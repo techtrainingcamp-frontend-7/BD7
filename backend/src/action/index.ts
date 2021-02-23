@@ -1,4 +1,5 @@
 import UserAction from './UserAction'
 import VideoAction from './VideoAction'
-export { UserAction, VideoAction }
-export default { User: UserAction, Video: VideoAction }
+import LiveAction from './LiveAction'
+export { UserAction, VideoAction, LiveAction }
+export default { User: UserAction, Video: VideoAction, Live: LiveAction }

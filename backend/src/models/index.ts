@@ -19,6 +19,14 @@ User.hasMany(Video, {
   sourceKey: 'id',
   foreignKey: 'uid',
 })
+
+/**
+ * Live : User
+ * 1 : 1
+ */
+Live.belongsTo(User, { targetKey: 'id', foreignKey: 'uid' })
+User.hasOne(Live, { sourceKey: 'id', foreignKey: 'uid' })
+
 // UserLikeVideo：多对多关系
 Video.belongsToMany(User, {
   through: UserLikeVideo,

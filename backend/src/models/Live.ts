@@ -5,10 +5,10 @@ import User from './User'
 class Live extends Model {
   id!: number
   uid!: number
-  description?: string
+  description!: string
+  push_url!: string
   live_url!: string
-  start_time!: Date
-  end_time?: Date
+  isActive!: boolean
   public readonly createdAt!: Date
   public readonly updatedAt!: Date
 }
@@ -25,6 +25,7 @@ Live.init(
       type: DataTypes.INTEGER.UNSIGNED,
       comment: '直播发布者',
       allowNull: false,
+      unique: 'uid',
       references: {
         model: User,
         key: 'id',
@@ -33,20 +34,21 @@ Live.init(
     description: {
       type: DataTypes.TEXT,
       comment: '直播简介',
+      allowNull: false,
     },
-    live_url: {
+    push_url: {
       type: DataTypes.STRING(2083),
       comment: '直播推流地址',
       allowNull: false,
     },
-    start_time: {
-      type: DataTypes.DATE,
-      comment: '直播开始时间',
+    live_url: {
+      type: DataTypes.STRING(2083),
+      comment: '直播播流地址',
       allowNull: false,
     },
-    end_time: {
-      type: DataTypes.DATE,
-      comment: '直播结束时间',
+    isActive: {
+      type: DataTypes.BOOLEAN,
+      comment: '是否正在直播',
     },
   },
   {
