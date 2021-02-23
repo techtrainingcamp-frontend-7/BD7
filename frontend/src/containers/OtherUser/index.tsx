@@ -14,8 +14,10 @@ import {
   CardContent,
   CardActionArea,
   Button,
+  IconButton,
   CardMedia,
 } from '@material-ui/core'
+import NavigateBeforeIcon from '@material-ui/icons/NavigateBefore'
 import { makeStyles } from '@material-ui/core/styles'
 
 import './index.less'
@@ -25,6 +27,13 @@ const useStyles = makeStyles((theme) => ({
     width: '100%',
     height: '100%',
     cursor: 'pointer',
+  },
+  backward: {
+    position: 'absolute',
+    zIndex: theme.zIndex.drawer + 1302,
+    top: '50%',
+    transform: 'translateY(-50%)',
+    left: '2%',
   },
   backdrop: {
     zIndex: theme.zIndex.drawer + 1301,
@@ -93,6 +102,16 @@ const OtherUser: FC<OtherUserProps> = ({
   return (
     <div className="bd7-user">
       <div className="bd7-user__title">
+        <div className={classes.backward}>
+          <IconButton
+            aria-label="back"
+            onClick={() => {
+              history.goBack()
+            }}
+          >
+            <NavigateBeforeIcon />
+          </IconButton>
+        </div>
         <Typography variant="subtitle1">我和我的抖音 - 第7组</Typography>
       </div>
       <Divider />

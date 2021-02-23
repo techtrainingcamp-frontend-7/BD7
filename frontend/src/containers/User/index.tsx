@@ -323,42 +323,48 @@ const User: FC<UserProps> = ({
         已发布视频
       </Typography>
       <div className="bd7-user__video-list">
-        {state.userVideos.map((video, idx) => (
-          <Card
-            className={classes.videoItem}
-            key={video.id}
-            onClick={() => {
-              history.push(`${PathName.SINGLE_PLAYER}?id=${String(video.id)}`)
-            }}
-            variant="outlined"
-          >
-            <CardMedia
-              className={classes.media}
-              image={`${
-                video.poster_url ||
-                'https://qcloudtest-1256492673.cos.ap-guangzhou.myqcloud.com/201902221550826875449034.png'
-              }`}
-              title={video.description}
-            />
-            <CardContent>
-              <Typography component="p" variant="body2">
-                {video.description || '暂无描述...'}
-              </Typography>
-            </CardContent>
-            <CardActions disableSpacing>
-              <IconButton
-                aria-label="编辑描述"
-                onClick={(e) => {
-                  e.stopPropagation()
-                  setVideoDescEditingIndex(idx)
-                }}
-                title="点击编辑描述"
-              >
-                <EditIcon />
-              </IconButton>
-            </CardActions>
-          </Card>
-        ))}
+        {state.userVideos.length ? (
+          state.userVideos.map((video, idx) => (
+            <Card
+              className={classes.videoItem}
+              key={video.id}
+              onClick={() => {
+                history.push(`${PathName.SINGLE_PLAYER}?id=${String(video.id)}`)
+              }}
+              variant="outlined"
+            >
+              <CardMedia
+                className={classes.media}
+                image={`${
+                  video.poster_url ||
+                  'https://qcloudtest-1256492673.cos.ap-guangzhou.myqcloud.com/201902221550826875449034.png'
+                }`}
+                title={video.description}
+              />
+              <CardContent>
+                <Typography component="p" variant="body2">
+                  {video.description || '暂无描述...'}
+                </Typography>
+              </CardContent>
+              <CardActions disableSpacing>
+                <IconButton
+                  aria-label="编辑描述"
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    setVideoDescEditingIndex(idx)
+                  }}
+                  title="点击编辑描述"
+                >
+                  <EditIcon />
+                </IconButton>
+              </CardActions>
+            </Card>
+          ))
+        ) : (
+          <div className="bd7-user__video-list--loading">
+            <CircularProgress color="inherit" />
+          </div>
+        )}
       </div>
 
       {/* ========================================================== */}
