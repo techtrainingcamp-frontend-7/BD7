@@ -5,6 +5,8 @@ import { Restful } from './type'
 import user from './user'
 import video from './video'
 import upload from './upload'
+import live from './live'
+
 const whiteList = [/^https:\/\/v0.api.upyun.com/]
 const isWhiteUrl = (url: string) => {
   return !whiteList.every((reg) => !reg.test(url))
@@ -42,15 +44,23 @@ export const request = async <T>(config: AxiosRequestConfig) => {
       return (res.data.data as T) || ((res.data as unknown) as T)
     }
   } catch (err) {
-    if (err.response.status === 401 && !isWhiteUrlFlag) {
-      dispatch.SET_SNACKSTATUS(true)
-      dispatch.SET_SNACKCONTENT('登陆失效，请重新登陆')
-      dispatch.common.LOGOUT()
-    }
     console.log(err.response)
     console.error('网络错误', err)
+    if (err?.response?.status === 401 && !isWhiteUrlFlag) {
+      dispatch.common.SET_SNACKSTATUS(true)
+      dispatch.common.SET_SNACKCONTENT('登陆失效，请重新登陆')
+      dispatch.common.LOGOUT()
+      return
+    }
+    if (err?.response?.status === 403) {
+      dispatch.common.SET_DIALOG({
+        content: '无权进行此操作',
+        title: '警告',
+        status: true,
+      })
+    }
   }
 }
 
-export { user, video, upload }
-export default { user, video, upload }
+export { user, video, upload, live }
+export default { user, video, upload, live }

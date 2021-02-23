@@ -8,6 +8,8 @@ import User from './containers/User'
 import OtherUser from './containers/OtherUser'
 import SinglePlayer from './containers/SinglePlayer'
 import NotFoundPage from './containers/NotFoundPage'
+import LiveCenter from './containers/LiveCenter'
+import Live from './containers/LiveCenter/Live'
 
 export enum PathName {
   OTHER_USER = '/user/:username',
@@ -18,6 +20,8 @@ export enum PathName {
   DEMO = '/demo',
   SINGLE_PLAYER = '/video',
   NOT_FOUND_PAGE = '/404',
+  LIVE = '/live/:uid',
+  LIVE_CENTER = '/live',
   HOME = '/',
   ADMIN_ROOT = '/admin',
 }
@@ -39,6 +43,9 @@ export const routes: RouteConfig[] = [
   {
     path: PathName.USER,
     component: User,
+    routeProps: {
+      exact: true,
+    },
   },
   {
     path: PathName.DEMO,
@@ -51,6 +58,17 @@ export const routes: RouteConfig[] = [
   {
     path: PathName.NOT_FOUND_PAGE,
     component: NotFoundPage,
+    routeProps: {
+      exact: true,
+    },
+  },
+  {
+    path: PathName.LIVE,
+    component: Live,
+  },
+  {
+    path: PathName.LIVE_CENTER,
+    component: LiveCenter,
     routeProps: {
       exact: true,
     },
