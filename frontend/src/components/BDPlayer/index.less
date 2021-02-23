@@ -14,6 +14,7 @@
     border-radius: 50%;
     cursor: pointer;
     animation: spin 5s linear infinite;
+    -webkit-tap-highlight-color: transparent;
     @keyframes spin {
       0% {
         rotate: 0deg;
@@ -22,6 +23,18 @@
         rotate: 360deg;
       }
     }
+  }
+  &-error {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 40px;
+    width: 100%;
+    height: 100%;
+    font-size: 4vw !important;
+    text-align: center;
+    word-break: break-all;
+    user-select: none;
   }
   &-main {
     width: 100%;
