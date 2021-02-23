@@ -15,9 +15,17 @@ const Create = async (video: Video) => {
 const Retrieve__All = () => {
   return Video.findAll({
     include: [
-      User,
+      {
+        model: User,
+        attributes: {
+          exclude: ['password'],
+        },
+      },
       {
         association: 'likedUsers',
+        attributes: {
+          exclude: ['password'],
+        },
       },
     ],
   })
@@ -33,9 +41,17 @@ const Retrieve__UID = (uid: number) => {
       uid,
     },
     include: [
-      User,
+      {
+        model: User,
+        attributes: {
+          exclude: ['password'],
+        },
+      },
       {
         association: 'likedUsers',
+        attributes: {
+          exclude: ['password'],
+        },
       },
     ],
   })
@@ -51,9 +67,17 @@ const Retrieve__ID = (id: number) => {
       id,
     },
     include: [
-      User,
+      {
+        model: User,
+        attributes: {
+          exclude: ['password'],
+        },
+      },
       {
         association: 'likedUsers',
+        attributes: {
+          exclude: ['password'],
+        },
       },
     ],
   })
