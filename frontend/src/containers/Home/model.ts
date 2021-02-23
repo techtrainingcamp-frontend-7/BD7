@@ -52,13 +52,7 @@ export const home = createModel<RootModel>()({
         const videos = await fetchRecommendedVideos()
         if (videos?.length) home.setRecommendedVideos(videos)
       },
-      async updateUserLikeVideo(
-        payload: {
-          vid: number
-          liked: number
-        },
-        rootState,
-      ) {
+      async updateUserLikeVideo(payload: { vid: number; liked: number }) {
         // 我们假定一定会更新成功，并且直接修改 state 里的标记
         home.addLikeChange(payload)
         const { vid, liked } = payload
@@ -66,7 +60,6 @@ export const home = createModel<RootModel>()({
           method: 'POST',
           url: '/api/user-like-video/change',
           data: {
-            uid: rootState.common.userInfo.id,
             vid,
             liked,
           },

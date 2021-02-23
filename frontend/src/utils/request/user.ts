@@ -17,8 +17,8 @@ export interface User {
   profile?: string
   gender: Gender
   avatar_url?: string
-  followings_count: number
-  followers_count: number
+  followers: User[]
+  following: User[]
   readonly createdAt: Date
   readonly updatedAt: Date
 }

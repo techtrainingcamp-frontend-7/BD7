@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useRef, useState } from 'react'
 import classNames from 'classnames'
 import PlayIcon from '../static/img/play.svg'
 import LoadingIcon from '../static/img/loading.svg'
@@ -80,16 +80,9 @@ export const BDPlayer: React.FC<BDPlayerProps> = ({
   const [loading, setLoading] = useState(false)
   const [videoDuration, setVideoDuration] = useState(1)
   const [currentTime, setCurrentTime] = useState(0)
-  const [likedAnimating, setLikedAnimating] = useState(false)
   const videoRef = useRef<HTMLVideoElement>(null)
-
-  useEffect(() => {
-    // 如果变成 liked 的话，就修改 scale 属性触发动画
-    if (liked) {
-      setLikedAnimating(true)
-      setLikedAnimating(false)
-    }
-  }, [liked])
+  // 防止初次加载动画效果
+  const [likeChanged, setLikeChanged] = useState(false)
 
   const startPlay = async () => {
     if (!videoRef.current) return
@@ -149,36 +142,22 @@ export const BDPlayer: React.FC<BDPlayerProps> = ({
             />
           </div>
 
-          {/* TODO: 点赞 */}
-          <div
-            className="bd-player-like"
-            onClick={() => {
-              onLikeChanged?.(!liked)
-            }}
-          >
-            <FavoriteIcon
-              className={classNames(classes.icon, {
-                animate__heartBeat: liked,
-              })}
-              color={liked ? 'secondary' : 'disabled'}
-              style={{
-                transform: likedAnimating ? 'scale(0.5)' : 'scale(1.0)',
-                transitionProperty: 'transform',
-              }}
-            />
-          </div>
-
-          {/* TODO: 评论 */}
-          <div className="bd-player-comment">
-            <Avatar
-              alt={author.username}
-              className={classes.icon}
+          {onLikeChanged ? (
+            <div
+              className="bd-player-like"
               onClick={() => {
-                onAvatarClick()
+                onLikeChanged?.(!liked)
+                onLikeChanged && setLikeChanged(true)
               }}
-              src={''}
-            />
-          </div>
+            >
+              <FavoriteIcon
+                className={classNames(classes.icon, {
+                  animate__heartBeat: likeChanged && liked,
+                })}
+                color={liked ? 'secondary' : 'disabled'}
+              />
+            </div>
+          ) : null}
         </div>
       )}
       <div className={classes.descriptionBar}>

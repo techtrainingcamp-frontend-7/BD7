@@ -3,16 +3,10 @@ import sequelize from 'database'
 import User from './User'
 import Video from './Video'
 
-export enum Liked {
-  LIKED = 1,
-  LIKE_CANCELED = 0,
-}
-
 class UserLikeVideo extends Model {
   id!: number
   uid!: number
   vid!: number
-  liked!: Liked
   public readonly createdAt!: Date
   public readonly updatedAt!: Date
 }
@@ -40,12 +34,6 @@ UserLikeVideo.init(
         model: Video,
         key: 'id',
       },
-    },
-    liked: {
-      type: DataTypes.INTEGER.UNSIGNED,
-      comment: '是否喜欢',
-      allowNull: false,
-      defaultValue: Liked.LIKED,
     },
   },
   {

@@ -81,6 +81,12 @@ const OtherUser: FC<OtherUserProps> = ({
 
   const userInfo = state.userInfo
 
+  const followed =
+    commonState.userInfo.id &&
+    state.userInfo?.followers
+      ?.map((follower) => follower.id)
+      ?.includes(commonState.userInfo.id)
+
   return (
     <div className="bd7-user">
       <div className="bd7-user__title">
@@ -110,8 +116,18 @@ const OtherUser: FC<OtherUserProps> = ({
           </div>
         </div>
         <div className="bd7-user__banner__right">
-          <Button color="secondary" size="small" variant="contained">
-            关注
+          <Button
+            color="secondary"
+            onClick={async () => {
+              await dispatch.followUser({
+                followed: followed ? 0 : 1,
+              })
+              await dispatch.retrieveUserInfo(username)
+            }}
+            size="small"
+            variant="contained"
+          >
+            {followed ? '取消关注' : '关注'}
           </Button>
         </div>
       </div>
@@ -124,14 +140,14 @@ const OtherUser: FC<OtherUserProps> = ({
         <div className="bd7-user__follow-wrapper">
           <div className="bd7-user__followings">
             <Typography color="secondary" component="div" variant="subtitle2">
-              {userInfo.followings_count}
+              {userInfo.following?.length}
             </Typography>
             &nbsp;关注
           </div>
 
           <div className="bd7-user__followers">
             <Typography color="secondary" component="div" variant="subtitle2">
-              {userInfo.followings_count}
+              {userInfo.followers?.length}
             </Typography>
             &nbsp;粉丝
           </div>

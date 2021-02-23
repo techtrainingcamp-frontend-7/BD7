@@ -32,6 +32,12 @@ const Retrieve__UID = (uid: number) => {
     where: {
       uid,
     },
+    include: [
+      User,
+      {
+        association: 'likedUsers',
+      },
+    ],
   })
 }
 
@@ -44,7 +50,12 @@ const Retrieve__ID = (id: number) => {
     where: {
       id,
     },
-    include: [User],
+    include: [
+      User,
+      {
+        association: 'likedUsers',
+      },
+    ],
   })
 }
 

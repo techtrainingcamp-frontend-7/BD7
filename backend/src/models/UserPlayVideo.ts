@@ -7,7 +7,6 @@ class UserPlayVideo extends Model {
   id!: number
   uid!: number
   vid!: number
-  play_count!: number
   public readonly createdAt!: Date
   public readonly updatedAt!: Date
 }
@@ -35,12 +34,6 @@ UserPlayVideo.init(
         model: Video,
         key: 'id',
       },
-    },
-    play_count: {
-      type: DataTypes.INTEGER.UNSIGNED,
-      comment: '播放次数',
-      allowNull: false,
-      defaultValue: 1,
     },
   },
   {

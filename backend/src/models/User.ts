@@ -14,8 +14,6 @@ class User extends Model {
   public profile?: string
   public gender!: Gender
   public avatar_url?: string
-  public followings_count!: number
-  public followers_count!: number
   public readonly createdAt!: Date
   public readonly updatedAt!: Date
 }
@@ -71,18 +69,6 @@ User.init(
     avatar_url: {
       type: DataTypes.STRING(2083),
       comment: '头像图片地址',
-    },
-    followings_count: {
-      type: DataTypes.INTEGER.UNSIGNED,
-      defaultValue: 0,
-      allowNull: false,
-      comment: '关注数',
-    },
-    followers_count: {
-      type: DataTypes.INTEGER.UNSIGNED,
-      defaultValue: 0,
-      allowNull: false,
-      comment: '粉丝数',
     },
   },
   {

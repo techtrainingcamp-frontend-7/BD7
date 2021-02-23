@@ -36,7 +36,6 @@ export const UserPlayVideoList: React.FC<ListProps> = (props) => (
       >
         <TextField source="id" />
       </ReferenceField>
-      <NumberField source="play_count" />
       <DateField source="createdAt" />
       <DateField source="updatedAt" />
       <EditButton />
@@ -62,7 +61,6 @@ export const UserPlayVideoEdit: React.FC<EditProps> = (props) => (
       >
         <SelectInput optionText="id" />
       </ReferenceInput>
-      <NumberInput defaultValue={1} source="play_count" />
     </SimpleForm>
   </Edit>
 )
@@ -84,7 +82,6 @@ export const UserPlayVideoCreate: React.FC<CreateProps> = (props) => (
       >
         <SelectInput optionText="id" />
       </ReferenceInput>
-      <NumberInput defaultValue={1} source="play_count" />
     </SimpleForm>
   </Create>
 )

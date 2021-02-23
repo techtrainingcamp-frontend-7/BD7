@@ -14,7 +14,6 @@ import LiveComment from './LiveComment'
  */
 Video.belongsTo(User, {
   foreignKey: 'uid',
-  onDelete: 'SET NULL',
 })
 User.hasMany(Video, {
   sourceKey: 'id',
@@ -32,6 +31,20 @@ User.belongsToMany(Video, {
   as: 'likedVideos',
   foreignKey: 'uid',
   otherKey: 'vid',
+})
+
+// 用户的 follow 关系
+User.belongsToMany(User, {
+  through: Following,
+  as: 'followers',
+  foreignKey: 'uid_to',
+  otherKey: 'uid_from',
+})
+User.belongsToMany(User, {
+  through: Following,
+  as: 'following',
+  foreignKey: 'uid_from',
+  otherKey: 'uid_to',
 })
 
 export {

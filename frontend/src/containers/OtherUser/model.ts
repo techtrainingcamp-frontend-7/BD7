@@ -1,6 +1,7 @@
 import { createModel } from '@rematch/core'
 import { RootModel } from '@/models'
 import { request } from '@/utils'
+import { request as _request } from '@/utils/request'
 import { Video } from '@/utils/request/video'
 import { User } from '@/utils/request/user'
 export interface OtherUserState {
@@ -14,8 +15,6 @@ const defaultOtherUserState: OtherUserState = {
     username: '',
     profile: '暂无简介',
     gender: 0,
-    followings_count: 0,
-    followers_count: 0,
   },
   userVideos: [],
 }
@@ -56,6 +55,16 @@ export const otherUser = createModel<RootModel>()({
             dispatch.common.SET_DIALOGTITLE('警告')
             dispatch.common.SET_DIALOGCONTENT(String(e))
           })
+      },
+      async followUser(payload: { followed: number }, state) {
+        await _request({
+          method: 'post',
+          url: '/api/following/change',
+          data: {
+            uid_to: state.otherUser.userInfo.id,
+            followed: payload.followed,
+          },
+        })
       },
     }
   },

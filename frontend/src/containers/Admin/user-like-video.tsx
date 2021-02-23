@@ -10,7 +10,6 @@ import {
   EditButton,
   EditProps,
   SimpleForm,
-  BooleanInput,
   NumberInput,
   ReferenceInput,
   SelectInput,
@@ -37,7 +36,6 @@ export const UserLikeVideoList: React.FC<ListProps> = (props) => (
       >
         <TextField source="id" />
       </ReferenceField>
-      <NumberField source="liked" />
       <DateField source="createdAt" />
       <DateField source="updatedAt" />
       <EditButton />
@@ -63,7 +61,6 @@ export const UserLikeVideoEdit: React.FC<EditProps> = (props) => (
       >
         <SelectInput optionText="id" />
       </ReferenceInput>
-      <BooleanInput defaultValue={1} source="liked" />
     </SimpleForm>
   </Edit>
 )
@@ -85,7 +82,6 @@ export const UserLikeVideoCreate: React.FC<CreateProps> = (props) => (
       >
         <SelectInput optionText="id" />
       </ReferenceInput>
-      <BooleanInput defaultValue={1} source="liked" />
     </SimpleForm>
   </Create>
 )

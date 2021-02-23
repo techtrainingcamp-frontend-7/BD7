@@ -243,14 +243,14 @@ const User: FC<UserProps> = ({
         <div className="bd7-user__follow-wrapper">
           <div className="bd7-user__followings">
             <Typography color="secondary" component="div" variant="subtitle2">
-              {userInfo.followings_count}
+              {userInfo.following?.length}
             </Typography>
             &nbsp;关注
           </div>
 
           <div className="bd7-user__followers">
             <Typography color="secondary" component="div" variant="subtitle2">
-              {userInfo.followings_count}
+              {userInfo.followers?.length}
             </Typography>
             &nbsp;粉丝
           </div>
