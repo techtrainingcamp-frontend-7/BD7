@@ -17,6 +17,16 @@ export const user = createModel<RootModel>()({
       state.userVideos = newUserVideos
       return state
     },
+    SET_VIDEO_DESC: (
+      state: UserState,
+      payload: {
+        index: number
+        description: string
+      },
+    ) => {
+      state.userVideos[payload.index].description = payload.description
+      return state
+    },
   },
   effects: (dispatch) => {
     const { user } = dispatch
@@ -86,6 +96,7 @@ export const user = createModel<RootModel>()({
             dispatch.common.SET_DIALOGCONTENT(String(e))
           })
       },
+      async editUseVideoInfo(payload: Partial<Video>) {},
     }
   },
 })

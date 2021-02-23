@@ -23,9 +23,11 @@ import {
   TextField,
   Fab,
   Card,
+  IconButton,
   CardContent,
-  CardActionArea,
+  CardActions,
 } from '@material-ui/core'
+import EditIcon from '@material-ui/icons/Edit'
 import { Add as AddIcon } from '@material-ui/icons'
 import { makeStyles } from '@material-ui/core/styles'
 import { UPYUN_URL } from '@/utils/const'
@@ -98,6 +100,7 @@ const User: FC<UserProps> = ({
   const [videoUploading, setVideoUploading] = useState(false)
   const [video, setVideo] = useState(null as any)
   const [description, setDescription] = useState('')
+  const [videoDescEditingIndex, setVideoDescEditingIndex] = useState(-1)
   const handleProfileEditDialogConfirm = async () => {
     setLoading(true)
     await request.user.edit({
@@ -271,27 +274,39 @@ const User: FC<UserProps> = ({
         已发布视频
       </Typography>
       <div className="bd7-user__video-list">
-        {state.userVideos.map((video) => (
-          <Card className={classes.videoItem} key={video.id} variant="outlined">
-            <CardActionArea
-              onClick={() => {
-                history.push(`${PathName.SINGLE_PLAYER}?id=${String(video.id)}`)
-              }}
-            >
-              <CardMedia
-                className={classes.media}
-                image={`${
-                  video.poster_url ||
-                  'https://qcloudtest-1256492673.cos.ap-guangzhou.myqcloud.com/201902221550826875449034.png'
-                }`}
-                title={video.description}
-              />
-              <CardContent>
-                <Typography component="p" variant="body2">
-                  {video.description || '暂无描述...'}
-                </Typography>
-              </CardContent>
-            </CardActionArea>
+        {state.userVideos.map((video, idx) => (
+          <Card
+            className={classes.videoItem}
+            key={video.id}
+            onClick={() => {
+              history.push(`${PathName.SINGLE_PLAYER}?id=${String(video.id)}`)
+            }}
+            variant="outlined"
+          >
+            <CardMedia
+              className={classes.media}
+              image={`${
+                video.poster_url ||
+                'https://qcloudtest-1256492673.cos.ap-guangzhou.myqcloud.com/201902221550826875449034.png'
+              }`}
+              title={video.description}
+            />
+            <CardContent>
+              <Typography component="p" variant="body2">
+                {video.description || '暂无描述...'}
+              </Typography>
+            </CardContent>
+            <CardActions disableSpacing>
+              <IconButton
+                aria-label="编辑描述"
+                onClick={(e) => {
+                  e.stopPropagation()
+                  setVideoDescEditingIndex(idx)
+                }}
+              >
+                <EditIcon />
+              </IconButton>
+            </CardActions>
           </Card>
         ))}
       </div>
@@ -299,6 +314,56 @@ const User: FC<UserProps> = ({
       {/* ========================================================== */}
       {/* ========================= DIALOG ========================= */}
       {/* ========================================================== */}
+
+      <Dialog
+        aria-labelledby="video-profile-editor"
+        onClose={() => {
+          setVideoDescEditingIndex(-1)
+        }}
+        open={videoDescEditingIndex !== -1}
+      >
+        <DialogTitle>修改视频简介</DialogTitle>
+        <DialogContent>
+          <TextField
+            autoFocus
+            defaultValue={
+              state.userVideos?.[videoDescEditingIndex]?.description
+            }
+            fullWidth
+            label="视频简介"
+            multiline
+            onChange={(e) => {
+              dispatch.SET_VIDEO_DESC({
+                index: videoDescEditingIndex,
+                description: e.target.value,
+              })
+            }}
+            type="text"
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button
+            color="primary"
+            onClick={() => {
+              setVideoDescEditingIndex(-1)
+            }}
+          >
+            取消
+          </Button>
+          <Button
+            color="secondary"
+            onClick={async () => {
+              await dispatch.editUseVideoInfo(
+                state.userVideos?.[videoDescEditingIndex],
+              )
+              setVideoDescEditingIndex(-1)
+            }}
+            variant="contained"
+          >
+            保存
+          </Button>
+        </DialogActions>
+      </Dialog>
 
       <Dialog
         aria-labelledby="form-dialog-title"
@@ -315,6 +380,7 @@ const User: FC<UserProps> = ({
             fullWidth
             label="个人简介"
             margin="dense"
+            multiline
             onChange={(e) => {
               setProfile(e.target.value)
             }}
