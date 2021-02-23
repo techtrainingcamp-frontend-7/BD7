@@ -353,7 +353,7 @@ const User: FC<UserProps> = ({
           <Button
             color="secondary"
             onClick={async () => {
-              await dispatch.editUseVideoInfo(
+              await dispatch.editUserVideoInfo(
                 state.userVideos?.[videoDescEditingIndex],
               )
               setVideoDescEditingIndex(-1)

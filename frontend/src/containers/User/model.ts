@@ -1,6 +1,7 @@
 import { createModel } from '@rematch/core'
 import { RootModel } from '@/models'
 import { request } from '@/utils'
+import { request as _request } from '@/utils/request'
 import { Video } from '@/utils/request/video'
 export interface UserState {
   userVideos: Video[]
@@ -96,7 +97,13 @@ export const user = createModel<RootModel>()({
             dispatch.common.SET_DIALOGCONTENT(String(e))
           })
       },
-      async editUseVideoInfo(payload: Partial<Video>) {},
+      async editUserVideoInfo(payload: Partial<Video>) {
+        await _request({
+          method: 'post',
+          url: '/api/video/edit',
+          data: payload,
+        })
+      },
     }
   },
 })
