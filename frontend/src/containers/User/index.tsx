@@ -141,28 +141,32 @@ const User: FC<UserProps> = ({
   }
 
   const handleVideoUploadDialogConfirm = async () => {
-    if (!video || !videoPoster) {
+    if (!video) {
       commonDispatch.SET_DIALOG({
         title: '提示',
-        content: '请选择视频封面和视频',
+        content: '请选择视频',
         status: true,
       })
       return
     }
-
-    const videoPosterFormData = new FormData()
-    videoPosterFormData.append('file', videoPoster)
     const videoFormData = new FormData()
     videoFormData.append('file', video)
+
     setLoading(true)
-    // 上传视频封面
-    const posterRes = await dispatch.uploadImage({
-      fileName: videoPoster.name,
-      formData: videoPosterFormData,
-    })
-    if (!posterRes || posterRes.code !== 200) {
-      setLoading(false)
-      return
+    let poster_url: string | undefined
+    if (videoPoster) {
+      const videoPosterFormData = new FormData()
+      videoPosterFormData.append('file', videoPoster)
+      // 上传视频封面
+      const posterRes = await dispatch.uploadImage({
+        fileName: videoPoster.name,
+        formData: videoPosterFormData,
+      })
+      if (!posterRes || posterRes.code !== 200) {
+        setLoading(false)
+        return
+      }
+      poster_url = posterRes.url as string
     }
 
     // 上传视频
@@ -180,7 +184,9 @@ const User: FC<UserProps> = ({
       uid: userInfo.id as number,
       description,
       video_url: `${UPYUN_URL}${res.url as string}`,
-      poster_url: `${UPYUN_URL}${posterRes.url as string}`,
+    }
+    if (poster_url) {
+      videoData.poster_url = `${UPYUN_URL}${poster_url}`
     }
     res = await dispatch.createVideo(videoData)
     if (res && !res.code) {
@@ -471,7 +477,9 @@ const User: FC<UserProps> = ({
                   justifyContent: 'space-between',
                 }}
               >
-                已选中视频封面：{videoPoster?.name}
+                {videoPoster?.name
+                  ? `已选中视频封面：${videoPoster?.name as string}`
+                  : '未选择封面'}
                 <label
                   htmlFor="bd7-user__video-poster-upload"
                   style={{ margin: '0 10px' }}
