@@ -16,7 +16,8 @@ import {
   Edit,
   Create,
   CreateProps,
-  DateInput,
+  BooleanField,
+  BooleanInput,
 } from 'react-admin'
 import { MyUrlField } from './components/MyUrlField'
 
@@ -29,8 +30,8 @@ export const LiveList: React.FC<ListProps> = (props) => (
       </ReferenceField>
       <TextField source="description" />
       <MyUrlField source="live_url" />
-      <DateField source="start_time" />
-      <DateField source="end_time" />
+      <MyUrlField source="push_url" />
+      <BooleanField source="isActive" />
       <DateField source="createdAt" />
       <DateField source="updatedAt" />
       <EditButton />
@@ -47,8 +48,8 @@ export const LiveEdit: React.FC<EditProps> = (props) => (
       </ReferenceInput>
       <TextInput source="description" />
       <TextInput multiline source="live_url" />
-      <DateInput source="start_time" />
-      <DateInput source="end_time" />
+      <TextInput multiline source="push_url" />
+      <BooleanInput source="isActive" />
     </SimpleForm>
   </Edit>
 )
@@ -61,8 +62,8 @@ export const LiveCreate: React.FC<CreateProps> = (props) => (
       </ReferenceInput>
       <TextInput source="description" />
       <TextInput source="live_url" />
-      <DateInput source="start_time" />
-      <DateInput source="end_time" />
+      <TextInput multiline source="push_url" />
+      <BooleanInput source="isActive" />
     </SimpleForm>
   </Create>
 )
