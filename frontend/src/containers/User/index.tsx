@@ -179,6 +179,7 @@ const User: FC<UserProps> = ({
     await dispatch.editUserInfo(user)
     setLoading(false)
   }
+
   return (
     <div className="bd7-user">
       <div className="bd7-user__title">
@@ -378,6 +379,7 @@ const User: FC<UserProps> = ({
                 fullWidth
                 label="视频描述"
                 margin="dense"
+                multiline
                 onChange={(e) => {
                   setDescription(e.target.value)
                 }}
