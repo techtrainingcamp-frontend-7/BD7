@@ -129,7 +129,7 @@ const User: FC<UserProps> = ({
     const file = e.target.files[0]
     if (!file) return
     const { size } = file
-    if (size > 1024 * 1024 * 15) {
+    if (size > 1024 * 1024 * 5) {
       commonDispatch.SET_DIALOG({
         title: '提示',
         content: '请选择小于5MB的封面',
