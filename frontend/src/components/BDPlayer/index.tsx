@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react'
-import classnames from 'classnames'
+import classNames from 'classnames'
 import PlayIcon from '../static/img/play.svg'
 import LoadingIcon from '../static/img/loading.svg'
 import { useAsync } from 'react-use'
@@ -7,6 +7,7 @@ import Hls from 'hls.js'
 import { makeStyles } from '@material-ui/core/styles'
 import { Avatar, Typography } from '@material-ui/core'
 import { User } from '@/utils/request/user'
+import FavoriteIcon from '@material-ui/icons/Favorite'
 
 import './index.less'
 
@@ -37,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
     boxSizing: 'border-box',
   },
-  avatar: {
+  icon: {
     height: '15vw',
     width: '15vw',
     maxHeight: '50px',
@@ -59,6 +60,8 @@ export interface BDPlayerProps {
   author?: User
   /* 点击头像回调 */
   onAvatarClick?: Function
+  liked?: boolean
+  onLikeChanged?: (liked: boolean) => void
 }
 
 export const BDPlayer: React.FC<BDPlayerProps> = ({
@@ -68,6 +71,8 @@ export const BDPlayer: React.FC<BDPlayerProps> = ({
   active = true,
   description,
   author,
+  liked,
+  onLikeChanged,
   onAvatarClick = () => {},
 }) => {
   const classes = useStyles()
@@ -76,6 +81,8 @@ export const BDPlayer: React.FC<BDPlayerProps> = ({
   const [videoDuration, setVideoDuration] = useState(1)
   const [currentTime, setCurrentTime] = useState(0)
   const videoRef = useRef<HTMLVideoElement>(null)
+  // 防止初次加载动画效果
+  const [likeChanged, setLikeChanged] = useState(false)
 
   const startPlay = async () => {
     if (!videoRef.current) return
@@ -121,13 +128,13 @@ export const BDPlayer: React.FC<BDPlayerProps> = ({
   }, [active])
 
   return (
-    <div className={classnames('bd-player', className)}>
+    <div className={classNames('bd-player', className)}>
       {author && (
         <div className={classes.operationButton}>
           <div className="bd-player-avatar">
             <Avatar
               alt={author.username}
-              className={classes.avatar}
+              className={classes.icon}
               onClick={() => {
                 onAvatarClick()
               }}
@@ -135,29 +142,22 @@ export const BDPlayer: React.FC<BDPlayerProps> = ({
             />
           </div>
 
-          {/* TODO: 点赞 */}
-          <div className="bd-player-like">
-            <Avatar
-              alt={author.username}
-              className={classes.avatar}
+          {onLikeChanged ? (
+            <div
+              className="bd-player-like"
               onClick={() => {
-                onAvatarClick()
+                onLikeChanged?.(!liked)
+                onLikeChanged && setLikeChanged(true)
               }}
-              src={''}
-            />
-          </div>
-
-          {/* TODO: 评论 */}
-          <div className="bd-player-comment">
-            <Avatar
-              alt={author.username}
-              className={classes.avatar}
-              onClick={() => {
-                onAvatarClick()
-              }}
-              src={''}
-            />
-          </div>
+            >
+              <FavoriteIcon
+                className={classNames(classes.icon, {
+                  animate__heartBeat: likeChanged && liked,
+                })}
+                color={liked ? 'secondary' : 'disabled'}
+              />
+            </div>
+          ) : null}
         </div>
       )}
       <div className={classes.descriptionBar}>

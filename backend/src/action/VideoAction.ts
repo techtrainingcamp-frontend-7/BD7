@@ -14,7 +14,12 @@ const Create = async (video: Video) => {
  */
 const Retrieve__All = () => {
   return Video.findAll({
-    include: [User],
+    include: [
+      User,
+      {
+        association: 'likedUsers',
+      },
+    ],
   })
 }
 
@@ -27,6 +32,12 @@ const Retrieve__UID = (uid: number) => {
     where: {
       uid,
     },
+    include: [
+      User,
+      {
+        association: 'likedUsers',
+      },
+    ],
   })
 }
 
@@ -39,7 +50,12 @@ const Retrieve__ID = (id: number) => {
     where: {
       id,
     },
-    include: [User],
+    include: [
+      User,
+      {
+        association: 'likedUsers',
+      },
+    ],
   })
 }
 

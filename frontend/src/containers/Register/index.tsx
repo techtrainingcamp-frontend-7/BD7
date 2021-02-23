@@ -24,7 +24,6 @@ const useStyles = makeStyles((theme: Theme) =>
       margin: theme.spacing(1),
     },
     form: {
-      width: '40ch',
       padding: '30px 20px',
       borderRadius: 10,
       border: '1px solid white',

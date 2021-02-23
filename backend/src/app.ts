@@ -14,6 +14,9 @@ import {
   VideoTag,
   Following,
 } from '@models'
+import userLikeVideoRouter from '@routes/UserLikeVideo'
+import followingRouter from '@routes/Following'
+
 const app = express()
 
 app.use(express.json())
@@ -32,6 +35,8 @@ app.use('/api/test', TestRouter)
 app.use('/api/user', UserRouter)
 app.use('/api/video', VideoRouter)
 app.use('/api/upload', UploadRouter)
+app.use('/api/user-like-video', userLikeVideoRouter)
+app.use('/api/following', followingRouter)
 
 app.use(crud('/api/admin/user', sequelizeCrud(User)))
 app.use(crud('/api/admin/video', sequelizeCrud(Video)))

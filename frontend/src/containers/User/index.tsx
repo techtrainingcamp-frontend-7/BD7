@@ -11,6 +11,7 @@ import {
   Avatar,
   Button,
   Divider,
+  CardMedia,
   Typography,
   Backdrop,
   CircularProgress,
@@ -53,6 +54,9 @@ const useStyles = makeStyles((theme) => ({
     maxWidth: 'calc(50% - 20px)',
     minWidth: 'calc(50% - 20px)',
     margin: '5px 10px',
+  },
+  media: {
+    height: 140,
   },
 }))
 const mapState = (state: RootState) => ({
@@ -176,6 +180,7 @@ const User: FC<UserProps> = ({
     await dispatch.editUserInfo(user)
     setLoading(false)
   }
+
   return (
     <div className="bd7-user">
       <div className="bd7-user__title">
@@ -244,14 +249,14 @@ const User: FC<UserProps> = ({
         <div className="bd7-user__follow-wrapper">
           <div className="bd7-user__followings">
             <Typography color="secondary" component="div" variant="subtitle2">
-              {userInfo.followings_count}
+              {userInfo.following?.length}
             </Typography>
             &nbsp;关注
           </div>
 
           <div className="bd7-user__followers">
             <Typography color="secondary" component="div" variant="subtitle2">
-              {userInfo.followings_count}
+              {userInfo.followers?.length}
             </Typography>
             &nbsp;粉丝
           </div>
@@ -267,26 +272,27 @@ const User: FC<UserProps> = ({
       </Typography>
       <div className="bd7-user__video-list">
         {state.userVideos.map((video) => (
-          <CardActionArea
-            className={classes.videoItem}
-            key={video.id}
-            onClick={() => {
-              history.push(`${PathName.SINGLE_PLAYER}?id=${String(video.id)}`)
-            }}
-            style={{
-              backgroundImage: `url(${
-                video.poster_url ? video.poster_url : ''
-              })`,
-            }}
-          >
-            <Card variant="outlined">
+          <Card className={classes.videoItem} key={video.id} variant="outlined">
+            <CardActionArea
+              onClick={() => {
+                history.push(`${PathName.SINGLE_PLAYER}?id=${String(video.id)}`)
+              }}
+            >
+              <CardMedia
+                className={classes.media}
+                image={`${
+                  video.poster_url ||
+                  'https://qcloudtest-1256492673.cos.ap-guangzhou.myqcloud.com/201902221550826875449034.png'
+                }`}
+                title={video.description}
+              />
               <CardContent>
                 <Typography component="p" variant="body2">
                   {video.description || '暂无描述...'}
                 </Typography>
               </CardContent>
-            </Card>
-          </CardActionArea>
+            </CardActionArea>
+          </Card>
         ))}
       </div>
 
@@ -374,6 +380,7 @@ const User: FC<UserProps> = ({
                 fullWidth
                 label="视频描述"
                 margin="dense"
+                multiline
                 onChange={(e) => {
                   setDescription(e.target.value)
                 }}

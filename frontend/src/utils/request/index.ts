@@ -42,7 +42,9 @@ export const request = async <T>(config: AxiosRequestConfig) => {
       return (res.data.data as T) || ((res.data as unknown) as T)
     }
   } catch (err) {
-    if (err?.response?.status === 401 && !isWhiteUrlFlag) {
+    if (err.response.status === 401 && !isWhiteUrlFlag) {
+      dispatch.SET_SNACKSTATUS(true)
+      dispatch.SET_SNACKCONTENT('登陆失效，请重新登陆')
       dispatch.common.LOGOUT()
     }
     console.log(err.response)

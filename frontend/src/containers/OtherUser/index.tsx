@@ -14,10 +14,9 @@ import {
   CardContent,
   CardActionArea,
   Button,
+  CardMedia,
 } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
-
-import { Video } from '@/utils/request/video'
 
 import './index.less'
 
@@ -41,6 +40,9 @@ const useStyles = makeStyles((theme) => ({
     maxWidth: 'calc(50% - 20px)',
     minWidth: 'calc(50% - 20px)',
     margin: '5px 10px',
+  },
+  media: {
+    height: 140,
   },
 }))
 const mapState = (state: RootState) => ({
@@ -82,6 +84,12 @@ const OtherUser: FC<OtherUserProps> = ({
 
   const userInfo = state.userInfo
 
+  const followed =
+    commonState.userInfo.id &&
+    state.userInfo?.followers
+      ?.map((follower) => follower.id)
+      ?.includes(commonState.userInfo.id)
+
   return (
     <div className="bd7-user">
       <div className="bd7-user__title">
@@ -111,8 +119,18 @@ const OtherUser: FC<OtherUserProps> = ({
           </div>
         </div>
         <div className="bd7-user__banner__right">
-          <Button color="secondary" size="small" variant="contained">
-            关注
+          <Button
+            color="secondary"
+            onClick={async () => {
+              await dispatch.followUser({
+                followed: followed ? 0 : 1,
+              })
+              await dispatch.retrieveUserInfo(username)
+            }}
+            size="small"
+            variant="contained"
+          >
+            {followed ? '取消关注' : '关注'}
           </Button>
         </div>
       </div>
@@ -125,14 +143,14 @@ const OtherUser: FC<OtherUserProps> = ({
         <div className="bd7-user__follow-wrapper">
           <div className="bd7-user__followings">
             <Typography color="secondary" component="div" variant="subtitle2">
-              {userInfo.followings_count}
+              {userInfo.following?.length}
             </Typography>
             &nbsp;关注
           </div>
 
           <div className="bd7-user__followers">
             <Typography color="secondary" component="div" variant="subtitle2">
-              {userInfo.followings_count}
+              {userInfo.followers?.length}
             </Typography>
             &nbsp;粉丝
           </div>
@@ -147,27 +165,28 @@ const OtherUser: FC<OtherUserProps> = ({
         已发布视频
       </Typography>
       <div className="bd7-user__video-list">
-        {state.userVideos.map((video: Partial<Video>) => (
-          <CardActionArea
-            className={classes.videoItem}
-            key={video.id}
-            onClick={() => {
-              history.push(`${PathName.SINGLE_PLAYER}?id=${String(video.id)}`)
-            }}
-            style={{
-              backgroundImage: `url(${
-                video.poster_url ? video.poster_url : ''
-              })`,
-            }}
-          >
-            <Card variant="outlined">
+        {state.userVideos.map((video) => (
+          <Card className={classes.videoItem} key={video.id} variant="outlined">
+            <CardActionArea
+              onClick={() => {
+                history.push(`${PathName.SINGLE_PLAYER}?id=${String(video.id)}`)
+              }}
+            >
+              <CardMedia
+                className={classes.media}
+                image={`${
+                  video.poster_url ||
+                  'https://qcloudtest-1256492673.cos.ap-guangzhou.myqcloud.com/201902221550826875449034.png'
+                }`}
+                title={video.description}
+              />
               <CardContent>
                 <Typography component="p" variant="body2">
                   {video.description || '暂无描述...'}
                 </Typography>
               </CardContent>
-            </Card>
-          </CardActionArea>
+            </CardActionArea>
+          </Card>
         ))}
       </div>
     </div>

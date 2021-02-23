@@ -38,6 +38,14 @@ const Retrieve__Safely = (key: string, value: string | number) => {
     where: {
       [`${key}`]: value,
     },
+    include: [
+      {
+        association: 'following',
+      },
+      {
+        association: 'followers',
+      },
+    ],
   })
 }
 

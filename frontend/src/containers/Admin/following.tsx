@@ -3,15 +3,12 @@ import {
   List,
   Datagrid,
   TextField,
-  NumberField,
   DateField,
   ListProps,
   ReferenceField,
   EditProps,
   SimpleForm,
-  BooleanInput,
   TextInput,
-  NumberInput,
   ReferenceInput,
   SelectInput,
   Edit,
@@ -37,7 +34,6 @@ export const FollowingList: React.FC<ListProps> = (props) => (
       >
         <TextField source="username" />
       </ReferenceField>
-      <NumberField source="followed" />
       <DateField source="createdAt" />
       <DateField source="updatedAt" />
     </Datagrid>
@@ -63,7 +59,6 @@ export const FollowingEdit: React.FC<EditProps> = (props) => (
       >
         <SelectInput optionText="username" />
       </ReferenceInput>
-      <NumberInput source="followed" />
     </SimpleForm>
   </Edit>
 )
@@ -85,7 +80,6 @@ export const FollowingCreate: React.FC<CreateProps> = (props) => (
       >
         <SelectInput optionText="username" />
       </ReferenceInput>
-      <BooleanInput defaultValue={1} source="followed" />
     </SimpleForm>
   </Create>
 )

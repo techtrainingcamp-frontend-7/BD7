@@ -14,6 +14,10 @@ export default {
 } as Meta
 
 const bdPlayerProps: BDPlayerProps = {
+  liked: true,
+  onLikeChanged(liked) {
+    console.log(liked)
+  },
   videoUrl:
     'https://picgo-1256492673.cos.ap-chengdu.myqcloud.com/RW20seconds_1.mp4',
 }
@@ -28,6 +32,10 @@ export const bdPlayer = () => (
 )
 
 const livePlayerProps: BDPlayerProps = {
+  liked: true,
+  onLikeChanged(liked) {
+    console.log(liked)
+  },
   videoUrl: 'https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8',
 }
 

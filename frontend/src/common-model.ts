@@ -25,8 +25,6 @@ export const defaultCommonState: CommonState = {
     profile: '',
     gender: 0,
     avatar_url: '',
-    followings_count: 0,
-    followers_count: 0,
     createdAt: undefined,
     updatedAt: undefined,
   },

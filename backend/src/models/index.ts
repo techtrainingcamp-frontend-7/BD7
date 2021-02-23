@@ -14,11 +14,37 @@ import LiveComment from './LiveComment'
  */
 Video.belongsTo(User, {
   foreignKey: 'uid',
-  onDelete: 'SET NULL',
 })
 User.hasMany(Video, {
   sourceKey: 'id',
   foreignKey: 'uid',
+})
+// UserLikeVideo：多对多关系
+Video.belongsToMany(User, {
+  through: UserLikeVideo,
+  as: 'likedUsers',
+  foreignKey: 'vid',
+  otherKey: 'uid',
+})
+User.belongsToMany(Video, {
+  through: UserLikeVideo,
+  as: 'likedVideos',
+  foreignKey: 'uid',
+  otherKey: 'vid',
+})
+
+// 用户的 follow 关系
+User.belongsToMany(User, {
+  through: Following,
+  as: 'followers',
+  foreignKey: 'uid_to',
+  otherKey: 'uid_from',
+})
+User.belongsToMany(User, {
+  through: Following,
+  as: 'following',
+  foreignKey: 'uid_from',
+  otherKey: 'uid_to',
 })
 
 export {
