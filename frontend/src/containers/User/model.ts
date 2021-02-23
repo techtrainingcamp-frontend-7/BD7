@@ -1,6 +1,7 @@
 import { createModel } from '@rematch/core'
 import { RootModel } from '@/models'
 import { request } from '@/utils'
+import { request as _request } from '@/utils/request'
 import { Video } from '@/utils/request/video'
 export interface UserState {
   userVideos: Video[]
@@ -15,6 +16,16 @@ export const user = createModel<RootModel>()({
   reducers: {
     SET_USERVIDEOS: (state: UserState, newUserVideos: Video[]) => {
       state.userVideos = newUserVideos
+      return state
+    },
+    SET_VIDEO_DESC: (
+      state: UserState,
+      payload: {
+        index: number
+        description: string
+      },
+    ) => {
+      state.userVideos[payload.index].description = payload.description
       return state
     },
   },
@@ -85,6 +96,13 @@ export const user = createModel<RootModel>()({
             dispatch.common.SET_DIALOGTITLE('警告')
             dispatch.common.SET_DIALOGCONTENT(String(e))
           })
+      },
+      async editUserVideoInfo(payload: Partial<Video>) {
+        await _request({
+          method: 'post',
+          url: '/api/video/edit',
+          data: payload,
+        })
       },
     }
   },

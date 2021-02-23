@@ -57,4 +57,37 @@ videoRouter.get(
   }),
 )
 
+videoRouter.post(
+  '/edit',
+  asyncWrapper(async (req, res, next) => {
+    try {
+      if (!req.body.id || !req.body.description) {
+        res
+          .status(400)
+          .json(
+            new Restful(
+              CodeDictionary.PARAMS_ERROR,
+              '参数错误，请提供 id 和 description',
+            ),
+          )
+      }
+      const [video] = await Video.findOrCreate({
+        where: {
+          id: req.body.id,
+        },
+      })
+      video.description = req.body.description
+      await video.save()
+      res
+        .status(200)
+        .json(new Restful(CodeDictionary.SUCCESS, '修改成功', video.toJSON()))
+    } catch (e) {
+      console.error(e)
+      // TODO: 进行邮件提醒
+      res.status(500).end()
+    }
+    next()
+  }),
+)
+
 export default videoRouter
