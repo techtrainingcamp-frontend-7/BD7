@@ -67,9 +67,7 @@ const RouteWithSubRoutes = connect(
       return <Redirect to={PathName.USER} />
     }
     if (path !== PathName.LOGIN && path !== PathName.REGISTER && !isLoggedIn) {
-      console.warn('路由守卫：当前登录失效，自动跳转到 Login')
-      dispatch.SET_SNACKSTATUS(true)
-      dispatch.SET_SNACKCONTENT('登陆失效，请重新登陆')
+      console.warn('路由守卫：未登录状态，自动跳转到 Login')
       return <Redirect to={PathName.LOGIN} />
     }
     const handleDialogClose = () => {
@@ -130,6 +128,9 @@ const RouteWithSubRoutes = connect(
             message={state.snackContent}
             onClose={handleSnackClose}
             open={state.snackStatus}
+            style={{
+              bottom: 60,
+            }}
           />
         </Portal>
       </Fragment>

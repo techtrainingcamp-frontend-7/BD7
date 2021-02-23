@@ -16,6 +16,7 @@ import {
 import classNames from 'classnames'
 
 import './index.less'
+import { PathName } from '@/routes'
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -44,7 +45,7 @@ export type LoginProps = ReturnType<typeof mapState> &
   ReturnType<typeof mapDispatch> &
   RouteComponentProps
 
-const Login: FC<LoginProps> = ({ dispatch, commonDispatch }) => {
+const Login: FC<LoginProps> = ({ dispatch, commonDispatch, history }) => {
   const classes = useStyles()
   const [username, setUserName] = useState('')
   const [password, setPassword] = useState('')
@@ -121,7 +122,14 @@ const Login: FC<LoginProps> = ({ dispatch, commonDispatch }) => {
         />
       </form>
       <div className="bd7-login-to-register">
-        <Link href="/register">注册新账户</Link>
+        <Link
+          onClick={() => {
+            console.log('asdhj')
+            history.push(PathName.REGISTER)
+          }}
+        >
+          注册新账户
+        </Link>
       </div>
     </div>
   )
