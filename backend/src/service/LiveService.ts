@@ -25,7 +25,7 @@ const Create = async (live: Live): Promise<Restful> => {
     }
     const suffix = cipherCrypto(String(live.id), String(live.uid)) as string
     const pushUrl = `${ALIYUN_PUSH_URL}/${ALIYUN_APPNAME}/${suffix}`
-    const liveUrl = `${ALIYUN_LIVE_URL}/${ALIYUN_APPNAME}/${suffix}`
+    const liveUrl = `${ALIYUN_LIVE_URL}/${ALIYUN_APPNAME}/${suffix}.m3u8`
     live.push_url = pushUrl
     live.live_url = liveUrl
     live.isActive = false
