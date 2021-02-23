@@ -233,7 +233,10 @@ const User: FC<UserProps> = ({
       <div className="bd7-user__banner">
         <div className="bd7-user__banner__left">
           <div className="bd7-user__banner__left__avatar">
-            <label htmlFor="bd7-user__banner__left__avatar-upload">
+            <label
+              htmlFor="bd7-user__banner__left__avatar-upload"
+              title="点击修改头像"
+            >
               <Avatar
                 alt={userInfo.username}
                 className={classes.avatar}
@@ -343,6 +346,7 @@ const User: FC<UserProps> = ({
                   e.stopPropagation()
                   setVideoDescEditingIndex(idx)
                 }}
+                title="点击编辑描述"
               >
                 <EditIcon />
               </IconButton>
