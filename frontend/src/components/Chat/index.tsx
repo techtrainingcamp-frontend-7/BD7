@@ -1,10 +1,9 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
-import { TextField, IconButton, List, ListItem } from '@material-ui/core'
+import { TextField, IconButton, List, ListItem, Link } from '@material-ui/core'
 import SendIcon from '@material-ui/icons/Send'
-import { io } from 'socket.io-client'
+import { Socket } from 'socket.io-client'
 import classNames from 'classnames'
-import _ from 'lodash'
 
 import './index.less'
 
@@ -34,25 +33,45 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-const socket = io()
-
-export const sendMessage = (message: string) => {
-  socket.emit('chat message', message)
+export interface ChatProps {
+  socket: Socket
+  username: string
+  onChatInfoClick: any
 }
 
-export const Chat = () => {
+interface ChatInfo {
+  username: string
+  message: string
+}
+
+let _messageList: ChatInfo[] = []
+export const Chat: React.FC<ChatProps> = ({
+  socket,
+  username,
+  onChatInfoClick,
+}) => {
   const classes = useStyles()
   const [message, setMessage] = useState('')
-  const [messageList, setMessageList] = useState<string[]>([])
+  const [messageList, setMessageList] = useState<ChatInfo[]>([])
   const [stopped, setStopped] = useState(false)
-
-  // 收到服务端消息
-  socket.on('chat message', (msg: string) => {
-    const list = _.cloneDeep(messageList)
-    list.push(msg)
-    setMessageList(list)
+  const sendMessage = (socket: Socket, message: string): void => {
+    socket.emit('chat', JSON.stringify({ message, username }))
+  }
+  const recieveMessage = (chatInfo: ChatInfo) => {
+    const newMessageList = [..._messageList, chatInfo] as ChatInfo[]
+    setMessageList(newMessageList)
+    _messageList = newMessageList
     if (!stopped) document.querySelector('.last-message')?.scrollIntoView(false)
-  })
+  }
+  // 收到服务端消息
+  useEffect(() => {
+    socket.on('chat', (payload: string) => {
+      recieveMessage(JSON.parse(payload) as ChatInfo)
+    })
+    return () => {
+      socket.off('chat')
+    }
+  }, [])
 
   return (
     <div className={classes.root}>
@@ -63,16 +82,23 @@ export const Chat = () => {
         }}
       >
         {messageList.length
-          ? messageList.map((message, idx) => (
+          ? messageList.map((chatInfo, idx) => (
               <ListItem
                 className={
                   idx === messageList.length - 1
                     ? 'last-message'
                     : 'chat-list-item'
                 }
-                key={`${message}${idx}`}
+                key={`${chatInfo.username}-${chatInfo.message}-${idx}`}
               >
-                {message}
+                <Link
+                  onClick={() => {
+                    onChatInfoClick(chatInfo.username)
+                  }}
+                >
+                  {chatInfo.username}
+                </Link>
+                : {chatInfo.message}
               </ListItem>
             ))
           : null}
@@ -83,7 +109,7 @@ export const Chat = () => {
         noValidate
         onSubmit={(e) => {
           e.preventDefault()
-          sendMessage(message)
+          sendMessage(socket, message)
           setMessage('')
         }}
       >
@@ -98,7 +124,7 @@ export const Chat = () => {
         />
         <IconButton
           onClick={() => {
-            sendMessage(message)
+            sendMessage(socket, message)
             setMessage('')
           }}
         >

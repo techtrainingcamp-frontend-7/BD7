@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-floating-promises */
+/* eslint-disable @typescript-eslint/no-misused-promises */
 import { Router } from 'express'
 import asyncWrapper from 'async-wrapper-express-ts'
 
@@ -11,6 +13,10 @@ import {
 } from '@utils'
 import { LiveService as Service } from '@service'
 import moment from 'moment'
+import { Server, Socket } from 'socket.io'
+import { LiveSocket } from '@models'
+import { Op } from 'sequelize'
+
 const liveRouter = Router()
 
 /**
@@ -126,5 +132,49 @@ liveRouter.get(
     next()
   }),
 )
+
+/**
+ * socket
+ */
+
+export const LiveSocketInitial = async (SERVER: any) => {
+  const io = new Server(SERVER).of('/live')
+  await LiveSocket.destroy({
+    where: {
+      id: { [Op.gt]: 1 },
+    },
+  })
+  io.on('connection', async (socket: Socket) => {
+    let liveSocket = await LiveSocket.create({
+      socket_id: socket.id,
+    })
+    socket.emit('initial')
+    let isJoined = false
+    socket.on('chat', (payload) => {
+      // sending to all connected clients
+      if (isJoined) {
+        io.to(String(liveSocket.lid)).emit('chat', payload)
+      }
+    })
+    socket.on('initial', async (payload) => {
+      try {
+        const { uid, lid } = JSON.parse(payload)
+        liveSocket = await Object.assign(liveSocket, { lid, uid }).save()
+        socket.join(String(lid))
+        isJoined = true
+      } catch (e) {
+        console.log(e)
+      }
+    })
+    socket.on('disconnect', () => {
+      socket.leave(String(liveSocket.lid))
+      LiveSocket.destroy({
+        where: {
+          socket_id: socket.id,
+        },
+      })
+    })
+  })
+}
 
 export default liveRouter

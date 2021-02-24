@@ -3,14 +3,23 @@ import { RootModel } from '@/models'
 import { request } from '@/utils'
 import { Live } from '@/utils/request/live'
 import { isDef } from '@/utils/tools'
+import { Socket } from 'socket.io-client'
 export interface LiveCenterState {
   selfLive: Live | undefined
   lives: Live[]
+  liveSocket: Socket
+}
+
+interface NewSocketAndMessage {
+  socket: Socket
+  uid: number
+  lid: number
 }
 
 export const defaultLiveCenterState: LiveCenterState = {
   selfLive: undefined,
   lives: [],
+  liveSocket: null as any,
 }
 export const liveCenter = createModel<RootModel>()({
   state: defaultLiveCenterState,
@@ -21,6 +30,17 @@ export const liveCenter = createModel<RootModel>()({
     },
     SET_LIVES: (state: LiveCenterState, newLives: Live[]) => {
       state.lives = newLives
+      return state
+    },
+    SET_SOCKET: (
+      state: LiveCenterState,
+      newSocketAndMessage: NewSocketAndMessage,
+    ) => {
+      const { socket, uid, lid } = newSocketAndMessage
+      state.liveSocket = socket
+      socket.once('initial', () => {
+        socket.emit('initial', JSON.stringify({ uid, lid }))
+      })
       return state
     },
   },
@@ -39,12 +59,12 @@ export const liveCenter = createModel<RootModel>()({
           }
         }
         // TODO: DEBUG
-        // isDef(selfLiveIndex) &&
-        //   liveCenter.SET_SELFLIVE(lives.splice(selfLiveIndex as number, 1)[0])
-        // liveCenter.SET_LIVES(lives)
         isDef(selfLiveIndex) &&
-          liveCenter.SET_SELFLIVE(lives[selfLiveIndex as number])
+          liveCenter.SET_SELFLIVE(lives.splice(selfLiveIndex as number, 1)[0])
         liveCenter.SET_LIVES(lives)
+        // isDef(selfLiveIndex) &&
+        //   liveCenter.SET_SELFLIVE(lives[selfLiveIndex as number])
+        // liveCenter.SET_LIVES(lives)
       },
       async createLive(live: Partial<Live>) {
         const res = await request.live.create(live)

@@ -14,6 +14,7 @@ import { useAsync } from 'react-use'
 import { connect } from 'react-redux'
 import { RootDispatch, RootState } from '@/store'
 import { Chat } from '@/components/Chat'
+import { io } from 'socket.io-client'
 
 const useStyles = makeStyles((theme) => ({
   backdrop: {
@@ -53,6 +54,11 @@ const Live: FC<LiveProps> = ({ commonState, state, dispatch, history }) => {
   useAsync(async () => {
     setLoading(true)
     const live = await dispatch.retrieveLive(Number(uid))
+    dispatch.SET_SOCKET({
+      socket: io('/live'),
+      uid: commonState.userInfo.id as number,
+      lid: live?.id as number,
+    })
     setLive(live)
     setLoading(false)
   }, [])
@@ -79,7 +85,13 @@ const Live: FC<LiveProps> = ({ commonState, state, dispatch, history }) => {
               videoUrl={live.live_url}
             ></BDPlayer>
           </div>
-          <Chat />
+          <Chat
+            onChatInfoClick={(username: string) => {
+              history.push(`${PathName._OTHER_USER}/${username}`)
+            }}
+            socket={state.liveSocket}
+            username={commonState.userInfo.username as string}
+          />
         </Fragment>
       ) : (
         <Backdrop className={classes.backdrop} open={loading}>

@@ -7,6 +7,7 @@ import UserLikeVideo from './UserLikeVideo'
 import UserPlayVideo from './UserPlayVideo'
 import Live from './Live'
 import LiveComment from './LiveComment'
+import LiveSocket from './LiveSocket'
 
 /**
  * Video : User
@@ -55,6 +56,11 @@ User.belongsToMany(User, {
   otherKey: 'uid_to',
 })
 
+Live.hasMany(LiveSocket, {
+  sourceKey: 'id',
+  foreignKey: 'lid',
+})
+
 export {
   User,
   Following,
@@ -65,6 +71,7 @@ export {
   UserPlayVideo,
   Live,
   LiveComment,
+  LiveSocket,
 }
 export default {
   User,
@@ -75,4 +82,5 @@ export default {
   UserLikeVideo,
   Live,
   LiveComment,
+  LiveSocket,
 }

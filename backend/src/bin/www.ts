@@ -3,8 +3,7 @@ import debug from 'debug'
 
 import config from 'bd7.config'
 import { init } from 'database'
-import { Server, Socket } from 'socket.io'
-
+import { LiveSocketInitial } from '@routes/LiveRouter'
 import app from 'app'
 
 const { port } = config
@@ -18,18 +17,7 @@ app.set('port', PORT)
 /**
  * Create HTTP server.
  */
-const SERVER = http.createServer(app)
-
-const io = new Server(SERVER)
-
-io.on('connection', (socket: Socket) => {
-  // https://socket.io/docs/v3/emit-cheatsheet/
-  socket.on('chat message', (msg) => {
-    console.log('服务端收到消息', msg)
-    // sending to all connected clients
-    io.emit('chat message', msg)
-  })
-})
+export const SERVER = http.createServer(app)
 
 /**
  * Listen on provided port, on all network interfaces.
@@ -41,6 +29,8 @@ init()
     })
     SERVER.on('error', onError)
     SERVER.on('listening', onListening)
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
+    LiveSocketInitial(SERVER)
   })
   .catch((e) => {
     console.log(String(e))
