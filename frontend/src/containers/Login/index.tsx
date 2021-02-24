@@ -66,7 +66,9 @@ const Login: FC<LoginProps> = ({ dispatch, commonDispatch, history }) => {
             username,
             password,
           })
-          if (registeredUser?.username === username) {
+          if (
+            registeredUser?.username?.toUpperCase() === username.toUpperCase()
+          ) {
             commonDispatch.SET_USERINFO(registeredUser)
             commonDispatch.SET_SNACKSTATUS(true)
             commonDispatch.SET_SNACKCONTENT('登陆成功')
