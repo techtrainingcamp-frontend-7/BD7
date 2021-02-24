@@ -60,6 +60,10 @@ const useStyles = makeStyles((theme) => ({
   media: {
     height: 140,
   },
+  noVideo: {
+    width: '100%',
+    marginTop: '20px',
+  },
 }))
 const mapState = (state: RootState) => ({
   state: state.user,
@@ -323,7 +327,11 @@ const User: FC<UserProps> = ({
         已发布视频
       </Typography>
       <div className="bd7-user__video-list">
-        {state.userVideos.length ? (
+        {loading ? (
+          <div className="bd7-user__video-list--loading">
+            <CircularProgress color="inherit" />
+          </div>
+        ) : state.userVideos.length ? (
           state.userVideos.map((video, idx) => (
             <Card
               className={classes.videoItem}
@@ -337,7 +345,7 @@ const User: FC<UserProps> = ({
                 className={classes.media}
                 image={`${
                   video.poster_url ||
-                  'https://qcloudtest-1256492673.cos.ap-guangzhou.myqcloud.com/201902221550826875449034.png'
+                  'https://upyun.hokori.online/bd7/image/20210224-18_10_01__201902221550826875449034.png'
                 }`}
                 title={video.description}
               />
@@ -361,9 +369,9 @@ const User: FC<UserProps> = ({
             </Card>
           ))
         ) : (
-          <div className="bd7-user__video-list--loading">
-            <CircularProgress color="inherit" />
-          </div>
+          <Typography align="center" className={classes.noVideo} variant="h6">
+            暂无视频
+          </Typography>
         )}
       </div>
 
