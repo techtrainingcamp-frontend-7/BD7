@@ -10,8 +10,10 @@ import SinglePlayer from './containers/SinglePlayer'
 import NotFoundPage from './containers/NotFoundPage'
 import LiveCenter from './containers/LiveCenter'
 import Live from './containers/LiveCenter/Live'
+import { Chat } from './components/Chat'
 
 export enum PathName {
+  CHAT = '/chat',
   OTHER_USER = '/user/:username',
   _OTHER_USER = '/user',
   USER = '/user',
@@ -28,6 +30,10 @@ export enum PathName {
 
 /* 集中存放所有路由配置 */
 export const routes: RouteConfig[] = [
+  {
+    path: PathName.CHAT,
+    component: Chat,
+  },
   {
     path: PathName.LOGIN,
     component: Login,

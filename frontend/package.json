@@ -35,6 +35,7 @@
     "react-router-dom": "^5.2.0",
     "react-use": "^17.1.0",
     "redux": "^4.0.5",
+    "socket.io-client": "^3.1.1",
     "swiper": "^6.4.11"
   },
   "devDependencies": {
@@ -55,6 +56,7 @@
     "@types/events": "^3.0.0",
     "@types/hls.js": "^0.13.3",
     "@types/jest": "^26.0.15",
+    "@types/lodash": "^4.14.168",
     "@types/node": "^12.0.0",
     "@types/react": "^16.9.53",
     "@types/react-dom": "^16.9.8",

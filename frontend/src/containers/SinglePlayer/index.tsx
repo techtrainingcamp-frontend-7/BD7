@@ -84,7 +84,7 @@ const SinglePlayer: FC<SinglePlayerProps> = ({
           <NavigateBeforeIcon />
         </IconButton>
       </div>
-      {video ? (
+      {video && !loading ? (
         <Fragment>
           <div className="bd7-single-player__hover-layer"></div>
           <div className="bd7-single-player__container">

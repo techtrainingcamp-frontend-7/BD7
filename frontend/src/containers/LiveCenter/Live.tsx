@@ -13,6 +13,7 @@ import NavigateBeforeIcon from '@material-ui/icons/NavigateBefore'
 import { useAsync } from 'react-use'
 import { connect } from 'react-redux'
 import { RootDispatch, RootState } from '@/store'
+import { Chat } from '@/components/Chat'
 
 const useStyles = makeStyles((theme) => ({
   backdrop: {
@@ -52,10 +53,10 @@ const Live: FC<LiveProps> = ({ commonState, state, dispatch, history }) => {
   useAsync(async () => {
     setLoading(true)
     const live = await dispatch.retrieveLive(Number(uid))
-    console.log(live)
     setLive(live)
     setLoading(false)
   }, [])
+
   return (
     <div className="bd7-live-player">
       <div className={classes.backward}>
@@ -78,6 +79,7 @@ const Live: FC<LiveProps> = ({ commonState, state, dispatch, history }) => {
               videoUrl={live.live_url}
             ></BDPlayer>
           </div>
+          <Chat />
         </Fragment>
       ) : (
         <Backdrop className={classes.backdrop} open={loading}>

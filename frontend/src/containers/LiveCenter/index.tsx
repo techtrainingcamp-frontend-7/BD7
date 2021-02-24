@@ -256,7 +256,7 @@ const Live: FC<LiveProps> = ({
       {/* =============================================================== */}
       {/* ========================= LIVE-CENTER ========================= */}
       {/* =============================================================== */}
-      {Boolean(state.lives.length) && (
+      {Boolean(state.lives.length) && !loading && (
         <div className="bd7-live__center">
           {state.lives.map((live) => (
             <Card className="bd7-live__center__item" key={live.id}>
