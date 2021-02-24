@@ -8,9 +8,12 @@ const { cryptoConfig } = config
  */
 const QUERY_METHODS = ['GET', 'DELETE']
 const BODY_METHODS = ['POST', 'PUT']
-const ROUTER_WHITE_LIST = [`user/register`, `user/login`, `test`].map(
-  (v) => `/api/${v}`,
-)
+const ROUTER_WHITE_LIST = [
+  `user/register`,
+  `user/login`,
+  `test`,
+  'live/callback',
+].map((v) => `/api/${v}`)
 const isDev = process.env.NODE_ENV === 'development'
 const ALIYUN_PUSH_URL = process.env.ALIYUN_PUSH_URL as string
 const ALIYUN_LIVE_URL = process.env.ALIYUN_LIVE_URL as string
