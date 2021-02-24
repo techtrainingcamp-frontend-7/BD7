@@ -94,8 +94,8 @@ liveRouter.post(
   }),
 )
 enum ActionType {
-  publish = 0,
-  publish_done = 1,
+  publish_done = 0,
+  publish = 1,
 }
 
 /**

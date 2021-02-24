@@ -59,10 +59,7 @@ const Edit = async (live: Live, suffix?: string): Promise<Restful> => {
         '还未创建直播间',
       )
     }
-    if (
-      (live.id ? existedLive.id !== Number(live.id) : false) ||
-      existedLive.uid !== Number(live.uid)
-    ) {
+    if (live.id ? existedLive.id !== Number(live.id) : false) {
       return new Restful(
         CodeDictionary.CREATE_ERROR__LIVE_PARAM_WRONG,
         '不可更改直播间id或uid',

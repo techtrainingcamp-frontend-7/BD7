@@ -49,7 +49,7 @@ const Retrieve__UID = (uid: number) => {
 const Retrieve__Suffix = (suffix: string) => {
   return Live.findOne({
     where: {
-      live_url: `${ALIYUN_LIVE_URL}/${ALIYUN_APPNAME}/${suffix}`,
+      live_url: `${ALIYUN_LIVE_URL}/${ALIYUN_APPNAME}/${suffix}.m3u8`,
     },
     include: {
       model: User,
