@@ -1,4 +1,4 @@
-import React, { FC, Fragment, useState } from 'react'
+import React, { FC, Fragment, useState, useRef, useEffect } from 'react'
 import { RouteComponentProps, withRouter } from 'react-router-dom'
 import { PathName } from '@/routes'
 import './index.less'
@@ -82,6 +82,7 @@ const Live: FC<LiveProps> = ({
   history,
 }) => {
   const classes = useStyles()
+  const intervalRef = useRef(null)
   const [loading, setLoading] = useState(true)
   const [isRequesting, setIsRequesting] = useState(false)
   const [newLiveDescription, setNewLiveDescription] = useState(
@@ -93,6 +94,25 @@ const Live: FC<LiveProps> = ({
     setLoading(true)
     await dispatch.livesInitialize()
     setLoading(false)
+  }, [])
+
+  const leave = () => {
+    clearTimeout(intervalRef.current as any)
+  }
+
+  const enter = () => {
+    const timer: any = setTimeout(() => {
+      console.log('refresh')
+      dispatch
+        .livesInitialize()
+        .then(enter)
+        .catch((e) => {})
+    }, 5000)
+    intervalRef.current = timer
+  }
+  useEffect(() => {
+    enter()
+    return leave
   }, [])
 
   const createOrEditLive = async () => {
