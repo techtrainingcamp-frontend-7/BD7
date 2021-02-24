@@ -48,6 +48,13 @@
   ],
   "env": {
     "ACCESS_TOKEN_SECRET": "@bd7-jwt-secret",
-    "DATABASE_PASSWORD": "@bd7-db-password"
+    "DATABASE_PASSWORD": "@bd7-db-password",
+    "UPYUN_OPERATOR": "@upyun_operator",
+    "UPYUN_SECRET": "@upyun_secret",
+    "UPYUN_BUCKET": "@upyun_bucket",
+    "UPYUN_DOMAINNAME": "@upyun_domainname",
+    "ALIYUN_PUSH_URL": "@aliyun_push_url",
+    "ALIYUN_LIVE_URL": "@aliyun_live_url",
+    "ALIYUN_APPNAME": "@aliyun_appname"
   }
 }
