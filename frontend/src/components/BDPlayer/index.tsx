@@ -86,7 +86,9 @@ export const BDPlayer: React.FC<BDPlayerProps> = ({
   // 防止初次加载动画效果
   const [likeChanged, setLikeChanged] = useState(false)
 
+  let hls = null as any
   const handleError = (e: any) => {
+    hls?.stopLoad()
     setErrorMessage(
       ({
         hlsError: '直播间不可用或正处于关闭状态',
@@ -116,7 +118,6 @@ export const BDPlayer: React.FC<BDPlayerProps> = ({
   }
 
   const isLive = videoUrl.endsWith('.m3u8')
-  let hls = null as any
   useAsync(async () => {
     if (videoRef.current) {
       if (isLive) {
@@ -138,6 +139,7 @@ export const BDPlayer: React.FC<BDPlayerProps> = ({
   hls &&
     useUnmount(() => {
       hls.off('hlsError')
+      hls.stopLoad()
     })
   useAsync(async () => {
     if (active) {
