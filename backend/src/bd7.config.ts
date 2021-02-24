@@ -34,7 +34,7 @@ const sequelizeOptions: Options = {
 }
 
 const devConfig = {
-  port: 8003,
+  port: 8005,
   host: 'http://localhost/',
   cryptoConfig: {
     // 每次分段加密的字符串最大长度（优先度高于cryptCount字段）
