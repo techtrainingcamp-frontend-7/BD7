@@ -3,7 +3,10 @@ import { makeStyles } from '@material-ui/core/styles'
 import { TextField, IconButton, List, ListItem } from '@material-ui/core'
 import SendIcon from '@material-ui/icons/Send'
 import { io } from 'socket.io-client'
+import classNames from 'classnames'
 import _ from 'lodash'
+
+import './index.less'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -26,7 +29,8 @@ const useStyles = makeStyles((theme) => ({
     left: 15,
     bottom: 100,
     width: '60%',
-    overflow: 'scroll',
+    overflow: 'auto',
+    '-ms-overflow-style': 'none;',
   },
 }))
 
@@ -53,7 +57,7 @@ export const Chat = () => {
   return (
     <div className={classes.root}>
       <List
-        className={classes.list}
+        className={classNames('bd7-chat__list', classes.list)}
         onClick={() => {
           setStopped(!stopped)
         }}
