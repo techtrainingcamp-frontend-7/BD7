@@ -98,14 +98,17 @@ const Live: FC<LiveProps> = ({
 
   const leave = () => {
     clearTimeout(intervalRef.current as any)
+    intervalRef.current = null
   }
 
   const enter = () => {
     const timer: any = setTimeout(() => {
-      console.log('refresh')
+      console.log('refresh live center')
       dispatch
         .livesInitialize()
-        .then(enter)
+        .then(() => {
+          intervalRef.current && enter()
+        })
         .catch((e) => {})
     }, 5000)
     intervalRef.current = timer
