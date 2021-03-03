@@ -56,6 +56,8 @@ const useStyles = makeStyles((theme) => ({
     maxWidth: 'calc(50% - 20px)',
     minWidth: 'calc(50% - 20px)',
     margin: '5px 10px',
+    cursor: 'pointer',
+    '-webkit-tap-highlight': 'transparent',
   },
   media: {
     height: 140,
@@ -274,9 +276,10 @@ const User: FC<UserProps> = ({
           </div>
         </div>
         <div className="bd7-user__banner__right">
-          <Button color="secondary" size="small" variant="contained">
+          {/* TODO: 编辑信息页面 */}
+          {/* <Button color="secondary" size="small" variant="contained">
             编辑信息
-          </Button>
+          </Button> */}
 
           <Button
             color="secondary"
