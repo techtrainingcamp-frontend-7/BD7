@@ -28,6 +28,7 @@ const Retrieve__All = () => {
         },
       },
     ],
+    order: [['createdAt', 'DESC']],
   })
 }
 
@@ -54,6 +55,7 @@ const Retrieve__UID = (uid: number) => {
         },
       },
     ],
+    order: [['createdAt', 'DESC']],
   })
 }
 
@@ -80,6 +82,7 @@ const Retrieve__ID = (id: number) => {
         },
       },
     ],
+    order: [['createdAt', 'DESC']],
   })
 }
 

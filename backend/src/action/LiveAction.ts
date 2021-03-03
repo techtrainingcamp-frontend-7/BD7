@@ -21,6 +21,10 @@ const Retrieve__All = () => {
         exclude: ['password'],
       },
     },
+    order: [
+      ['isActive', 'DESC'],
+      ['createdAt', 'DESC'],
+    ],
   })
 }
 
