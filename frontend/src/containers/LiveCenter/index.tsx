@@ -169,9 +169,11 @@ const Live: FC<LiveProps> = ({
                     <span
                       className="bd7-live__my-live__text--active"
                       onClick={() => {
-                        // TODO: 跳转直播页面
-                        console.log('跳转直播页面')
-                        // history.push()
+                        history.push(
+                          `${PathName.LIVE_CENTER}/${String(
+                            commonState.userInfo.id,
+                          )}`,
+                        )
                       }}
                     >
                       我的直播间正在直播...
