@@ -2,6 +2,58 @@
 
 ![Build](https://github.com/techtrainingcamp-frontend-7/BD7/workflows/Build/badge.svg)
 
+## 如何部署本项目
+
+1. 克隆本项目，运行 `npm i`
+2. 在运行项目之前，需要先配置 MySQL 云数据库（我们使用的是阿里云，但是理论上任何云服务都可以）、又拍云存储、阿里直播云。
+   - 阿里直播云需要配置「推流域名」和「播流域名」，可以使用二级域名，按照官方文档配置好之后，需要禁用一下 URL 鉴权（我们项目里面没有细究这个鉴权方式，之后有空可以再写写加上这个鉴权）
+3. 在 backend 文件夹下，新建文件 `.env`，包含如下内容：
+
+    ```apache
+    # JWT Secret，可设置随意
+    ACCESS_TOKEN_SECRET=xxx
+
+    # MySQL Host
+    DATABASE_HOST=xxx.xxx.xxx.xxx
+    # MySQL 数据库名
+    DATABASE_NAME=xxx
+    # MySQL 数据库用户名
+    DATABASE_USER=xxx
+    # MySql 数据库密码
+    DATABASE_PASSWORD=xxx
+
+    # 又拍云存储相关配置
+    UPYUN_OPERATOR=xxx
+    UPYUN_SECRET=xxx
+    UPYUN_BUCKET=xxx
+    UPYUN_DOMAINNAME=https://xxx
+
+    # 阿里云直播相关配置
+    ALIYUN_PUSH_URL=https://xxx
+    ALIYUN_LIVE_URL=https://xxx
+    ALIYUN_APPNAME=xxx
+    ```
+
+4. 第一次运行代码时，为了创建表，需要在 [`backend/src/database/index.ts`](backend/src/database/index.ts) 取消以下注释。创建完之后建议还原注释，这样避免每次修改后端代码重新运行都尝试创建一遍表（会拖慢开发启动时间）
+
+    ```ts
+    const init = async () => {
+      // await sequelize.sync({ alter: isDev })
+      // console.log('All models were synchronized successfully.')
+    }
+    ```
+
+5. vercel 自动部署。本项目根目录下的 [`vercel.json`](vercel.json) 配置了 vercel 自动部署的相关配置。需要注意的是，vercel 不支持 socket.io，因此直播间的聊天功能无法正常使用。
+   1. 按照 [Vercel Action](https://github.com/amondnet/vercel-action#vercel-action) 的说明配置一下 3 个 token: `VERCEL_TOKEN`, `ORG_ID`, `PROJECT_ID`，并加入到 GitHub Project Settings 里面的 Secrets 里面
+   2. 在 vercel 中添加 secret
+
+      ```bash
+      # vercel 添加 secret 示例
+      # 需要把 vercel.json 里面的 env 字段全部都 add 一遍
+      # vercel 会自动把大写转换为小写，所以 vercel.json 里面配置的 secret 都是小写的
+      vercel secrets add ACCESS_TOKEN_SECRET xxx
+      ```
+
 ## 技术栈
 
 前后端放在一个仓库里面，使用 [lerna](https://github.com/lerna/lerna) 统一管理。你需要全局安装 lerna：
@@ -28,11 +80,12 @@ cd frontend
 npm run start
 ```
 
-存放于文件夹 [frontend](frontend)，自动部署网址位于 https://bd7.upupming.vercel.app/demo 。
+存放于文件夹 [frontend](frontend)，自动部署网址位于 https://bd7.upupming.vercel.app/ 。
 
 - React
 - React Router
 - Redux
+- Rematch
 - TS
 - Storybook
 - Less
@@ -41,11 +94,15 @@ npm run start
 
 ### 后端
 
+```bash
+cd backend
+npm run dev
+```
+
 存放于文件夹 [backend](backend)。
 
 - Vercel
 - MySQL 云数据库
-- [轻服务](https://qingfuwu.cn/dashboard)
 - Express
 - Sequelize
 
