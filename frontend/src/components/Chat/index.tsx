@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import { TextField, IconButton, List, ListItem, Link } from '@material-ui/core'
 import SendIcon from '@material-ui/icons/Send'
@@ -44,12 +44,12 @@ interface ChatInfo {
   message: string
 }
 
-let _messageList: ChatInfo[] = []
 export const Chat: React.FC<ChatProps> = ({
   socket,
   username,
   onChatInfoClick,
 }) => {
+  const messageListRef = useRef<ChatInfo[]>([])
   const classes = useStyles()
   const [message, setMessage] = useState('')
   const [messageList, setMessageList] = useState<ChatInfo[]>([])
@@ -57,19 +57,19 @@ export const Chat: React.FC<ChatProps> = ({
   const sendMessage = (socket: Socket, message: string): void => {
     socket.emit('chat', JSON.stringify({ message, username }))
   }
-  const recieveMessage = (chatInfo: ChatInfo) => {
-    const newMessageList = [..._messageList, chatInfo] as ChatInfo[]
+  const receiveMessage = (chatInfo: ChatInfo) => {
+    const newMessageList = [...messageListRef.current, chatInfo] as ChatInfo[]
     setMessageList(newMessageList)
-    _messageList = newMessageList
+    messageListRef.current = newMessageList
     if (!stopped) document.querySelector('.last-message')?.scrollIntoView(false)
   }
   // 收到服务端消息
   useEffect(() => {
     socket.on('chat', (payload: string) => {
-      recieveMessage(JSON.parse(payload) as ChatInfo)
+      receiveMessage(JSON.parse(payload) as ChatInfo)
     })
     return () => {
-      socket.off('chat')
+      socket.close()
     }
   }, [])
 
