@@ -1,8 +1,8 @@
-import React, { useRef, useState, Fragment } from 'react'
+/* eslint-disable no-void */
+import React, { useRef, useState, Fragment, useEffect } from 'react'
 import classNames from 'classnames'
 import PlayIcon from '../static/img/play.svg'
 import LoadingIcon from '../static/img/loading.svg'
-import { useAsync, useUnmount } from 'react-use'
 import Hls from 'hls.js'
 import { makeStyles } from '@material-ui/core/styles'
 import { Avatar, Typography } from '@material-ui/core'
@@ -86,7 +86,7 @@ export const BDPlayer: React.FC<BDPlayerProps> = ({
   // 防止初次加载动画效果
   const [likeChanged, setLikeChanged] = useState(false)
 
-  let hls = null as any
+  let hls = null as Hls | null
   const handleError = (e: any) => {
     hls?.stopLoad()
     setErrorMessage(
@@ -104,10 +104,10 @@ export const BDPlayer: React.FC<BDPlayerProps> = ({
       await videoRef.current.play()
       // Automatic playback started!
       // Show playing UI.
-    } catch (err) {
+    } catch (err: any) {
       // Auto-play was prevented
       // Show paused UI
-      console.log('播放失败', err)
+      console.warn('播放失败', err)
       if (err.code && err.code !== 20) {
         handleError(err.message)
       }
@@ -118,7 +118,8 @@ export const BDPlayer: React.FC<BDPlayerProps> = ({
   }
 
   const isLive = videoUrl.endsWith('.m3u8')
-  useAsync(async () => {
+
+  useEffect(() => {
     if (videoRef.current) {
       if (isLive) {
         if (!Hls.isSupported()) {
@@ -133,24 +134,21 @@ export const BDPlayer: React.FC<BDPlayerProps> = ({
         // 展示第一帧作为封面：https://stackoverflow.com/a/53173104/8242705
         videoRef.current.src = `${videoUrl}#t=0.5`
       }
-      await startPlay()
+      void startPlay()
+    }
+    return () => {
+      hls?.destroy()
     }
   }, [])
-  hls &&
-    useUnmount(() => {
-      hls.off('hlsError')
-      hls.stopLoad()
-    })
-  useAsync(async () => {
+  useEffect(() => {
     if (active) {
       // 从非活跃状态变为活跃状态，开始播放
-      await startPlay()
+      void startPlay()
     } else {
       // 从活跃状态变为非活跃状态，开始暂停
-      await videoRef.current?.pause()
+      videoRef.current?.pause()
     }
   }, [active])
-
   return (
     <div className={classNames('bd-player', className)}>
       {errorMessage ? (
@@ -271,7 +269,7 @@ export const BDPlayer: React.FC<BDPlayerProps> = ({
               className="bd-player-like"
               onClick={() => {
                 onLikeChanged?.(!liked)
-                onLikeChanged && setLikeChanged(true)
+                setLikeChanged(true)
               }}
             >
               <FavoriteIcon
