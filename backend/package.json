@@ -29,7 +29,7 @@
     "express-jwt": "^6.0.0",
     "express-sequelize-crud": "^6.1.5",
     "jsonwebtoken": "^8.5.1",
-    "moment": "^2.29.0",
+    "moment": "^2.29.4",
     "mysql2": "^2.1.0",
     "omit.js": "^2.0.2",
     "sequelize": "^6.3.5",
